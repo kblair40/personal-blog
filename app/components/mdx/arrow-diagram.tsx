@@ -41,7 +41,7 @@ const ArrowDiagram = ({
           >
             <div
               className={clsx(
-                "w-full border flex items-center justify-center",
+                "w-full border border-neutral-500 flex items-center justify-center",
                 "py-1 px-4 rounded-sm text-center",
                 blockClassName
               )}
