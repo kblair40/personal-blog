@@ -33,16 +33,16 @@ const ArrowDiagram = ({
       {blocks.map((block, i) => {
         return (
           <div
+            key={i}
             className={clsx(
               "flex flex-col items-center w-full",
               blockWrapperClassName
             )}
           >
             <div
-              key={i}
               className={clsx(
                 "w-full border flex items-center justify-center",
-                "py-1 px-4 rounded-sm",
+                "py-1 px-4 rounded-sm text-center",
                 blockClassName
               )}
             >
