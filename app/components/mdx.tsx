@@ -5,10 +5,13 @@ import { highlight } from "sugar-high";
 import React from "react";
 import clsx from "clsx";
 
+import ArrowDiagram from "./mdx/arrow-diagram";
+
 function Table({ data }) {
   let headers = data.headers.map((header, index) => (
     <th key={index}>{header}</th>
   ));
+
   let rows = data.rows.map((row, index) => (
     <tr key={index}>
       {row.map((cell, cellIndex) => (
@@ -102,6 +105,7 @@ let components = {
   a: CustomLink,
   code: Code,
   Table,
+  ArrowDiagram,
 };
 
 export function CustomMDX(props) {
