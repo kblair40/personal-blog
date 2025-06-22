@@ -6,6 +6,7 @@ import React from "react";
 import clsx from "clsx";
 
 import ArrowDiagram from "./mdx/arrow-diagram";
+import Diagram from "./mdx/diagram";
 
 function Table({ data }) {
   let headers = data.headers.map((header, index) => (
@@ -106,6 +107,7 @@ let components = {
   code: Code,
   Table,
   ArrowDiagram,
+  Diagram
 };
 
 export function CustomMDX(props) {
