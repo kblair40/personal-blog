@@ -105,3 +105,32 @@ identical to the first request, but since we had to wait ~3.5 seconds for the fi
 ~8.5 seconds to complete.
 
 ## Clustering
+
+{/* <Mermaid chart={`graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+`} 
+config={{ mermaid: { look: "handDrawn", theme: "neutral" } }}
+/> */}
+
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+
+```mermaid
+---
+config:
+  look: handDrawn
+  theme: neutral
+---
+flowchart LR;
+    A[Request]-->B[Node Server];
+    B-->C[Response];
+```
+{/* <Diagram /> */}

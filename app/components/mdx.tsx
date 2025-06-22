@@ -4,6 +4,8 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { highlight } from "sugar-high";
 import React from "react";
 import clsx from "clsx";
+import mdxMermaid from "mdx-mermaid";
+import { Mermaid } from "mdx-mermaid/lib/Mermaid";
 
 import ArrowDiagram from "./mdx/arrow-diagram";
 import Diagram from "./mdx/diagram";
@@ -107,7 +109,9 @@ let components = {
   code: Code,
   Table,
   ArrowDiagram,
-  Diagram
+  Diagram,
+  Mermaid,
+  mermaid: Mermaid,
 };
 
 export function CustomMDX(props) {
@@ -115,6 +119,21 @@ export function CustomMDX(props) {
     <MDXRemote
       {...props}
       components={{ ...components, ...(props.components || {}) }}
+      // options={{ mdxOptions: { remarkPlugins: [mdxMermaid] } }}
+      options={{
+        mdxOptions: { remarkPlugins: [[mdxMermaid, { output: "svg" }]] },
+      }}
     />
   );
 }
+
+// function Test() {
+//   return (
+//     <Mermaid
+//       chart={``}
+//       config={{
+//         mermaid: { look: "handDrawn", theme: "neutral", startOnLoad: true },
+//       }}
+//     />
+//   );
+// }
