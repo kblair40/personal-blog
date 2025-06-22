@@ -8,7 +8,6 @@ import mdxMermaid from "mdx-mermaid";
 import { Mermaid } from "mdx-mermaid/lib/Mermaid";
 
 import ArrowDiagram from "./mdx/arrow-diagram";
-import Diagram from "./mdx/diagram";
 
 function Table({ data }) {
   let headers = data.headers.map((header, index) => (
@@ -109,7 +108,6 @@ let components = {
   code: Code,
   Table,
   ArrowDiagram,
-  Diagram,
   Mermaid,
   mermaid: Mermaid,
 };
