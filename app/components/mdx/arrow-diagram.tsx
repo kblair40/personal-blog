@@ -1,7 +1,8 @@
 import React from "react";
-import clsx from "clsx";
 import { ArrowDown } from "lucide-react";
 import type { LucideProps } from "lucide-react";
+
+import { cn } from "app/lib/cn";
 
 type Props = {
   blocks: (string | React.ReactNode)[];
@@ -20,12 +21,12 @@ const ArrowDiagram = ({
 }: Props) => {
   const { className: iconClassName, ...rest } = iconProps;
   const arrows: React.ReactNode[] = Array(blocks.length - 1).fill(
-    <ArrowDown size={20} className={clsx("mt-2", iconClassName)} {...rest} />
+    <ArrowDown size={20} className={cn("mt-2", iconClassName)} {...rest} />
   );
 
   return (
     <div
-      className={clsx(
+      className={cn(
         "flex flex-col items-center w-full space-y-2",
         wrapperClassName
       )}
@@ -34,13 +35,13 @@ const ArrowDiagram = ({
         return (
           <div
             key={i}
-            className={clsx(
+            className={cn(
               "flex flex-col items-center w-full",
               blockWrapperClassName
             )}
           >
             <div
-              className={clsx(
+              className={cn(
                 "w-full border border-neutral-500 flex items-center justify-center",
                 "py-1 px-4 rounded-sm text-center",
                 blockClassName
