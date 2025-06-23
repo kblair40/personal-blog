@@ -106,41 +106,20 @@ identical to the first request, but since we had to wait ~3.5 seconds for the fi
 
 ## Clustering
 
-{/* <Mermaid chart={`graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
-`} 
-config={{ mermaid: { look: "handDrawn", theme: "neutral" } }}
-/> */}
-
-```mermaid
-graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
-```
-
-```mermaid
----
-config:
-  look: handDrawn
-  theme: neutral
----
-flowchart LR;
+<Mermaid children={`flowchart LR;
     A[Request]-->B[Node Server];
-    B-->C[Response];
-```
+    B-->C[Response];`} />
 
-{/* <Mermaid chart={`flowchart LR;
-    A[Request]-->B[Node Server];
-    B-->C[Response];`} /> */}
-
-<Mermaid className="bg-orange-500 mx-auto" theme="forest">
-{`flowchart LR;
+<Mermaid>
+{`flowchart TD; A[Request]-->B[Node Server];B-->C[Response];`}
+</Mermaid>
+<Mermaid>
+{`flowchart RL;
     A[Request]-->B[Node Server];
     B-->C[Response];`}
 </Mermaid>
-{/* <Diagram /> */}
+{/* <Mermaid theme="neutral">
+{`flowchart RL;
+    A[Request]-->B[Node Server];
+    B-->C[Response];`}
+</Mermaid> */}

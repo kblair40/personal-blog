@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Script from "next/script";
 
 import { CustomMDX } from "app/components/mdx";
 import { formatDate, getBlogPosts } from "app/blog/utils";
@@ -132,6 +133,18 @@ export default async function Blog({ params: p }) {
           }),
         }}
       />
+
+      {/* <script
+        type="module"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+        import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@9/dist/mermaid.esm.min.mjs";
+        mermaid.initialize({startOnLoad: true, look: "handDrawn"});
+        mermaid.contentLoaded();
+`,
+        }}
+      /> */}
       <h1 className="title font-semibold text-2xl tracking-tighter">
         {post.metadata.title}
       </h1>

@@ -1,7 +1,5 @@
 import fs from "fs";
 import path from "path";
-import { serialize } from "next-mdx-remote/serialize";
-import mermaidPlugin from "mdx-mermaid";
 
 type Metadata = {
   title: string;

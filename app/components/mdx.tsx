@@ -4,10 +4,8 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { highlight } from "sugar-high";
 import React from "react";
 import clsx from "clsx";
-import mdxMermaid from "mdx-mermaid";
-// import { Mermaid, type MermaidProps } from "mdx-mermaid/lib/Mermaid";
-import Mermaid from "./mdx/mermaid-client";
 
+import Mermaid from "./mdx/mermaid-custom-client";
 import ArrowDiagram from "./mdx/arrow-diagram";
 
 function Table({ data }) {
@@ -110,14 +108,6 @@ let components = {
   Table,
   ArrowDiagram,
   Mermaid,
-  // Mermaid: (props: MermaidProps) => {
-  //   console.log("\nMERMAID COMPONENT CALL\n");
-  //   return <Mermaid {...props} config={{ mermaid: { look: "handDrawn" } }} />;
-  // },
-  // mermaid: (props: MermaidProps) => {
-  //   console.log("\nMERMAID COMPONENT CALL\n");
-  //   return <Mermaid {...props} config={{ mermaid: { look: "handDrawn" } }} />;
-  // },
   mermaid: Mermaid,
 };
 
