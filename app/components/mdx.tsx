@@ -5,7 +5,8 @@ import { highlight } from "sugar-high";
 import React from "react";
 import clsx from "clsx";
 import mdxMermaid from "mdx-mermaid";
-import { Mermaid, type MermaidProps } from "mdx-mermaid/lib/Mermaid";
+// import { Mermaid, type MermaidProps } from "mdx-mermaid/lib/Mermaid";
+import Mermaid from "./mdx/mermaid-client";
 
 import ArrowDiagram from "./mdx/arrow-diagram";
 
@@ -109,8 +110,15 @@ let components = {
   Table,
   ArrowDiagram,
   Mermaid,
-  mermaid: (props: MermaidProps) => <Mermaid {...props} />,
-  // mermaid: Mermaid,
+  // Mermaid: (props: MermaidProps) => {
+  //   console.log("\nMERMAID COMPONENT CALL\n");
+  //   return <Mermaid {...props} config={{ mermaid: { look: "handDrawn" } }} />;
+  // },
+  // mermaid: (props: MermaidProps) => {
+  //   console.log("\nMERMAID COMPONENT CALL\n");
+  //   return <Mermaid {...props} config={{ mermaid: { look: "handDrawn" } }} />;
+  // },
+  mermaid: Mermaid,
 };
 
 export function CustomMDX(props) {
@@ -119,9 +127,13 @@ export function CustomMDX(props) {
       {...props}
       components={{ ...components, ...(props.components || {}) }}
       // options={{ mdxOptions: { remarkPlugins: [mdxMermaid] } }}
-      options={{
-        mdxOptions: { remarkPlugins: [[mdxMermaid, { output: "svg" }]] },
-      }}
+      // options={{
+      //   mdxOptions: {
+      //     remarkPlugins: [
+      //       [mdxMermaid, { output: "svg", mermaid: { look: "handDrawn" } }],
+      //     ],
+      //   },
+      // }}
     />
   );
 }
