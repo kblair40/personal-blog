@@ -96,13 +96,25 @@ identical to the first request, but since we had to wait ~3.5 seconds for the fi
 
 ## Clustering
 
+Most modern computers are capable of handling multiple threads. For example,  y current laptop 
+(MacBook Pro w/ M2 Pro chip) can run up to 12 threads at one time. 
+Clustering allows us to run multiple instances of our app, with each instance getting it's own thread. 
+How do we take advantage of all the extra threads our machines 
+
 <Mermaid>
-{`---
+{`
+---
 config: 
     theme: neutral 
     look: handDrawn
 ---
-flowchart RL;
-    A[Request]-->B[Node Server];
-    B-->C[Response];`}
+flowchart LR;
+    Manager[Cluster Manager]
+    A[Node Server A]
+    B[Node Server B]
+    C[Node Server C]
+    Manager-->A
+    Manager-->B
+    Manager-->C
+`}
 </Mermaid>
