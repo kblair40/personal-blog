@@ -15,30 +15,20 @@ The diagram below is effectively the request/response cycle in an Express applic
 running in a single thread, which process that request and then sends a response. For smaller apps, this is a 
 perfectly valid setup. 
 
-<div className="mx-auto w-full flex justify-center items-center gap-x-1 relative bg-neutral-50 rounded-sm pt-8 pb-3 px-4">
 
-<section className="p-4 flex justify-center items-center border border-neutral-200">
-    <span>Request</span>
-</section>
-
-<span className="text-2xl">&#8594;</span>
-
-<span className="absolute top-1 left-1/2 -translate-x-1/2 font-medium">Single Thread</span>
-<section className="flex flex-col items-center">
-<div className="flex justify-center items-center p-4 border border-neutral-300">
-    <div className="p-4 flex justify-center items-center border border-neutral-200">
-        <span className="font-medium">Node Server</span>
-    </div>
-</div>
-</section>
-
-<span className="text-2xl">&#8594;</span>
-
-<section className="p-4 flex justify-center items-center border border-neutral-200">
-    <span>Response</span>
-</section>
-
-</div>
+<Mermaid className="w-full">
+{`---
+config: 
+    theme: neutral
+    look: handDrawn
+---
+flowchart LR;
+    A[Request]
+    B[Node Server]
+    C[Response]
+    A-->B
+    B-->C`}
+</Mermaid>
 
 But, what if we have requests that require large amounts of processing power? Or many requests coming at a rapid pace?
 
@@ -106,20 +96,13 @@ identical to the first request, but since we had to wait ~3.5 seconds for the fi
 
 ## Clustering
 
-<Mermaid children={`flowchart LR;
-    A[Request]-->B[Node Server];
-    B-->C[Response];`} />
-
 <Mermaid>
-{`flowchart TD; A[Request]-->B[Node Server];B-->C[Response];`}
-</Mermaid>
-<Mermaid>
-{`flowchart RL;
+{`---
+config: 
+    theme: neutral 
+    look: handDrawn
+---
+flowchart RL;
     A[Request]-->B[Node Server];
     B-->C[Response];`}
 </Mermaid>
-{/* <Mermaid theme="neutral">
-{`flowchart RL;
-    A[Request]-->B[Node Server];
-    B-->C[Response];`}
-</Mermaid> */}
