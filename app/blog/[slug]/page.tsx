@@ -12,7 +12,8 @@ export async function generateStaticParams() {
   }));
 }
 
-export function generateMetadata({ params }) {
+export async function generateMetadata({ params: p }) {
+  const params = await p;
   let post = getBlogPosts().find((post) => post.slug === params.slug);
   if (!post) {
     return;
@@ -52,12 +53,60 @@ export function generateMetadata({ params }) {
   };
 }
 
-export default function Blog({ params }) {
+export default async function Blog({ params: p }) {
+  const params = await p;
   let post = getBlogPosts().find((post) => post.slug === params.slug);
 
   if (!post) {
     notFound();
   }
+
+  // export function generateMetadata({ params }) {
+  //   let post = getBlogPosts().find((post) => post.slug === params.slug);
+  //   if (!post) {
+  //     return;
+  //   }
+
+  //   let {
+  //     title,
+  //     publishedAt: publishedTime,
+  //     summary: description,
+  //     image,
+  //   } = post.metadata;
+  //   let ogImage = image
+  //     ? image
+  //     : `${baseUrl}/og?title=${encodeURIComponent(title)}`;
+
+  //   return {
+  //     title,
+  //     description,
+  //     openGraph: {
+  //       title,
+  //       description,
+  //       type: "article",
+  //       publishedTime,
+  //       url: `${baseUrl}/blog/${post.slug}`,
+  //       images: [
+  //         {
+  //           url: ogImage,
+  //         },
+  //       ],
+  //     },
+  //     twitter: {
+  //       card: "summary_large_image",
+  //       title,
+  //       description,
+  //       images: [ogImage],
+  //     },
+  //   };
+  // }
+
+  // export default function Blog({ params }) {
+  // let post = getBlogPosts().find((post) => post.slug === params.slug);
+
+  // if (!post) {
+  //   notFound();
+  // }
 
   return (
     <section>

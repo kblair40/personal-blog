@@ -5,7 +5,7 @@ import { highlight } from "sugar-high";
 import React from "react";
 import clsx from "clsx";
 import mdxMermaid from "mdx-mermaid";
-import { Mermaid } from "mdx-mermaid/lib/Mermaid";
+import { Mermaid, type MermaidProps } from "mdx-mermaid/lib/Mermaid";
 
 import ArrowDiagram from "./mdx/arrow-diagram";
 
@@ -109,7 +109,8 @@ let components = {
   Table,
   ArrowDiagram,
   Mermaid,
-  mermaid: Mermaid,
+  mermaid: (props: MermaidProps) => <Mermaid {...props} />,
+  // mermaid: Mermaid,
 };
 
 export function CustomMDX(props) {
