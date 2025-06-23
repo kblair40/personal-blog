@@ -116,25 +116,6 @@ export function CustomMDX(props) {
     <MDXRemote
       {...props}
       components={{ ...components, ...(props.components || {}) }}
-      // options={{ mdxOptions: { remarkPlugins: [mdxMermaid] } }}
-      // options={{
-      //   mdxOptions: {
-      //     remarkPlugins: [
-      //       [mdxMermaid, { output: "svg", mermaid: { look: "handDrawn" } }],
-      //     ],
-      //   },
-      // }}
     />
   );
 }
-
-// function Test() {
-//   return (
-//     <Mermaid
-//       chart={``}
-//       config={{
-//         mermaid: { look: "handDrawn", theme: "neutral", startOnLoad: true },
-//       }}
-//     />
-//   );
-// }
