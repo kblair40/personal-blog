@@ -98,8 +98,8 @@ identical to the first request, but since we had to wait ~3.5 seconds for the fi
 
 Most modern computers are capable of handling multiple threads. For example,  y current laptop 
 (MacBook Pro w/ M2 Pro chip) can run up to 12 threads at one time. 
-Clustering allows us to run multiple instances of our app, with each instance getting it's own thread. 
-How do we take advantage of all the extra threads our machines 
+Clustering allows us to run multiple instances of our app, with each instance occupying a single thread. 
+How do we take advantage of all the extra threads our machines.
 
 <Mermaid>
 {`
@@ -116,5 +116,62 @@ flowchart LR;
     Manager-->A
     Manager-->B
     Manager-->C
+`}
+</Mermaid>
+
+The cluster manager is responsible for monitoring the health of each individual instance 
+of our app that will be launched simultaneously.  It does not execute any code or handle any requests, 
+data fetching etc. It simply monitors instance health, starts, stops and restarts each instance and 
+can in some scenarios send data to each instance.  The instances themselves are still responsible for 
+everything involved in processing requests.
+{/* can in some scenarios send data (like environment variables) to each instance. */}
+
+
+#### Traditional Flow
+
+<Mermaid className="w-fit mx-auto">
+{`
+---
+config: 
+    theme: neutral 
+    look: handDrawn
+---
+flowchart TD;
+    Run@{ shape: text, label: RUN node index.js }
+    Index[index.js]
+    Instance[Node Instance]
+    Run-->Index
+    Index-->Instance
+`}
+</Mermaid>
+
+The traditional flow, without clustering, is shown by the diagram below. 
+We start by running some command to call our main file, typically named *index.js*. 
+Node takes the contents of that file, executes it and then enters into the event loop.
+
+
+#### Cluster Flow
+<Mermaid className="w-fit mx-auto">
+{`
+---
+config: 
+    theme: neutral 
+    look: handDrawn
+---
+flowchart TD;
+    Run@{ shape: text, label: RUN node index.js }
+    Index[index.js]
+    Manager[Cluster Manager]
+    Instance[Worker Instance]
+    Fork@{ shape: text, label: cluster.fork() }
+
+    Run-->Index
+    Index-->Manager
+    Manager-->Fork
+
+    Fork-->Index
+    %% Index-->Instance
+    %% Instance-->Fork
+
 `}
 </Mermaid>
