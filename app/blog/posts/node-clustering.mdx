@@ -15,7 +15,7 @@ The diagram below is effectively the request/response cycle in an Express applic
 running in a single thread, which process that request and then sends a response. For smaller apps, this is a 
 perfectly valid setup. 
 
-
+{/* https://mermaid.js.org/syntax/flowchart.html#direction-in-subgraphs */}
 <Mermaid className="w-full">
 {`---
 config: 
@@ -151,27 +151,31 @@ Node takes the contents of that file, executes it and then enters into the event
 
 
 #### Cluster Flow
-<Mermaid className="w-fit mx-auto">
+<Mermaid className="w-full mx-auto mt-4">
 {`
 ---
 config: 
     theme: neutral 
     look: handDrawn
 ---
-flowchart TD;
-    Run@{ shape: text, label: RUN node index.js }
-    Index[index.js]
-    Manager[Cluster Manager]
+flowchart TD
     Instance[Worker Instance]
-    Fork@{ shape: text, label: cluster.fork() }
 
-    Run-->Index
-    Index-->Manager
-    Manager-->Fork
+    subgraph one [" "]
+        Run@{ shape: text, label: RUN node index.js }
+        Index[index.js]
+        Manager[Cluster Manager]
+        Fork@{ shape: text, label: cluster.fork() }
 
-    Fork-->Index
-    %% Index-->Instance
-    %% Instance-->Fork
+        Run-->Index
+        Index-->Manager
+        Manager-->Fork
+        Fork-->Index
+        end
+    
+    Index-->Instance
 
+    style one stroke:transparent
 `}
 </Mermaid>
+
