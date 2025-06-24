@@ -39,7 +39,7 @@ To demonstrate this, I recommend running the example below inside of a new expre
 on your own, you can trust that I am not misrepresenting how the request/response cycle works.
 
 ```
-// req-res-demo.js 
+// index.js 
 
 const express = require('express');
 
@@ -108,11 +108,12 @@ config:
     theme: neutral 
     look: handDrawn
 ---
-flowchart LR;
+flowchart LR
     Manager[Cluster Manager]
     A[Node Server A]
     B[Node Server B]
     C[Node Server C]
+
     Manager-->A
     Manager-->B
     Manager-->C
@@ -136,10 +137,11 @@ config:
     theme: neutral 
     look: handDrawn
 ---
-flowchart TD;
+flowchart TD
     Run@{ shape: text, label: RUN node index.js }
     Index[index.js]
     Instance[Node Instance]
+
     Run-->Index
     Index-->Instance
 `}
@@ -179,3 +181,129 @@ flowchart TD
 `}
 </Mermaid>
 
+The first instance of node that gets launched is the cluster manager. The cluster manager is then responsible 
+for starting each worker instance. Each worker instance will handle the processing of requests. 
+
+One function in particular in the cluster manager, named *fork*, Node internally goes back to index.js and 
+executes it again, in a slightly different mode, which we will get into further detail on later. For now, just 
+know that every time index.js is executed **after** the first time, it will start a worker instance.
+
+Recall the code example from earlier in this article that demonstrated event loop blocking. 
+The code example below is similar, but now with three worker instances instead of a single app 
+instance, and a '/fast' route was added, which skips a call to the doWork function.
+
+In the traditional, non-cluster setup, if we called '/', which takes 5 seconds, and immediately after 
+making the call, we called the '/fast' route, the request to '/fast' would not begin processing until 
+after the work done by the request to '/' completes.
+
+Now, with three instances of our app, there will be two idle instances waiting for requests while one instance waits 
+for the call to doWork() to complete. This means that our call to '/fast' should return almost instantly (a few ms), even 
+if a call to '/' had just been sent immediately before the request to '/fast'.
+
+```
+const cluster = require("cluster");
+
+// cluster.isPrimary === true ONLY the first time this file is executed
+console.log("\nIs Primary?", cluster.isPrimary);
+
+// Is the file being executed in primary (aka `cluster manager`) mode?
+if (cluster.isPrimary) {
+  // If it is, cause index.js to be executed again, but
+  // in child (aka `worker instance`) mode
+  cluster.fork();
+  // We can call cluster.fork() once for each worker instance 
+  // we want created
+  cluster.fork();
+  cluster.fork();
+  // Three calls to cluster.fork() means three worker instances 
+  // will be created
+} else {
+  // Server related code should go here.
+  const express = require("express");
+  const app = express();
+
+  function doWork(duration) {
+    const start = Date.now();
+    while (Date.now() - start < duration) {
+      /* While the current time, less start time, is less 
+             than duration, execute this loop's body.
+           While this loop is being executed, the main thread is 
+             blocked, meaning no other actions can be performed
+             by our app. */
+    }
+  }
+
+  app.get("/", (req, res) => {
+    doWork(5000); // doWork will take 5 seconds to complete
+    res.send("Hello");
+  });
+
+  app.get("/fast", (req, res) => {
+    // Same as '/', except there will be no 5 second delay
+    res.send("This was fast");
+  });
+
+  const PORT = 3001; // Any port you prefer here is fine
+  app.listen(PORT, (err) => {
+    if (!err) {
+      console.log("\nServer Listening on Port", PORT, "\n");
+    } else {
+      console.error("\nServer failed to start:", err, "\n");
+    }
+  });
+}
+```
+
+Again, I recommend running this in your browser.  Open two tabs, one to '/', and one to '/fast'.
+Once both tabs have received responses, refresh the tab showing the '/' route, then as fast as possible, 
+switch to the tab showing '/fast' and refresh it.  You should see you still get an immediate response from '/fast', 
+even though the call to '/' has not yet responded.
+
+In reality, the call to '/fast' takes ~10ms to complete, but to fit this nicely on a chart let's say it takes 500ms to complete. 
+The call to '/' takes ~5s to complete.
+
+The traditional flow would cause the call to '/fast' not to be process until after the call to '/' completes. 
+
+
+<Mermaid className=''>
+{`
+---
+config: 
+    theme: neutral 
+    look: handDrawn
+    ganttConfig:
+        barHeight: 50
+---
+gantt
+    dateFormat X
+    axisFormat %s
+
+    section /
+    5000    : 0, 5000
+    section /fast
+    500     : 5000, 5500
+`}
+</Mermaid>
+
+With a cluster, there is another (maybe many more) instance available to handle the second 
+request ('/fast'), so processing can begin as soon as the server receives the request.
+<Mermaid className=''>
+{`
+---
+config: 
+    theme: neutral 
+    look: handDrawn
+    ganttConfig:
+        barHeight: 50
+---
+gantt
+    dateFormat X
+    axisFormat %s
+
+    section /
+    5000    : 0, 5000
+
+    section /fast
+    500     :m4, 1000, 1500
+`}
+</Mermaid>
