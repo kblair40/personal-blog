@@ -16,6 +16,7 @@
     "postcss": "^8.4.35",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "rss-parser": "^3.13.0",
     "sugar-high": "^0.6.0",
     "tailwind-merge": "^3.3.1"
   },
