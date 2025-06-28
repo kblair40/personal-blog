@@ -8,7 +8,9 @@ type Props = {
 const Post = ({ post }: Props) => {
   return (
     <div className="">
-      <h3 className="font-medium">{post.title}</h3>
+      <a target="_blank" href={post.link}>
+        <h3 className="font-medium">{post.title}</h3>
+      </a>
       <p>{post.creator || "?"}</p>
     </div>
   );
