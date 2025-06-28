@@ -10,6 +10,9 @@ const navItems = {
   'https://vercel.com/templates/next.js/portfolio-starter-kit': {
     name: 'deploy',
   },
+  '/oneblog': {
+    name: 'OneBlog',
+  },
 }
 
 export function Navbar() {
