@@ -2,24 +2,15 @@
 
 import React, { useState, type FormEvent } from "react";
 
-import { blogData } from "@/oneblog/utils/blogs";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { signup } from "@/actions/signup";
+import { signup, type SignupInput } from "@/actions/signup";
 
 type Props = {};
 
-type FormData = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-};
-
 const Signup = (props: Props) => {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<SignupInput>({
     firstName: "",
     lastName: "",
     email: "",
@@ -43,16 +34,15 @@ const Signup = (props: Props) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const response = await signup(formData);
-    console.log("\nSignup response:", response);
-    // const response = await fetch("/api/oneblog/signup", {
-    //   method: "POST",
-    //   body: formData,
-    // });
-
-    // Handle response if necessary
-    // const data = await response.json();
-    // ...
+    const result = await signup(formData);
+    console.log("\nSignup result:", result);
+    console.log("errors:", result.error);
+    if (result.success === false) {
+      console.log("Error:", result.error);
+      return;
+    } else {
+      console.log("Success:", result.data);
+    }
   }
 
   return (
@@ -65,7 +55,7 @@ const Signup = (props: Props) => {
             </Label>
             <Input
               name="firstName"
-              value={formData.firstName}
+              value={formData.firstName || ""}
               onChange={handleChange}
             />
           </div>
@@ -76,7 +66,7 @@ const Signup = (props: Props) => {
             </Label>
             <Input
               name="lastName"
-              value={formData.lastName}
+              value={formData.lastName || ""}
               onChange={handleChange}
             />
           </div>
@@ -119,8 +109,10 @@ const Signup = (props: Props) => {
           </div>
         </section>
 
-        <section className="border w-fit ml-auto">
-          <Button>Signup</Button>
+        <section className="w-1/2 mx-auto pt-4">
+          <Button size="lg" className="w-full">
+            Signup
+          </Button>
         </section>
       </div>
     </form>
