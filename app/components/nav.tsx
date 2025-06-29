@@ -13,6 +13,12 @@ const navItems = {
   '/oneblog': {
     name: 'OneBlog',
   },
+  '/signup': {
+    name: 'Signup',
+  },
+  '/login': {
+    name: 'Login',
+  },
 }
 
 export function Navbar() {
