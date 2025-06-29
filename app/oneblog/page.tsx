@@ -18,7 +18,7 @@ const OneBlog = async (props: Props) => {
     parser.parseURL("http://localhost:3001/rss"),
     parser.parseURL("https://www.joshwcomeau.com/rss.xml"),
   ]);
-  console.log(0, postArrays[0])
+  console.log(0, postArrays[0]);
 
   return (
     <div className="flex flex-col gap-y-4">
