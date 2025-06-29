@@ -39,12 +39,14 @@ const Signup = (props: Props) => {
     const formData = new FormData(e.currentTarget);
     const result = await signup(formData);
     console.log("\nSignup result:", result);
-    console.log("errors:", result.error);
-    if (result.success === false) {
-      console.log("Error:", result.error);
-      return;
-    } else {
-      console.log("Success:", result.data);
+    if (result) {
+      console.log("errors:", result.error);
+      if (result.success === false) {
+        console.log("Error:", result.error);
+        return;
+      } else {
+        console.log("Success:", result.data);
+      }
     }
 
     setSaving(false);
