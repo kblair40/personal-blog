@@ -25,7 +25,7 @@ const PostsList = ({ posts }: Props) => {
       title: arr.title,
       description: arr.description,
       feedUrl: arr.feedUrl,
-      link: arr.link
+      link: arr.link,
     });
   }
 

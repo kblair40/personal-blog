@@ -1,17 +1,6 @@
 import Parser from "rss-parser";
-import type { ParserOptions, Item } from "rss-parser";
 
 const parser = new Parser();
-
-const blogUrls = {
-  "Kevin Blair": "http://localhost:3001/rss",
-  Sinja: "https://sinja.io/rss",
-  "Josh W. Comeau": "https://www.joshwcomeau.com/rss.xml",
-};
-
-type Meta = {
-  creator: string;
-};
 
 const blogData = {
   "Kevin Blair": {
@@ -34,24 +23,14 @@ const blogData = {
   },
 };
 
-// async function getBlogData() {
-//   const data = await Promise.all(
-//     Object.entries(blogData).map(async ([blog, data]) => {
-//       const feed = await parser.parseURL(data.rss);
-//       for (let item of feed.items) {
-//         item.creator = item.creator || data.meta.creator;
-//       }
-//     })
-//   );
-//   // for (let blog in blogData) {
-//   //     const feed = await parser.parseURL
-//   // }
-// }
+// NOT IN USE
 
 export async function GET() {
   const data = await Promise.all(
     Object.entries(blogData).map(async ([blog, data]) => {
       const feed = await parser.parseURL(data.rss);
+      feed.creator = feed.items[0]?.creator || data.meta.creator;
+
       for (let item of feed.items) {
         item.creator = item.creator || data.meta.creator;
       }

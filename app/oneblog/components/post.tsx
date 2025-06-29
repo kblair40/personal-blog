@@ -11,7 +11,7 @@ const Post = ({ post }: Props) => {
       <a target="_blank" href={post.link}>
         <h3 className="font-medium">{post.title}</h3>
       </a>
-      <p>{post.creator || "?"}</p>
+      <p className="opacity-20">{post.creator || "?"}</p>
     </div>
   );
 };
