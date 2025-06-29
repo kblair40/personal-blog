@@ -39,13 +39,13 @@ export async function signup(data: FormData) {
     password: data.get("password"),
     confirmPassword: data.get("confirmPassword"),
   });
-  console.log("\nParse Result:", result, { e: result.error }, "\n");
+//   console.log("\nParse Result:", result, { e: result.error }, "\n");
 
   if (result.success) {
     try {
       const { confirmPassword, ...tokenData } = result.data;
       const session = await encrypt(tokenData);
-      console.log("\nSign Result:", session, "\n");
+    //   console.log("\nSign Result:", session, "\n");
 
       const cookieStore = await cookies();
 
