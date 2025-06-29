@@ -20,6 +20,15 @@ type Props = {
 const PostsList = ({ posts }: Props) => {
   const postArrays = use(posts);
 
+  for (let arr of postArrays) {
+    console.log("First post:", arr.items[0], {
+      title: arr.title,
+      description: arr.description,
+      feedUrl: arr.feedUrl,
+      link: arr.link
+    });
+  }
+
   return (
     <div className="flex flex-col gap-y-4">
       {postArrays.map((arr, i) => {
