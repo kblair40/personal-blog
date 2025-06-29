@@ -1,7 +1,6 @@
 import React, { Suspense } from "react";
 import Parser from "rss-parser";
 
-import { baseUrl } from "app/sitemap";
 import { blogData } from "./utils/blogs";
 import PostsList from "./components/posts-list";
 

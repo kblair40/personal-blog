@@ -8,6 +8,8 @@
   "dependencies": {
     "@vercel/analytics": "^1.1.3",
     "@vercel/speed-insights": "^1.0.9",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "express": "^5.1.0",
     "lucide-react": "^0.522.0",
     "mermaid": "^11.7.0",
@@ -18,7 +20,8 @@
     "react-dom": "^19.0.0",
     "rss-parser": "^3.13.0",
     "sugar-high": "^0.6.0",
-    "tailwind-merge": "^3.3.1"
+    "tailwind-merge": "^3.3.1",
+    "tw-animate-css": "^1.3.4"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

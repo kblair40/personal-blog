@@ -2,7 +2,7 @@ import React from "react";
 import { ArrowDown } from "lucide-react";
 import type { LucideProps } from "lucide-react";
 
-import { cn } from "app/lib/cn";
+import { cn } from "app/lib/utils";
 
 type Props = {
   blocks: (string | React.ReactNode)[];

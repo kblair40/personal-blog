@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import mermaid from "mermaid";
 
 import type { MermaidProps } from "./mermaid-custom-client";
-import { cn } from "app/lib/cn";
+import { cn } from "app/lib/utils";
 
 const MermaidCustom = (props: MermaidProps) => {
   const { children, className, ...rest } = props;
