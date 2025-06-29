@@ -12,7 +12,7 @@ const loginInput = signupInput.pick({ email: true, password: true });
 
 export type LoginInput = z.infer<typeof loginInput>;
 
-export async function signup(data: FormData) {
+export async function login(data: FormData) {
   const result = loginInput.safeParse({
     email: data.get("email"),
     password: data.get("password"),
