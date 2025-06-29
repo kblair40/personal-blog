@@ -10,6 +10,7 @@ import { signup, type SignupInput } from "@/actions/signup";
 type Props = {};
 
 const Signup = (props: Props) => {
+  const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState<SignupInput>({
     firstName: "",
     lastName: "",
@@ -31,6 +32,8 @@ const Signup = (props: Props) => {
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     console.log("submit");
+    setSaving(true);
+
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
@@ -43,6 +46,8 @@ const Signup = (props: Props) => {
     } else {
       console.log("Success:", result.data);
     }
+
+    setSaving(false);
   }
 
   return (
@@ -110,7 +115,7 @@ const Signup = (props: Props) => {
         </section>
 
         <section className="w-1/2 mx-auto pt-4">
-          <Button size="lg" className="w-full">
+          <Button disabled={saving} size="lg" className="w-full">
             Signup
           </Button>
         </section>
