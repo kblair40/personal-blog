@@ -4,6 +4,8 @@ import { z } from "zod/v4";
 
 import { usersTable } from "@/lib/db/schema";
 import db from "@/lib/db";
+import { encrypt, verify } from "@/lib/jwt";
+import { cookies } from "next/headers";
 
 const signupInput = z.object({
   firstName: z
@@ -11,7 +13,6 @@ const signupInput = z.object({
     .trim()
     .regex(/^[a-z]*$/i)
     .nullish(),
-  // .nullable(),
   lastName: z
     .string({})
     .trim()
@@ -42,6 +43,24 @@ export async function signup(data: FormData) {
 
   if (result.success) {
     try {
+      const { confirmPassword, ...tokenData } = result.data;
+      const session = await encrypt(tokenData);
+      console.log("\nSign Result:", session, "\n");
+
+      const cookieStore = await cookies();
+
+      const oneDay = 24 * 60 * 60 * 1000;
+      const expiresAt = new Date(Date.now() + oneDay * 7); // 1week
+      if (session) {
+        cookieStore.set("session", session, {
+          httpOnly: true,
+          secure: true,
+          expires: expiresAt,
+          sameSite: "lax",
+          path: "/",
+        });
+      }
+
       const createdUser = await db
         .insert(usersTable)
         .values(result.data)
