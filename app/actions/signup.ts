@@ -1,13 +1,13 @@
 "use server";
 
 import { z } from "zod/v4";
+import { cookies } from "next/headers";
 
 import { usersTable } from "@/lib/db/schema";
 import db from "@/lib/db";
-import { encrypt, verify } from "@/lib/jwt";
-import { cookies } from "next/headers";
+import { encrypt } from "@/lib/jwt";
 
-const signupInput = z.object({
+export const signupInput = z.object({
   firstName: z
     .string({})
     .trim()
@@ -39,13 +39,13 @@ export async function signup(data: FormData) {
     password: data.get("password"),
     confirmPassword: data.get("confirmPassword"),
   });
-//   console.log("\nParse Result:", result, { e: result.error }, "\n");
+  //   console.log("\nParse Result:", result, { e: result.error }, "\n");
 
   if (result.success) {
     try {
       const { confirmPassword, ...tokenData } = result.data;
       const session = await encrypt(tokenData);
-    //   console.log("\nSign Result:", session, "\n");
+      //   console.log("\nSign Result:", session, "\n");
 
       const cookieStore = await cookies();
 
