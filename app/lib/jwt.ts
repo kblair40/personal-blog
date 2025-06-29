@@ -28,3 +28,14 @@ export async function verify(jwt: string) {
 
   return null;
 }
+
+export async function decrypt(session: string | undefined = "") {
+  try {
+    const { payload } = await jwtVerify(session, secret, {
+      algorithms: ["HS256"],
+    });
+    return payload;
+  } catch (error) {
+    console.log("Failed to verify session");
+  }
+}
