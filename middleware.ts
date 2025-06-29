@@ -3,7 +3,7 @@ import { decrypt } from "@/lib/jwt";
 import { cookies } from "next/headers";
 
 // 1. Specify protected and public routes
-const protectedRoutes = ["/oneblog/subscriptions"];
+
 const publicRoutes = ["/login", "/signup", "/oneblog", "/"];
 
 export default async function middleware(req: NextRequest) {
@@ -13,27 +13,28 @@ export default async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
   console.log("\n\n\n\nPATH:", path, "\n\n\n\n");
   const isProtectedRoute = path.startsWith("/oneblog");
-  // const isProtectedRoute = protectedRoutes.includes(path);
   const isPublicRoute = publicRoutes.includes(path);
 
   // // 3. Decrypt the session from the cookie
-  // const cookie = (await cookies()).get("session")?.value;
-  // console.log("\nCookie:", cookie, "\n");
-  // const session = await decrypt(cookie);
+  const cookie = (await cookies()).get("session")?.value;
+  console.log("\nCookie:", cookie, "\n");
+  console.log("cookie.value:", cookie, "\n");
+  const session = await decrypt(cookie);
+  console.log("\nSession:", session);
 
   // // 4. Redirect to /login if the user is not authenticated
-  // if (isProtectedRoute && !session?.userId) {
-  //   return NextResponse.redirect(new URL("/login", req.nextUrl));
-  // }
+  if (isProtectedRoute && !session?.id) {
+    return NextResponse.redirect(new URL("/login", req.nextUrl));
+  }
 
   // // 5. Redirect to /oneblog if the user is authenticated
-  // if (
-  //   isPublicRoute &&
-  //   session?.userId &&
-  //   !req.nextUrl.pathname.startsWith("/oneblog")
-  // ) {
-  //   return NextResponse.redirect(new URL("/oneblog", req.nextUrl));
-  // }
+  if (
+    isPublicRoute &&
+    session?.userId &&
+    !req.nextUrl.pathname.startsWith("/oneblog")
+  ) {
+    return NextResponse.redirect(new URL("/oneblog", req.nextUrl));
+  }
 
   return NextResponse.next();
 }

@@ -1,6 +1,5 @@
-"use server";
+import "server-only";
 
-import "dotenv/config";
 import { SignJWT, jwtVerify } from "jose";
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -30,10 +29,12 @@ export async function verify(jwt: string) {
 }
 
 export async function decrypt(session: string | undefined = "") {
+  console.log("\nDecrypt input:", session);
   try {
     const { payload } = await jwtVerify(session, secret, {
       algorithms: ["HS256"],
     });
+    console.log("\nDecrypt payload:", payload, "\n");
     return payload;
   } catch (error) {
     console.log("Failed to verify session");
