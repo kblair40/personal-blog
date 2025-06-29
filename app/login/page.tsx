@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, type FormEvent } from "react";
+import { redirect } from "next/navigation";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -43,6 +44,8 @@ const Login = () => {
     }
 
     setSaving(false);
+
+    redirect("/oneblog");
   }
 
   return (
