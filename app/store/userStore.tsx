@@ -1,6 +1,7 @@
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 type UserContextType = {
   isAuthenticated: boolean;
@@ -13,7 +14,19 @@ const UserContext = createContext<UserContextType>({
 });
 
 export function UserContextProvider({ children }: React.PropsWithChildren) {
+  const pathname = usePathname();
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    console.log("\nPATHNAME CHANGE:", pathname, isAuthenticated, "\n");
+    async function fetchSession() {
+      const sessionRes = await fetch("http://localhost:3001/api/session");
+      console.log("\nSession Result:", sessionRes);
+      console.log('status:', sessionRes.status);
+    }
+    fetchSession();
+  }, [pathname]);
 
   return (
     <UserContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
