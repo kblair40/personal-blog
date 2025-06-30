@@ -1,35 +1,51 @@
 import Link from "next/link";
-import { headers } from "next/headers";
 
-const navItems = {
+const myBlogRoutes = {
   "/": {
     name: "home",
   },
   "/blog": {
     name: "blog",
   },
-  "https://vercel.com/templates/next.js/portfolio-starter-kit": {
-    name: "deploy",
-  },
   "/oneblog": {
-    name: "OneBlog",
-  },
-  "/oneblog/signup": {
-    name: "Signup",
-  },
-  "/oneblog/login": {
-    name: "Login",
-  },
-  "/oneblog/subscriptions": {
-    name: "OneBlog Subscriptions",
+    name: "one-blog",
   },
 };
 
-export async function Navbar() {
-  const _headers = await headers();
-  console.log("HEADERS:", _headers.entries);
-  const currentPath = _headers.get("x-current-path");
-  console.log({ currentPath });
+const oneBlogRoutes = {
+  "/": {
+    name: "kb blog",
+  },
+  "/oneblog": {
+    name: "home",
+  },
+  "/oneblog/subscriptions": {
+    name: "subscriptions",
+  },
+};
+
+const oneBlogNotAuthenticatedRoutes = {
+  "/oneblog/signup": {
+    name: "signup",
+  },
+  "/oneblog/login": {
+    name: "login",
+  },
+};
+
+const oneBlogAuthenticatedRoutes = {
+  "/oneblog/logout": {
+    name: "logout",
+  },
+};
+
+type Props = {
+  isOneBlog: boolean;
+};
+
+export async function NavbarServer({ isOneBlog }: Props) {
+  const navItems = isOneBlog ? oneBlogRoutes : myBlogRoutes;
+
   return (
     <aside className="-ml-[8px] mb-16 tracking-tight">
       <div className="lg:sticky lg:top-20">

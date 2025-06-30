@@ -1,7 +1,11 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { headers } from "next/headers";
 import Link from "next/link";
+
+// import { NavbarServer } from "./nav-server";
 
 const myBlogRoutes = {
   "/": {
@@ -13,15 +17,6 @@ const myBlogRoutes = {
   "/oneblog": {
     name: "one-blog",
   },
-  //   "/oneblog/signup": {
-  //     name: "Signup",
-  //   },
-  //   "/oneblog/login": {
-  //     name: "Login",
-  //   },
-  //   "/oneblog/subscriptions": {
-  //     name: "OneBlog Subscriptions",
-  //   },
 };
 
 const oneBlogRoutes = {
@@ -52,12 +47,28 @@ const oneBlogAuthenticatedRoutes = {
 };
 
 export function NavbarClient() {
+  const [authenticated, setAuthenticated] = useState<null | boolean>(null);
+
   const pathname = usePathname();
   console.log("pathname:", pathname);
 
   const navItems = pathname.startsWith("/oneblog")
     ? oneBlogRoutes
     : myBlogRoutes;
+
+  async function authenticateUser() {
+    "useServer";
+    const cookie = (await headers()).get("cookie");
+    console.log("\nCookie:", cookie, "\n");
+  }
+
+  useEffect(() => {
+    if (authenticated === true) return;
+
+    authenticateUser();
+  }, [authenticated, pathname]);
+
+  //   return <NavServer isOneBlog={pathname.startsWith("/oneblog")} />;
 
   return (
     <aside className="-ml-[8px] mb-16 tracking-tight">
