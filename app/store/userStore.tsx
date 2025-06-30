@@ -1,8 +1,9 @@
+"use client";
+
 import React, { createContext, useContext, useState } from "react";
 
 type UserContextType = {
   isAuthenticated: boolean;
-  //   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   setIsAuthenticated: (isAuthenticated: boolean) => void;
 };
 

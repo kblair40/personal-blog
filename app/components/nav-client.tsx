@@ -2,12 +2,14 @@
 
 import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { headers } from "next/headers";
 import Link from "next/link";
 
-// import { NavbarServer } from "./nav-server";
+import { useUser } from "@/store/userStore";
 
-const myBlogRoutes = {
+type NavItem = Record<"name", string>;
+type NavItems = Record<string, NavItem>;
+
+const myBlogRoutes: NavItems = {
   "/": {
     name: "home",
   },
@@ -19,19 +21,19 @@ const myBlogRoutes = {
   },
 };
 
-const oneBlogRoutes = {
+const oneBlogRoutes: NavItems = {
   "/": {
     name: "kb blog",
   },
   "/oneblog": {
-    name: "home",
+    name: "one-blog",
   },
   "/oneblog/subscriptions": {
     name: "subscriptions",
   },
 };
 
-const oneBlogNotAuthenticatedRoutes = {
+const oneBlogNotAuthenticatedRoutes: NavItems = {
   "/oneblog/signup": {
     name: "signup",
   },
@@ -40,35 +42,45 @@ const oneBlogNotAuthenticatedRoutes = {
   },
 };
 
-const oneBlogAuthenticatedRoutes = {
+const oneBlogAuthenticatedRoutes: NavItems = {
   "/oneblog/logout": {
     name: "logout",
   },
 };
 
 export function NavbarClient() {
-  const [authenticated, setAuthenticated] = useState<null | boolean>(null);
-
   const pathname = usePathname();
   console.log("pathname:", pathname);
 
-  const navItems = pathname.startsWith("/oneblog")
-    ? oneBlogRoutes
-    : myBlogRoutes;
+  const { isAuthenticated, setIsAuthenticated } = useUser();
 
-  async function authenticateUser() {
-    "useServer";
-    const cookie = (await headers()).get("cookie");
-    console.log("\nCookie:", cookie, "\n");
+  const [navItems, setNavItems] = useState<NavItems>(getNavItems());
+
+  function getNavItems() {
+    const isOneBlog = pathname.startsWith("/oneblog");
+    if (!isOneBlog) {
+      console.log("ROUTES:", myBlogRoutes);
+      return myBlogRoutes;
+    } else {
+      console.log("ROUTES:", {
+        ...oneBlogRoutes,
+        ...(isAuthenticated
+          ? oneBlogAuthenticatedRoutes
+          : oneBlogNotAuthenticatedRoutes),
+      });
+      return {
+        ...oneBlogRoutes,
+        ...(isAuthenticated
+          ? oneBlogAuthenticatedRoutes
+          : oneBlogNotAuthenticatedRoutes),
+      };
+    }
   }
 
   useEffect(() => {
-    if (authenticated === true) return;
-
-    authenticateUser();
-  }, [authenticated, pathname]);
-
-  //   return <NavServer isOneBlog={pathname.startsWith("/oneblog")} />;
+    console.log("\nPATHNAME CHANGE:", pathname, isAuthenticated, "\n");
+    setNavItems(getNavItems());
+  }, [pathname]);
 
   return (
     <aside className="-ml-[8px] mb-16 tracking-tight">

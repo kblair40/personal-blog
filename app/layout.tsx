@@ -9,6 +9,7 @@ import Footer from "./components/footer";
 import { NavbarClient } from "./components/nav-client";
 import { NavbarServer } from "./components/nav-server";
 import { Navbar } from "./components/nav";
+import { UserContextProvider } from "./store/userStore";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -64,17 +65,19 @@ export default function RootLayout({
         geistMono.variable
       )}
     >
-      <body className="antialiased max-w-xl mx-4 mt-8 lg:mx-auto">
-        <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
-          {/* <Navbar /> */}
-          <NavbarClient />
-          {/* <NavbarServer /> */}
-          {children}
-          <Footer />
-          <Analytics />
-          <SpeedInsights />
-        </main>
-      </body>
+      <UserContextProvider>
+        <body className="antialiased max-w-xl mx-4 mt-8 lg:mx-auto">
+          <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
+            {/* <Navbar /> */}
+            <NavbarClient />
+            {/* <NavbarServer /> */}
+            {children}
+            <Footer />
+            <Analytics />
+            <SpeedInsights />
+          </main>
+        </body>
+      </UserContextProvider>
     </html>
   );
 }

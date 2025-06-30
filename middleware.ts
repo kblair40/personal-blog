@@ -13,9 +13,6 @@ export default async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
   console.log("\n\n\n\nPATH:", path, "\n\n\n\n");
 
-  const headers = new Headers(req.headers);
-  headers.set("x-current-path", path);
-
   const isProtectedRoute = path.startsWith("/oneblog");
   const isPublicRoute = publicRoutes.includes(path);
 
@@ -40,8 +37,7 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/oneblog", req.nextUrl));
   }
 
-  return NextResponse.next({ headers });
-  // return NextResponse.next();
+  return NextResponse.next();
 }
 
 // Routes Middleware SHOULD run on
