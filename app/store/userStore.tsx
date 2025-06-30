@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 type UserContextType = {
   isAuthenticated: boolean;
   setIsAuthenticated: (isAuthenticated: boolean) => void;
+  session: Session | null;
 };
 
 type Session = {
@@ -20,6 +21,7 @@ type Session = {
 const UserContext = createContext<UserContextType>({
   isAuthenticated: false,
   setIsAuthenticated: (value: boolean) => {},
+  session: null,
 });
 
 export function UserContextProvider({ children }: React.PropsWithChildren) {
@@ -43,7 +45,9 @@ export function UserContextProvider({ children }: React.PropsWithChildren) {
   }, [pathname]);
 
   return (
-    <UserContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
+    <UserContext.Provider
+      value={{ isAuthenticated, setIsAuthenticated, session }}
+    >
       {children}
     </UserContext.Provider>
   );
