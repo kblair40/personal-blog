@@ -42,11 +42,11 @@ const oneBlogNotAuthenticatedRoutes: NavItems = {
   },
 };
 
-const oneBlogAuthenticatedRoutes: NavItems = {
-  "/oneblog/logout": {
-    name: "logout",
-  },
-};
+// const oneBlogAuthenticatedRoutes: NavItems = {
+//   "/oneblog/logout": {
+//     name: "logout",
+//   },
+// };
 
 export function NavbarClient() {
   const pathname = usePathname();
@@ -65,14 +65,16 @@ export function NavbarClient() {
       console.log("ROUTES:", {
         ...oneBlogRoutes,
         ...(isAuthenticated
-          ? oneBlogAuthenticatedRoutes
-          : oneBlogNotAuthenticatedRoutes),
+          ? {}
+          : //   ? oneBlogAuthenticatedRoutes
+            oneBlogNotAuthenticatedRoutes),
       });
       return {
         ...oneBlogRoutes,
         ...(isAuthenticated
-          ? oneBlogAuthenticatedRoutes
-          : oneBlogNotAuthenticatedRoutes),
+          ? {}
+          : //   ? oneBlogAuthenticatedRoutes
+            oneBlogNotAuthenticatedRoutes),
       };
     }
   }
@@ -101,6 +103,16 @@ export function NavbarClient() {
                 </Link>
               );
             })}
+
+            {isAuthenticated && (
+              <Link
+                key="logout"
+                href={pathname}
+                className="transition-all hover:text-neutral-800 dark:hover:text-neutral-200 flex align-middle relative py-1 px-2 m-1"
+              >
+                logout
+              </Link>
+            )}
           </div>
         </nav>
       </div>
