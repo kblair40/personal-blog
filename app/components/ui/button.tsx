@@ -47,7 +47,7 @@ function Button({
   }) {
   const Comp = asChild ? Slot : "button";
 
-  console.log("VARIANT:", variant);
+  // console.log("VARIANT:", variant);
 
   return (
     <Comp

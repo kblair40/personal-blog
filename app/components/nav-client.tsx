@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useUser } from "@/store/userStore";
 // import { logout } from "@/actions/logout";
 import { Button } from "./ui/button";
+// import NavAuth from "./nav-auth";
 
 type NavItem = Record<"name", string>;
 type NavItems = Record<string, NavItem>;
@@ -44,12 +45,6 @@ const oneBlogNotAuthenticatedRoutes: NavItems = {
   },
 };
 
-// const oneBlogAuthenticatedRoutes: NavItems = {
-//   "/oneblog/logout": {
-//     name: "logout",
-//   },
-// };
-
 export function NavbarClient() {
   const router = useRouter();
 
@@ -57,34 +52,43 @@ export function NavbarClient() {
   console.log("pathname:", pathname);
   const isOneBlog = pathname.startsWith("/oneblog");
 
-  const { isAuthenticated, setIsAuthenticated } = useUser();
+  const { getSession, session } = useUser();
+  const isAuthenticated = session === undefined ? null : !!session;
 
   const [navItems, setNavItems] = useState<NavItems>(getNavItems());
+  const [loggingOut, setLoggingOut] = useState(false);
 
   function getNavItems() {
     if (!isOneBlog) {
-      console.log("NOT ONEBLOG ROUTES:", myBlogRoutes);
       return myBlogRoutes;
     } else {
-      const authRoutes =
-        isAuthenticated === false ? oneBlogNotAuthenticatedRoutes : {};
-      console.log("ONEBLOG ROUTES:", { ...oneBlogRoutes, ...authRoutes });
+      const authRoutes = session === null ? oneBlogNotAuthenticatedRoutes : {};
+      // isAuthenticated === false ? oneBlogNotAuthenticatedRoutes : {};
       return { ...oneBlogRoutes, ...authRoutes };
     }
   }
 
   async function handleClickLogout() {
-    // const logoutRes = await logout();
-    // console.log("Logout Res:", logoutRes);
-    // if (logoutRes) {
-    //   router.push("/oneblog");
-    // } else {
-    //   console.warn("Logout failed");
-    // }
+    setLoggingOut(true);
+
+    const logoutRes = await fetch("http://localhost:3001/api/session/delete", {
+      method: "POST",
+    });
+    console.log("Logout Res:", logoutRes.status);
+
+    if (logoutRes.status === 200) {
+      await getSession();
+      router.replace("/oneblog");
+      router.refresh();
+    } else {
+      console.warn("Logout failed");
+    }
+
+    setLoggingOut(false);
   }
 
   useEffect(() => {
-    console.log("\nPATHNAME CHANGE:", pathname, isAuthenticated, "\n");
+    // console.log("\nPATHNAME CHANGE:", pathname, isAuthenticated, "\n");
     setNavItems(getNavItems());
   }, [pathname, isAuthenticated]);
 
@@ -98,36 +102,29 @@ export function NavbarClient() {
           <div className="flex flex-row space-x-0 pr-10">
             {Object.entries(navItems).map(([path, { name }]) => {
               return (
-                <Link
-                  key={path}
-                  href={path}
-                  className="transition-all hover:text-neutral-800 dark:hover:text-neutral-200 flex align-middle relative py-1 px-2 m-1"
-                >
-                  {name}
-                </Link>
+                <Button variant="link" key={path}>
+                  <Link
+                    href={path}
+                    className={path === pathname ? "underline" : ""}
+                  >
+                    {name}
+                  </Link>
+                </Button>
               );
             })}
 
             {isAuthenticated === true && (
               <Button
+                variant="link"
+                disabled={loggingOut}
                 onClick={handleClickLogout}
                 key="logout"
-                className="transition-all hover:text-neutral-800 dark:hover:text-neutral-200 flex align-middle relative py-1 px-2 m-1"
               >
                 logout
               </Button>
             )}
 
-            <div>isAuthenticated: {String(isAuthenticated)}</div>
-            {/* {isAuthenticated && (
-              <Link
-                key="logout"
-                href={pathname}
-                className="transition-all hover:text-neutral-800 dark:hover:text-neutral-200 flex align-middle relative py-1 px-2 m-1"
-              >
-                logout
-              </Link>
-            )} */}
+            {/* <div>isAuthenticated: {String(isAuthenticated)}</div> */}
           </div>
         </nav>
       </div>
