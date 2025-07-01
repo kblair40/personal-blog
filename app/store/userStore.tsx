@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 type UserContextType = {
-  isAuthenticated: boolean;
+  isAuthenticated: null | boolean;
   setIsAuthenticated: (isAuthenticated: boolean) => void;
   session: Session | null;
 };
@@ -19,7 +19,7 @@ type Session = {
 };
 
 const UserContext = createContext<UserContextType>({
-  isAuthenticated: false,
+  isAuthenticated: null,
   setIsAuthenticated: (value: boolean) => {},
   session: null,
 });
@@ -27,18 +27,22 @@ const UserContext = createContext<UserContextType>({
 export function UserContextProvider({ children }: React.PropsWithChildren) {
   const pathname = usePathname();
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [session, setSession] = useState<null | Session>(null);
 
   useEffect(() => {
     console.log("\nPATHNAME CHANGE:", pathname, isAuthenticated, "\n");
     async function fetchSession() {
       const sessionRes = await fetch("http://localhost:3001/api/session");
-      console.log("\nSession Result:", sessionRes);
-      console.log("status:", sessionRes.status);
+      console.log("session result:", sessionRes.status);
       if (sessionRes.status === 200) {
         const session = await sessionRes.json();
+        console.log("\nSession:", session);
         setSession(session);
+        setIsAuthenticated(true);
+      } else {
+        setSession(null);
+        setIsAuthenticated(false);
       }
     }
     fetchSession();

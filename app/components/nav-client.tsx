@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { useUser } from "@/store/userStore";
+// import { logout } from "@/actions/logout";
+import { Button } from "./ui/button";
 
 type NavItem = Record<"name", string>;
 type NavItems = Record<string, NavItem>;
@@ -49,40 +51,42 @@ const oneBlogNotAuthenticatedRoutes: NavItems = {
 // };
 
 export function NavbarClient() {
+  const router = useRouter();
+
   const pathname = usePathname();
   console.log("pathname:", pathname);
+  const isOneBlog = pathname.startsWith("/oneblog");
 
   const { isAuthenticated, setIsAuthenticated } = useUser();
 
   const [navItems, setNavItems] = useState<NavItems>(getNavItems());
 
   function getNavItems() {
-    const isOneBlog = pathname.startsWith("/oneblog");
     if (!isOneBlog) {
-      console.log("ROUTES:", myBlogRoutes);
+      console.log("NOT ONEBLOG ROUTES:", myBlogRoutes);
       return myBlogRoutes;
     } else {
-      console.log("ROUTES:", {
-        ...oneBlogRoutes,
-        ...(isAuthenticated
-          ? {}
-          : //   ? oneBlogAuthenticatedRoutes
-            oneBlogNotAuthenticatedRoutes),
-      });
-      return {
-        ...oneBlogRoutes,
-        ...(isAuthenticated
-          ? {}
-          : //   ? oneBlogAuthenticatedRoutes
-            oneBlogNotAuthenticatedRoutes),
-      };
+      const authRoutes =
+        isAuthenticated === false ? oneBlogNotAuthenticatedRoutes : {};
+      console.log("ONEBLOG ROUTES:", { ...oneBlogRoutes, ...authRoutes });
+      return { ...oneBlogRoutes, ...authRoutes };
     }
+  }
+
+  async function handleClickLogout() {
+    // const logoutRes = await logout();
+    // console.log("Logout Res:", logoutRes);
+    // if (logoutRes) {
+    //   router.push("/oneblog");
+    // } else {
+    //   console.warn("Logout failed");
+    // }
   }
 
   useEffect(() => {
     console.log("\nPATHNAME CHANGE:", pathname, isAuthenticated, "\n");
     setNavItems(getNavItems());
-  }, [pathname]);
+  }, [pathname, isAuthenticated]);
 
   return (
     <aside className="-ml-[8px] mb-16 tracking-tight">
@@ -104,7 +108,18 @@ export function NavbarClient() {
               );
             })}
 
-            {isAuthenticated && (
+            {isAuthenticated === true && (
+              <Button
+                onClick={handleClickLogout}
+                key="logout"
+                className="transition-all hover:text-neutral-800 dark:hover:text-neutral-200 flex align-middle relative py-1 px-2 m-1"
+              >
+                logout
+              </Button>
+            )}
+
+            <div>isAuthenticated: {String(isAuthenticated)}</div>
+            {/* {isAuthenticated && (
               <Link
                 key="logout"
                 href={pathname}
@@ -112,7 +127,7 @@ export function NavbarClient() {
               >
                 logout
               </Link>
-            )}
+            )} */}
           </div>
         </nav>
       </div>

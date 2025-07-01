@@ -7,7 +7,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { baseUrl } from "./sitemap";
 import Footer from "./components/footer";
 import { NavbarClient } from "./components/nav-client";
-import { NavbarServer } from "./components/nav-server";
 import { Navbar } from "./components/nav";
 import { UserContextProvider } from "./store/userStore";
 
