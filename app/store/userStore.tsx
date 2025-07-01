@@ -9,18 +9,11 @@ import React, {
 } from "react";
 import { usePathname } from "next/navigation";
 
+import type { Session } from "@/lib/types";
+
 type UserContextType = {
   session?: Session | null;
   getSession: () => Promise<Session | null>;
-};
-
-type Session = {
-  id: number;
-  firstName?: string;
-  lastName?: string;
-  email: string;
-  iat: number;
-  exp: number;
 };
 
 const UserContext = createContext<UserContextType>({
@@ -39,15 +32,17 @@ export function UserContextProvider({ children }: React.PropsWithChildren) {
   const [session, setSession] = useState<null | Session>();
 
   const getSession = useCallback(async (): Promise<Session | null> => {
-    let res: Response | null;
+    let session: Session | null;
     try {
-      res = await fetch("http://localhost:3001/api/session");
+      const response = await fetch("http://localhost:3001/api/session");
+      session = await response.json();
     } catch (e) {
-      res = null;
+      console.log("Error fetching session:", e);
+      session = null;
     }
-    
-    if (res?.status === 200) {
-      const session = await res.json();
+
+    if (session) {
+      // const session = await res.json();
       console.log("\nSession:", session);
       setSession(session);
       return session;

@@ -31,7 +31,8 @@ export default async function middleware(req: NextRequest) {
   // // 5. Redirect to /oneblog if the user is authenticated
   if (
     isPublicRoute &&
-    session?.userId &&
+    session?.id &&
+    // session?.userId &&
     !req.nextUrl.pathname.startsWith("/oneblog")
   ) {
     return NextResponse.redirect(new URL("/oneblog", req.nextUrl));
@@ -42,7 +43,8 @@ export default async function middleware(req: NextRequest) {
 
 // Routes Middleware SHOULD run on
 export const config: MiddlewareConfig = {
-  matcher: ["/oneblog/subscriptions"],
+  matcher: [],
+  // matcher: ["/oneblog/subscriptions"],
   // matcher: ["/oneblog/:path"],
   // matcher: ["/oneblog", "/oneblog/:path"],
 };
