@@ -31,7 +31,7 @@ export const blogData = {
     rss: "https://heydonworks.com/feed.xml",
     // meta: {
     blogHome: "https://heydonworks.com/",
-    creator: "HeydonWorks",
+    creator: "Heydon Pickering",
     // },
   },
   "News From Chris": {

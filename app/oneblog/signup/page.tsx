@@ -61,6 +61,7 @@ const Signup = (props: Props) => {
               First Name
             </Label>
             <Input
+              id="firstName"
               name="firstName"
               value={formData.firstName || ""}
               onChange={handleChange}
@@ -72,6 +73,7 @@ const Signup = (props: Props) => {
               Last Name
             </Label>
             <Input
+              id="lastName"
               name="lastName"
               value={formData.lastName || ""}
               onChange={handleChange}
@@ -85,6 +87,7 @@ const Signup = (props: Props) => {
               Email
             </Label>
             <Input
+              id="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
@@ -98,6 +101,7 @@ const Signup = (props: Props) => {
               Password
             </Label>
             <Input
+              id="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
@@ -109,6 +113,7 @@ const Signup = (props: Props) => {
               Confirm Password
             </Label>
             <Input
+              id="confirmPassword"
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
