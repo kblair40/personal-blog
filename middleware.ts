@@ -25,7 +25,7 @@ export default async function middleware(req: NextRequest) {
 
   // // 4. Redirect to /login if the user is not authenticated
   if (isProtectedRoute && !session?.id) {
-    return NextResponse.redirect(new URL("/login", req.nextUrl));
+    return NextResponse.redirect(new URL("/oneblog/login", req.nextUrl));
   }
 
   // // 5. Redirect to /oneblog if the user is authenticated
@@ -42,5 +42,7 @@ export default async function middleware(req: NextRequest) {
 
 // Routes Middleware SHOULD run on
 export const config: MiddlewareConfig = {
-  matcher: ["/oneblog", "/oneblog/:path"],
+  matcher: ["/oneblog/subscriptions"],
+  // matcher: ["/oneblog/:path"],
+  // matcher: ["/oneblog", "/oneblog/:path"],
 };
