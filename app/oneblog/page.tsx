@@ -10,9 +10,9 @@ const OneBlog = async () => {
   const data = Promise.all(
     Object.values(blogData).map(async (data) => {
       const feed = await parser.parseURL(data.rss);
-      feed.creator = feed.items[0]?.creator || data.meta.creator;
+      feed.creator = feed.items[0]?.creator || data.creator;
       for (let item of feed.items) {
-        item.creator = item.creator || data.meta.creator;
+        item.creator = item.creator || data.creator;
       }
 
       return feed;

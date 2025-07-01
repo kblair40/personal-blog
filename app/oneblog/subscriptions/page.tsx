@@ -2,6 +2,7 @@ import React from "react";
 
 import type { Session } from "@/lib/types";
 import { getSession } from "@/lib/session";
+import SubscriptionList from "../components/subscription-list";
 
 type Props = {};
 
@@ -12,7 +13,11 @@ const OneBlogSubscriptions = async (props: Props) => {
     return <div>You are not logged in</div>;
   }
 
-  return <div>OneBlogSubscriptions</div>;
+  return (
+    <div>
+      <SubscriptionList />
+    </div>
+  );
 };
 
 export default OneBlogSubscriptions;
