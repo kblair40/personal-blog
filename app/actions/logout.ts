@@ -1,8 +1,15 @@
-import { cookies } from "next/headers";
+// import { cookies } from "next/headers";
+// import { redirect } from "next/navigation";
+
 import { deleteSession } from "@/lib/session";
-import { redirect } from "next/navigation";
 
 export async function logout() {
-  await deleteSession();
-  redirect("/login");
+  try {
+    await deleteSession();
+    //   redirect("/login");
+    return true;
+  } catch (e) {
+    console.log("\nFailed to delete session:", e, "\n");
+    return false;
+  }
 }
