@@ -15,7 +15,7 @@ const OneBlogSubscriptions = async (props: Props) => {
 
   return (
     <div>
-      <SubscriptionList />
+      <SubscriptionList userId={session.id} />
     </div>
   );
 };

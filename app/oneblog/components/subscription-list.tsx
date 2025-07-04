@@ -1,14 +1,22 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import { blogData } from "../utils/blogs";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 
-type Props = {};
+type Props = {
+  userId: number;
+};
 
-const SubscriptionList = (props: Props) => {
+const SubscriptionList = ({ userId }: Props) => {
+  const [loading, setLoading] = useState(false);
+
+  async function toggleSubscription() {
+    //
+  }
+
   return (
     <div className="flex flex-col gap-y-1">
       {Object.entries(blogData).map(([title, meta], i) => {
