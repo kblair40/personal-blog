@@ -32,10 +32,16 @@ export const subscriptionsTable = pgTable("subscriptions", {
   ...timestamps,
 });
 
-// export const subscriptionsRelations = relations(subscriptionsTable, ({ one }) => ({
-//   user : one(profileInfo),
-// }));
-
-// export const profileInfoRelations = relations(profileInfo, ({ one }) => ({
-// 	user: one(users, { fields: [profileInfo.userId], references: [users.id] }),
-// }));
+export const subscriptionsRelations = relations(
+  subscriptionsTable,
+  ({ one }) => ({
+    user: one(usersTable, {
+      fields: [subscriptionsTable.userId],
+      references: [usersTable.id],
+    }),
+    blog: one(blogsTable, {
+      fields: [subscriptionsTable.blogId],
+      references: [blogsTable.id],
+    }),
+  })
+);
