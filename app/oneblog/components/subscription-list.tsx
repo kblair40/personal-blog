@@ -14,7 +14,6 @@ const SubscriptionList = (props: Props) => {
       {Object.entries(blogData).map(([title, meta], i) => {
         return (
           <div key={i} className="flex items-center gap-x-2">
-            {/* {title} - {meta.creator || title} */}
             <Checkbox name={title} id={title} />
             <Label htmlFor={title}>
               {title} - {meta.creator || title}
