@@ -19,7 +19,8 @@ export const usersRelations = relations(usersTable, ({ one }) => ({
 export const blogsTable = pgTable("blogs", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   name: text().notNull().unique(),
-  url: text().notNull().unique(),
+  blogUrl: text().notNull().unique(),
+  rssUrl: text().notNull().unique(),
 });
 
 export const blogsRelations = relations(blogsTable, ({ one }) => ({
