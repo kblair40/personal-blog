@@ -6,7 +6,8 @@
     "start": "next start",
     "push": "npx drizzle-kit push",
     "generate": "npx drizzle-kit generate",
-    "migrate": "npx drizzle-kit migrate"
+    "migrate": "npx drizzle-kit migrate",
+    "addBlogs": "npx tsx scripts/addBlogs"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.3.2",
