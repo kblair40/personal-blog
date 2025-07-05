@@ -3,16 +3,9 @@ import { eq } from "drizzle-orm";
 import db from "@/lib/db";
 import { blogData } from "@/oneblog/utils/blogs";
 import { blogsTable } from "@/lib/db/schema";
+import type { Blog, BlogInsert } from "@/lib/db/schema.types";
 
-type Blog = {
-  id?: number;
-  creator: string;
-  name: string;
-  blogUrl: string;
-  rssUrl: string;
-};
-
-async function updateBlog(blog: Blog): Promise<Blog | undefined> {
+async function updateBlog(blog: Blog | BlogInsert): Promise<Blog | undefined> {
   // Send blogs that were prevented from updating to 'unique' constraint here
   try {
     const updatedBlog: Blog[] = await db
@@ -42,7 +35,7 @@ async function addBlogs() {
   for (const name in blogData) {
     const { rss: rssUrl, blogHome: blogUrl, creator } = blogData[name];
 
-    const blog: Blog = { creator, name, blogUrl, rssUrl };
+    const blog: BlogInsert = { creator, name, blogUrl, rssUrl };
 
     if (name in blogMap) {
       const updatedBlog = await updateBlog(blog);
@@ -59,7 +52,7 @@ async function addBlogs() {
   }
 }
 
-function logError(e: unknown, blog: Blog, type: "insert" | "update") {
+function logError(e: unknown, blog: BlogInsert, type: "insert" | "update") {
   // @ts-ignore
   if (e instanceof Error && e.cause?.constraint?.endsWith("unique")) {
     console.log("ALREADY INSERTED:", JSON.stringify(blog, null, 2));
