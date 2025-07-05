@@ -21,6 +21,7 @@ export const blogsTable = pgTable("blogs", {
   name: text().notNull().unique(),
   blogUrl: text().notNull().unique(),
   rssUrl: text().notNull().unique(),
+  creator: text().notNull(),
 });
 
 export const blogsRelations = relations(blogsTable, ({ one }) => ({
