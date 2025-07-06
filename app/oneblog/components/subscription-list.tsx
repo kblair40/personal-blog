@@ -74,7 +74,7 @@ const SubscriptionList = ({
 
   return (
     <div className="flex flex-col gap-y-2">
-      <pre>{JSON.stringify(subs, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(subs, null, 2)}</pre> */}
       {blogs.map(({ id, name, blogUrl, creator }) => {
         return (
           <div key={id} className="flex items-center">
@@ -91,7 +91,7 @@ const SubscriptionList = ({
             </Label>
 
             <a className="ml-4" href={blogUrl} target="_blank">
-              <ExternalLink size={18} />
+              <ExternalLink size={15} />
             </a>
           </div>
         );
