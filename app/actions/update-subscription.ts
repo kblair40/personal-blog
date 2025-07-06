@@ -14,7 +14,7 @@ const subscriptionInput = z.object({
 
 export type SubscriptionInput = z.infer<typeof subscriptionInput>;
 
-export async function createSubscription(input: SubscriptionInput) {
+export async function updateSubscription(input: SubscriptionInput) {
   const result = subscriptionInput.safeParse(input);
   console.log(
     "\nParse Subscription Result:",

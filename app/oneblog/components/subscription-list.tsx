@@ -7,7 +7,7 @@ import { ExternalLink } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { Blog, Subscription } from "@/lib/db/schema.types";
-import { createSubscription } from "@/actions/create-subscription";
+import { updateSubscription } from "@/actions/update-subscription";
 
 type Props = {
   userId: number;
@@ -28,6 +28,7 @@ const SubscriptionList = ({
   // const [subs, setSubs] = useState(use(_subscriptions));
 
   const [loading, setLoading] = useState(false);
+  const [toggling, setToggling] = useState<number | null>(null);
 
   async function toggleSubscription(
     { blogId, name }: { blogId: number; name: string },
@@ -40,6 +41,14 @@ const SubscriptionList = ({
 
     if (add) {
       console.log("Adding");
+
+      const newSub = await updateSubscription({
+        userId,
+        blogId,
+        action: "add",
+      });
+      console.log("\nNew Sub:", newSub, "\n");
+
       setSubs([
         ...subs,
         {
