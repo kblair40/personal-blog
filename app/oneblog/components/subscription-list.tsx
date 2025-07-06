@@ -43,33 +43,34 @@ const SubscriptionList = ({
         blogId,
         action: "add",
       });
-      console.log("\nNew Sub:", newSub, "\n");
+      console.log("\nNew Subscription:", newSub, "\n");
 
-      setSubs([
-        ...subs,
-        {
-          id: Math.floor(Math.random() * 10_000),
-          blogId,
-          userId,
-          created_at: null,
-          updated_at: null,
-          isActive: true,
-        },
-      ]);
+      if (newSub) setSubs([...subs, newSub]);
     } else {
       console.log("Removing");
-      const _subs = [...subs];
+
       const idx = subs.findIndex((sub) => sub.blogId === blogId);
       if (idx === -1) {
         console.error("\nSubscription not found\n");
         return;
       }
 
-      _subs.splice(idx, 1);
-      setSubs(_subs);
+      const removedSub = await updateSubscription({
+        subscriptionId: subs[idx].id,
+        action: "remove",
+      });
+      console.log("\nRemoved Subscription:", removedSub, "\n");
+
+      if (removedSub) {
+        const _subs = [...subs];
+        _subs.splice(idx, 1);
+        setSubs(_subs);
+      }
     }
     console.groupEnd();
   }
+
+  const subscribedToBlogs = subs.map((s) => s.blogId);
 
   return (
     <div className="flex flex-col gap-y-2">
@@ -83,6 +84,7 @@ const SubscriptionList = ({
               onCheckedChange={(checked) =>
                 toggleSubscription({ blogId: id, name }, !!checked)
               }
+              checked={subscribedToBlogs.includes(id)}
             />
             <Label className="ml-2" htmlFor={name}>
               {name} - {creator || name}

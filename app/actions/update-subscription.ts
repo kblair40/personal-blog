@@ -38,14 +38,22 @@ export async function updateSubscription(
       .returning();
     console.log("\nInsert Res:", insertRes, "\n");
 
-    return insertRes;
+    if (insertRes.length === 1) {
+      return insertRes[0];
+    }
+    return null;
   } else {
+    console.log("\nsubscriptionId:", input.subscriptionId);
     const deleteRes = await db
       .delete(subscriptionsTable)
       .where(eq(subscriptionsTable.id, input.subscriptionId))
       .returning();
     console.log("\nDELETE RES:", deleteRes);
 
-    return deleteRes;
+    if (deleteRes.length === 1) {
+      return deleteRes[0];
+    }
+
+    return null;
   }
 }
