@@ -20,3 +20,10 @@ const userUpdateSchema = createUpdateSchema(schema.usersTable);
 export type User = z.infer<typeof userSelectSchema>;
 export type UserInsert = z.infer<typeof userInsertSchema>;
 export type UserUpdate = z.infer<typeof userUpdateSchema>;
+
+const subscriptionSelectSchema = createSelectSchema(schema.subscriptionsTable);
+const subscriptionInsertSchema = createInsertSchema(schema.subscriptionsTable);
+const subscriptionUpdateSchema = createUpdateSchema(schema.subscriptionsTable);
+export type Subscription = z.infer<typeof subscriptionSelectSchema>;
+export type SubscriptionInsert = z.infer<typeof subscriptionInsertSchema>;
+export type SubscriptionUpdate = z.infer<typeof subscriptionUpdateSchema>;
