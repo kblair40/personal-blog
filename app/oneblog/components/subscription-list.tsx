@@ -6,6 +6,7 @@ import { ExternalLink } from "lucide-react";
 
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
 import type { Blog, Subscription } from "@/lib/db/schema.types";
 import { updateSubscription } from "@/actions/update-subscription";
 
@@ -20,10 +21,15 @@ const SubscriptionList = ({
   blogs: _blogs,
   subscriptions: _subscriptions,
 }: Props) => {
-  const blogs = use(_blogs);
+  // const blogs = use(_blogs)
+  const blogs = use(_blogs).map((b) => ({
+    ...b,
+    searchValue: b.name.toLowerCase() + " - " + b.creator.toLowerCase(),
+  }));
   const subscriptions = use(_subscriptions);
 
   const [subs, setSubs] = useState(() => subscriptions);
+  const [filterValue, setFilterValue] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [toggling, setToggling] = useState<number | null>(null);
@@ -70,43 +76,49 @@ const SubscriptionList = ({
     console.groupEnd();
   }
 
+  function formatBlog(blog: Blog) {
+    //
+  }
+
   const subscribedToBlogs = subs.map((s) => s.blogId);
+  const filteredBlogs = filterValue
+    ? blogs.filter(b => b.searchValue.includes(filterValue))
+    : blogs
 
   return (
-    <div className="flex flex-col gap-y-2">
-      {/* <pre>{JSON.stringify(subs, null, 2)}</pre> */}
-      {blogs.map(({ id, name, blogUrl, creator }) => {
-        return (
-          <div key={id} className="flex items-center">
-            <Checkbox
-              name={name}
-              id={name}
-              onCheckedChange={(checked) =>
-                toggleSubscription({ blogId: id, name }, !!checked)
-              }
-              checked={subscribedToBlogs.includes(id)}
-            />
-            <Label className="ml-2" htmlFor={name}>
-              {name} - {creator || name}
-            </Label>
+    <div className="w-fit">
+      <section className="mb-4">
+        <p className="text-2xl font-semibold">Update Your Subscriptions</p>
+      </section>
 
-            <a className="ml-4" href={blogUrl} target="_blank">
-              <ExternalLink size={15} />
-            </a>
-          </div>
-        );
-      })}
+      <section className="mb-4">
+        <Input onChange={(e) => setFilterValue(e.target.value)} />
+      </section>
 
-      {/* {Object.entries(blogData).map(([title, meta], i) => {
-        return (
-          <div key={i} className="flex items-center gap-x-2">
-            <Checkbox name={title} id={title} />
-            <Label htmlFor={title}>
-              {title} - {meta.creator || title}
-            </Label>
-          </div>
-        );
-      })} */}
+      <section className="flex flex-col gap-y-2">
+        {/* <pre>{JSON.stringify(subs, null, 2)}</pre> */}
+        {filteredBlogs.map(({ id, name, blogUrl, creator }) => {
+          return (
+            <div key={id} className="flex items-center">
+              <Checkbox
+                name={name}
+                id={name}
+                onCheckedChange={(checked) =>
+                  toggleSubscription({ blogId: id, name }, !!checked)
+                }
+                checked={subscribedToBlogs.includes(id)}
+              />
+              <Label className="ml-2" htmlFor={name}>
+                {name} - {creator || name}
+              </Label>
+
+              <a className="ml-4" href={blogUrl} target="_blank">
+                <ExternalLink size={15} />
+              </a>
+            </div>
+          );
+        })}
+      </section>
     </div>
   );
 };

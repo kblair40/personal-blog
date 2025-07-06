@@ -25,15 +25,15 @@ const OneBlogSubscriptions = async (props: Props) => {
     .where(eq(subscriptionsTable.userId, session.id));
 
   return (
-    <Suspense fallback={<div />}>
-      <div>
+    <div className="pt-8 px-2">
+      <Suspense fallback={<div />}>
         <SubscriptionList
           userId={session.id}
           blogs={blogs}
           subscriptions={subscriptions}
         />
-      </div>
-    </Suspense>
+      </Suspense>
+    </div>
   );
 };
 
