@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { eq } from "drizzle-orm";
 
 import type { Session } from "@/lib/types";
@@ -25,13 +25,15 @@ const OneBlogSubscriptions = async (props: Props) => {
     .where(eq(subscriptionsTable.userId, session.id));
 
   return (
-    <div>
-      <SubscriptionList
-        userId={session.id}
-        blogs={blogs}
-        subscriptions={subscriptions}
-      />
-    </div>
+    <Suspense fallback={<div />}>
+      <div>
+        <SubscriptionList
+          userId={session.id}
+          blogs={blogs}
+          subscriptions={subscriptions}
+        />
+      </div>
+    </Suspense>
   );
 };
 

@@ -9,6 +9,7 @@ import db from "@/lib/db";
 const subscriptionInput = z.object({
   userId: z.int(),
   blogId: z.int(),
+  action: z.enum(["add", "remove"]),
 });
 
 export type SubscriptionInput = z.infer<typeof subscriptionInput>;

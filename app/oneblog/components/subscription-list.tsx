@@ -7,6 +7,7 @@ import { ExternalLink } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { Blog, Subscription } from "@/lib/db/schema.types";
+import { createSubscription } from "@/actions/create-subscription";
 
 type Props = {
   userId: number;
@@ -24,8 +25,9 @@ const SubscriptionList = ({
 
   const [loading, setLoading] = useState(false);
 
-  async function toggleSubscription() {
-    //
+  async function toggleSubscription(blogId: number) {
+    // const subRes = await createSubscription({ userId, blogId });
+    // console.log("\nSubscription Res:", subRes);
   }
 
   return (
