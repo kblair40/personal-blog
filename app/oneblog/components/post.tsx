@@ -7,7 +7,7 @@ type Props = {
 
 const Post = ({ post }: Props) => {
   return (
-    <div className="">
+    <div>
       <a target="_blank" href={post.link}>
         <h3 className="font-medium">{post.title}</h3>
       </a>

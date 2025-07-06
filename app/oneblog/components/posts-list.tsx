@@ -46,7 +46,7 @@ const PostsList = ({ posts }: Props) => {
         );
 
   return (
-    <div className="flex flex-col gap-y-4">
+    <div className="flex flex-col gap-y-4 w-fit">
       <section className="">
         <Tooltip delayDuration={300}>
           <TooltipTrigger asChild>

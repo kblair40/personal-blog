@@ -46,7 +46,7 @@ const OneBlog = async () => {
         );
 
   return (
-    <div className="pt-6 px-2">
+    <div className="pt-6 px-2 flex flex-col items-center w-full">
       {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
       <Suspense fallback={<div>Temp Fallback Placeholder</div>}>
         {posts !== null ? (
