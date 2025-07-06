@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, use } from "react";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Funnel } from "lucide-react";
 // import type { CheckedState } from "@radix-ui/react-checkbox";
 
 import { Label } from "@/components/ui/label";
@@ -31,7 +31,6 @@ const SubscriptionList = ({
   const [subs, setSubs] = useState(() => subscriptions);
   const [filterValue, setFilterValue] = useState("");
 
-  const [loading, setLoading] = useState(false);
   const [toggling, setToggling] = useState<number | null>(null);
 
   async function toggleSubscription(
@@ -82,20 +81,21 @@ const SubscriptionList = ({
 
   const subscribedToBlogs = subs.map((s) => s.blogId);
   const filteredBlogs = filterValue
-    ? blogs.filter(b => b.searchValue.includes(filterValue))
-    : blogs
+    ? blogs.filter((b) => b.searchValue.includes(filterValue))
+    : blogs;
 
   return (
     <div className="w-fit">
-      <section className="mb-4">
+      <section>
         <p className="text-2xl font-semibold">Update Your Subscriptions</p>
       </section>
 
-      <section className="mb-4">
-        <Input onChange={(e) => setFilterValue(e.target.value)} />
+      <section className="my-4 flex space-x-2 items-center">
+        <Funnel />
+        <Input placeholder="Filter blogs..." onChange={(e) => setFilterValue(e.target.value)} />
       </section>
 
-      <section className="flex flex-col gap-y-2">
+      <section className="flex flex-col gap-y-3">
         {/* <pre>{JSON.stringify(subs, null, 2)}</pre> */}
         {filteredBlogs.map(({ id, name, blogUrl, creator }) => {
           return (
