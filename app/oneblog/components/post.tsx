@@ -11,7 +11,12 @@ const Post = ({ post }: Props) => {
       <a target="_blank" href={post.link}>
         <h3 className="font-medium">{post.title}</h3>
       </a>
-      <p className="opacity-20">{post.creator || "?"}</p>
+      <div className="flex gap-x-3">
+        <p className="opacity-20">{post.creator || "?"}</p>
+        <p className="opacity-20">
+          {post.isoDate ? new Date(post.isoDate).toLocaleDateString() : "?"}
+        </p>
+      </div>
     </div>
   );
 };
