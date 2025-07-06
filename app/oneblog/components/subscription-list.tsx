@@ -6,15 +6,21 @@ import { ExternalLink } from "lucide-react";
 
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import type { Blog } from "@/lib/db/schema.types";
+import type { Blog, Subscription } from "@/lib/db/schema.types";
 
 type Props = {
   userId: number;
   blogs: Promise<Blog[]>;
+  subscriptions: Promise<Subscription[]>;
 };
 
-const SubscriptionList = ({ userId, blogs: _blogs }: Props) => {
+const SubscriptionList = ({
+  userId,
+  blogs: _blogs,
+  subscriptions: _subscriptions,
+}: Props) => {
   const blogs = use(_blogs);
+  const subscriptions = use(_subscriptions);
 
   const [loading, setLoading] = useState(false);
 
