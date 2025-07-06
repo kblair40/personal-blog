@@ -24,8 +24,6 @@ const SubscriptionList = ({
   const subscriptions = use(_subscriptions);
 
   const [subs, setSubs] = useState(() => subscriptions);
-  // const [subs, setSubs] = useState(subscriptions);
-  // const [subs, setSubs] = useState(use(_subscriptions));
 
   const [loading, setLoading] = useState(false);
   const [toggling, setToggling] = useState<number | null>(null);
@@ -36,8 +34,6 @@ const SubscriptionList = ({
   ) {
     console.group("Toggle Subscription");
     console.log({ blogId, blogName: name, userId, add });
-    // const subRes = await createSubscription({ userId, blogId });
-    // console.log("\nSubscription Res:", subRes);
 
     if (add) {
       console.log("Adding");

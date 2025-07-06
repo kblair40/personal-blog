@@ -6,32 +6,46 @@ import { eq, and } from "drizzle-orm";
 import { subscriptionsTable } from "@/lib/db/schema";
 import db from "@/lib/db";
 
-const subscriptionInput = z.object({
+const addSubscriptionInput = z.object({
   userId: z.int(),
   blogId: z.int(),
-  action: z.enum(["add", "remove"]),
+  action: z.literal("add"),
+});
+const removeSubscriptionInput = z.object({
+  subscriptionId: z.int(),
+  action: z.literal("remove"),
 });
 
-export type SubscriptionInput = z.infer<typeof subscriptionInput>;
+export type AddSubscriptionInput = z.infer<typeof addSubscriptionInput>;
+export type RemoveSubscriptionInput = z.infer<typeof removeSubscriptionInput>;
 
-export async function updateSubscription(input: SubscriptionInput) {
-  const result = subscriptionInput.safeParse(input);
-  console.log(
-    "\nParse Subscription Result:",
-    result,
-    { e: result.error },
-    "\n"
-  );
+export async function updateSubscription(
+  input: AddSubscriptionInput | RemoveSubscriptionInput
+) {
+  const inputIsValid =
+    input.action === "add"
+      ? addSubscriptionInput.safeParse(input).success
+      : removeSubscriptionInput.safeParse(input).success;
 
-  if (!result.success) {
+  if (!inputIsValid) {
     return null;
   }
 
-  const insertRes = await db
-    .insert(subscriptionsTable)
-    .values(input)
-    .returning();
-  console.log("\nInsert Res:", insertRes, "\n");
+  if (input.action === "add") {
+    const insertRes = await db
+      .insert(subscriptionsTable)
+      .values(input)
+      .returning();
+    console.log("\nInsert Res:", insertRes, "\n");
 
-  return insertRes;
+    return insertRes;
+  } else {
+    const deleteRes = await db
+      .delete(subscriptionsTable)
+      .where(eq(subscriptionsTable.id, input.subscriptionId))
+      .returning();
+    console.log("\nDELETE RES:", deleteRes);
+
+    return deleteRes;
+  }
 }
