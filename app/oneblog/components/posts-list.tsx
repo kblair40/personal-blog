@@ -4,6 +4,11 @@ import React, { use, useState } from "react";
 import Parser from "rss-parser";
 import type { Item } from "rss-parser";
 import { CalendarArrowDown, CalendarArrowUp } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 import Post from "./post";
 import { Button } from "@/components/ui/button";
@@ -43,16 +48,25 @@ const PostsList = ({ posts }: Props) => {
   return (
     <div className="flex flex-col gap-y-4">
       <section className="">
-        <Button
-          onClick={() =>
-            setSortDir((prev) => (prev === "desc" ? "asc" : "desc"))
-          }
-          size="lg"
-          className="p-0 text-base"
-          variant="secondary"
-        >
-          Date {sortDir === "asc" ? <CalendarArrowUp /> : <CalendarArrowDown />}
-        </Button>
+        <Tooltip delayDuration={300}>
+          <TooltipTrigger asChild>
+            <Button
+              onClick={() =>
+                setSortDir((prev) => (prev === "desc" ? "asc" : "desc"))
+              }
+              size="lg"
+              className="p-0 text-base"
+              variant="secondary"
+            >
+              Date{" "}
+              {sortDir === "asc" ? <CalendarArrowUp /> : <CalendarArrowDown />}
+            </Button>
+          </TooltipTrigger>
+
+          <TooltipContent side="right">
+            <p>{sortDir === "asc" ? "Oldest at top" : "Newest at top"}</p>
+          </TooltipContent>
+        </Tooltip>
       </section>
 
       <section className="flex flex-col gap-y-4">
