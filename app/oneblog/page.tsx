@@ -40,6 +40,7 @@ const OneBlog = async () => {
             feed.creator = feed.items[0]?.creator || b.creator;
             for (let item of feed.items) {
               item.creator = item.creator || b.creator;
+              item.blogId = b.id;
             }
             return feed;
           })

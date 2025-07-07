@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use, useState } from "react";
+import React, { use, useState, useRef } from "react";
 import Parser from "rss-parser";
 import type { Item } from "rss-parser";
 import { CalendarArrowDown, CalendarArrowUp } from "lucide-react";
@@ -27,13 +27,18 @@ type Props = {
 };
 
 const PostsList = ({ posts, subscribedToBlogs }: Props) => {
+  const postArrays = use(posts);
+  console.log("POSTS:", postArrays);
+
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [selectedBlog, setSelectedBlog] = useState<undefined | number>(
     undefined
   );
+  // const [totalPosts] = useState(postArrays.flat().length);
 
-  const postArrays = use(posts);
-  console.log("POSTS:", postArrays);
+  const filteredBlogs = !selectedBlog
+    ? subscribedToBlogs
+    : subscribedToBlogs.filter((blog) => selectedBlog === blog.id);
 
   function handleChangeSelectedBlog(value: number | undefined) {
     setSelectedBlog(value);
@@ -42,10 +47,25 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
     }
   }
 
+  const totalPostsCount = postArrays.reduce(
+    (count, postArr) => count + postArr.items.length,
+    0
+  );
+
   let _posts: Item[] = [];
-  for (let postArr of postArrays) {
-    _posts = _posts.concat(postArr.items);
+  if (selectedBlog === undefined) {
+    for (let postArr of postArrays) {
+      _posts = _posts.concat(postArr.items);
+    }
+  } else {
+    for (let postArr of postArrays) {
+      if (postArr.items[0]?.blogId === selectedBlog) {
+        _posts = _posts.concat(postArr.items);
+      }
+    }
   }
+
+  const visiblePostsCount = _posts.length;
 
   const sortedPosts =
     sortDir === "asc"
@@ -57,6 +77,10 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
           (a, b) =>
             new Date(b.isoDate!).getTime() - new Date(a.isoDate!).getTime()
         );
+
+  // const filteredPosts = !selectedBlog
+  //   ? sortedPosts
+  //   : sortedPosts.filter(p =>)
 
   return (
     <div className="flex flex-col gap-y-4 w-fit">
@@ -83,9 +107,15 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
 
         <PostFilters
           subscribedToBlogs={subscribedToBlogs}
-          value={selectedBlog}
-          onChange={handleChangeSelectedBlog}
+          selectedBlog={selectedBlog}
+          onChangeSelectedBlog={handleChangeSelectedBlog}
         />
+      </section>
+
+      <section>
+        <p className="font-light text-neutral-600">
+          Showing {visiblePostsCount} of {totalPostsCount} Posts
+        </p>
       </section>
 
       <section className="flex flex-col gap-y-6">

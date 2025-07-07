@@ -15,11 +15,15 @@ import { cn } from "@/lib/utils";
 
 type Props = {
   subscribedToBlogs: Blog[];
-  onChange: (value: number | undefined) => void;
-  value: undefined | number;
+  onChangeSelectedBlog: (value: number | undefined) => void;
+  selectedBlog: undefined | number;
 };
 
-const PostFilters = ({ subscribedToBlogs, value, onChange }: Props) => {
+const PostFilters = ({
+  subscribedToBlogs,
+  selectedBlog,
+  onChangeSelectedBlog,
+}: Props) => {
   // Just for triggering re-render when value is set to undefined
   const [key, setKey] = useState(+new Date());
 
@@ -30,18 +34,18 @@ const PostFilters = ({ subscribedToBlogs, value, onChange }: Props) => {
   function handleChange(value: string | undefined) {
     console.log("Selected Blog:", value);
     if (value === undefined) {
-      onChange(value);
-      setKey(+new Date());
+      onChangeSelectedBlog(value);
+      setKey(+new Date()); // Triggers re-render, making the placeholder visible
       return;
     }
 
-    onChange(parseInt(value));
+    onChangeSelectedBlog(parseInt(value));
   }
 
   return (
     <Select
       key={key}
-      value={value ? value.toString() : undefined}
+      value={selectedBlog ? selectedBlog.toString() : undefined}
       onValueChange={(v) => handleChange(v)}
     >
       <SelectTrigger className={cn("min-h-10 w-72")}>
