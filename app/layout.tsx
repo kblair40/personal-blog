@@ -7,8 +7,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { baseUrl } from "./sitemap";
 import Footer from "./components/footer";
 import { NavbarClient } from "./components/nav-client";
-import { Navbar } from "./components/nav";
 import { UserContextProvider } from "./store/userStore";
+import { cn } from "./lib/utils";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -48,8 +48,6 @@ export const metadata: Metadata = {
   },
 };
 
-const cx = (...classes: string[]) => classes.filter(Boolean).join(" ");
-
 export default function RootLayout({
   children,
 }: {
@@ -58,19 +56,21 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cx(
+      className={cn(
         "text-black bg-white dark:text-white dark:bg-black",
         geistSans.variable,
         geistMono.variable
       )}
     >
       <UserContextProvider>
-        <body className="antialiased mx-4 mt-8 lg:mx-auto">
-          <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
-            {/* <Navbar /> */}
-            <NavbarClient />
-            {/* <NavbarServer /> */}
+        <body className="antialiased">
+          <main className="min-w-0 w-fit flex flex-col px-4 mx-auto">
+            <div className="h-12 flex items-center">
+              <NavbarClient />
+            </div>
+
             {children}
+
             <Footer />
             <Analytics />
             <SpeedInsights />
