@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { CalendarArrowDown } from "lucide-react";
 
 import {
   Select,
@@ -13,13 +14,19 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-type Props = {};
-
-const PostFiltersFallback = (props: Props) => {
+const PostFiltersFallback = () => {
   return (
     <>
+      <Button
+        size="lg"
+        className="p-0 text-base w-fit mr-4"
+        variant="secondary"
+      >
+        Date <CalendarArrowDown />
+      </Button>
+
       <Select disabled value={undefined}>
-        <SelectTrigger className={cn("min-h-10 w-72")}>
+        <SelectTrigger className={cn("min-h-10 w-72 md:mr-4")}>
           <SelectValue placeholder="Select Blog" />
         </SelectTrigger>
 

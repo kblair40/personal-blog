@@ -63,8 +63,8 @@ export default function RootLayout({
       )}
     >
       <UserContextProvider>
-        <body className="antialiased">
-          <main className="min-w-0 w-fit flex flex-col px-4 mx-auto">
+        <body className="antialiased min-h-dvh max-w-dvw overflow-x-hidden">
+          <main className="flex flex-col px-2 min-w-xs">
             <div className="h-12 flex items-center">
               <NavbarClient />
             </div>

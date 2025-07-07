@@ -53,21 +53,30 @@ const OneBlog = async () => {
           })
         );
 
+  let showFallback = 0;
   return (
-    <div className="pt-6 px-2 flex flex-col items-center w-full">
+    <div className="pt-6 px-2 flex flex-col items-center w-full responsive-border">
       {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
-      <Suspense fallback={<div>Temp Fallback Placeholder</div>}>
-        {posts !== null ? (
-          <PostsList subscribedToBlogs={subscribedToBlogs} posts={posts} />
+      {/* <Suspense fallback={<div>Temp Fallback Placeholder</div>}> */}
+
+      <div className="sm:w-[412px] md:w-[572px]">
+        {!!showFallback ? (
+          <PostsListFallback />
         ) : (
-          <div className="flex flex-col items-center gap-y-2 w-fit">
-            <p className="font-medium">You don't have any subscriptions</p>
-            <Link href="/oneblog/subscriptions">
-              <Button>Add Some Here</Button>
-            </Link>
-          </div>
+          <Suspense fallback={<PostsListFallback />}>
+            {posts !== null ? (
+              <PostsList subscribedToBlogs={subscribedToBlogs} posts={posts} />
+            ) : (
+              <div className="flex flex-col items-center gap-y-2 w-fit">
+                <p className="font-medium">You don't have any subscriptions</p>
+                <Link href="/oneblog/subscriptions">
+                  <Button>Add Some Here</Button>
+                </Link>
+              </div>
+            )}
+          </Suspense>
         )}
-      </Suspense>
+      </div>
     </div>
   );
 };

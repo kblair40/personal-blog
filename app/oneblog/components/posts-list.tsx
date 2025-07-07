@@ -1,16 +1,9 @@
 "use client";
 
-import React, { use, useState, useRef } from "react";
+import React, { use, useState } from "react";
 import Parser from "rss-parser";
 import type { Item } from "rss-parser";
-import { CalendarArrowDown, CalendarArrowUp } from "lucide-react";
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Button } from "@/components/ui/button";
 import Post from "./post";
 import PostFilters from "./post-filters";
 import type { Blog } from "@/lib/db/schema.types";
@@ -85,40 +78,20 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
             new Date(b.isoDate!).getTime() - new Date(a.isoDate!).getTime()
         );
 
-  // const filteredPosts = !selectedBlog
-  //   ? sortedPosts
-  //   : sortedPosts.filter(p =>)
-
   return (
-    <div className="flex flex-col gap-y-4 w-fit">
-      <section className="flex gap-x-4 gap-y-2 flex-wrap">
-        <Tooltip delayDuration={300}>
-          <TooltipTrigger asChild>
-            <Button
-              onClick={() =>
-                setSortDir((prev) => (prev === "desc" ? "asc" : "desc"))
-              }
-              size="lg"
-              className="p-0 text-base"
-              variant="secondary"
-            >
-              Date{" "}
-              {sortDir === "asc" ? <CalendarArrowUp /> : <CalendarArrowDown />}
-            </Button>
-          </TooltipTrigger>
-
-          <TooltipContent side="right">
-            <p>{sortDir === "asc" ? "Oldest at top" : "Newest at top"}</p>
-          </TooltipContent>
-        </Tooltip>
-
-        <PostFilters
-          subscribedToBlogs={subscribedToBlogs}
-          selectedBlog={selectedBlog}
-          onChangeSelectedBlog={handleChangeSelectedBlog}
-          postSearchValue={postSearchValue}
-          onChangePostSearchValue={(value) => setPostSearchValue(value)}
-        />
+    <div className="w-full flex flex-col relative gap-y-4 child-border">
+      <section className="w-full h-[136px] sm:h-[88px] md:h-10">
+        <div className="sm:w-[412px] md:w-[572px] absolute left-1/2 -translate-x-1/2 flex flex-col sm:flex-row gap-y-2 flex-wrap md:flex-nowrap">
+          <PostFilters
+            subscribedToBlogs={subscribedToBlogs}
+            selectedBlog={selectedBlog}
+            onChangeSelectedBlog={handleChangeSelectedBlog}
+            postSearchValue={postSearchValue}
+            onChangePostSearchValue={(value) => setPostSearchValue(value)}
+            sortDir={sortDir}
+            onChangeSortDir={(value: "asc" | "desc") => setSortDir(value)}
+          />
+        </div>
       </section>
 
       <section>

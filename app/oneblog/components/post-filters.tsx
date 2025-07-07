@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { CalendarArrowDown, CalendarArrowUp } from "lucide-react";
 
 import {
   Select,
@@ -9,6 +10,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Blog } from "@/lib/db/schema.types";
@@ -20,6 +26,8 @@ type Props = {
   selectedBlog: undefined | number;
   postSearchValue: string;
   onChangePostSearchValue: (value: string) => void;
+  sortDir: "asc" | "desc";
+  onChangeSortDir: (value: "asc" | "desc") => void;
 };
 
 const PostFilters = ({
@@ -28,6 +36,8 @@ const PostFilters = ({
   onChangeSelectedBlog,
   postSearchValue,
   onChangePostSearchValue,
+  sortDir,
+  onChangeSortDir,
 }: Props) => {
   // Just for triggering re-render when value is set to undefined
   const [key, setKey] = useState(+new Date());
@@ -49,12 +59,30 @@ const PostFilters = ({
 
   return (
     <>
+      <Tooltip delayDuration={300}>
+        <TooltipTrigger asChild>
+          <Button
+            onClick={() => onChangeSortDir(sortDir === "desc" ? "asc" : "desc")}
+            size="lg"
+            className="p-0 text-base mr-4"
+            variant="secondary"
+          >
+            Date{" "}
+            {sortDir === "asc" ? <CalendarArrowUp /> : <CalendarArrowDown />}
+          </Button>
+        </TooltipTrigger>
+
+        <TooltipContent side="right">
+          <p>{sortDir === "asc" ? "Oldest at top" : "Newest at top"}</p>
+        </TooltipContent>
+      </Tooltip>
+
       <Select
         key={key}
         value={selectedBlog ? selectedBlog.toString() : undefined}
         onValueChange={(v) => handleChangeBlog(v)}
       >
-        <SelectTrigger className={cn("min-h-10 w-72")}>
+        <SelectTrigger className={cn("min-h-10 w-72 md:mr-4")}>
           <SelectValue placeholder="Select Blog" />
         </SelectTrigger>
 

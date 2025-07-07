@@ -7,7 +7,7 @@ type Props = {
 
 const Post = ({ post }: Props) => {
   return (
-    <div>
+    <div className="w-fit">
       <a target="_blank" href={post.link}>
         <h3 className="font-semibold text-lg">{post.title}</h3>
       </a>
