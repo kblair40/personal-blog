@@ -34,7 +34,7 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
   const [selectedBlog, setSelectedBlog] = useState<undefined | number>(
     undefined
   );
-  // const [totalPosts] = useState(postArrays.flat().length);
+  const [postSearchValue, setPostSearchValue] = useState<string>("");
 
   const filteredBlogs = !selectedBlog
     ? subscribedToBlogs
@@ -84,7 +84,7 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
 
   return (
     <div className="flex flex-col gap-y-4 w-fit">
-      <section className="flex gap-x-4">
+      <section className="flex gap-x-4 gap-y-2 flex-wrap">
         <Tooltip delayDuration={300}>
           <TooltipTrigger asChild>
             <Button
@@ -109,6 +109,8 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
           subscribedToBlogs={subscribedToBlogs}
           selectedBlog={selectedBlog}
           onChangeSelectedBlog={handleChangeSelectedBlog}
+          postSearchValue={postSearchValue}
+          onChangePostSearchValue={(value) => setPostSearchValue(value)}
         />
       </section>
 
