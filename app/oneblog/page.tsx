@@ -10,6 +10,7 @@ import type { Subscription, Blog } from "@/lib/db/schema.types";
 import { getSession } from "@/lib/session";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import PostsListFallback from "./components/posts-list-fallback";
 
 const parser = new Parser();
 
