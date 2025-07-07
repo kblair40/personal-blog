@@ -41,6 +41,12 @@ const OneBlog = async () => {
             for (let item of feed.items) {
               item.creator = item.creator || b.creator;
               item.blogId = b.id;
+              item.searchValue = (
+                item.creator +
+                " " +
+                item.title
+              ).toLowerCase();
+              console.log("searchValue:", item.searchValue);
             }
             return feed;
           })

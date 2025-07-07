@@ -65,6 +65,13 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
     }
   }
 
+  if (postSearchValue) {
+    _posts = _posts.filter((p) => {
+      // @ts-ignore
+      return (p.searchValue || "").includes(postSearchValue.toLowerCase());
+    });
+  }
+
   const visiblePostsCount = _posts.length;
 
   const sortedPosts =
