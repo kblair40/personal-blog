@@ -50,7 +50,7 @@ const OneBlog = async () => {
       {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
       <Suspense fallback={<div>Temp Fallback Placeholder</div>}>
         {posts !== null ? (
-          <PostsList posts={posts} />
+          <PostsList subscribedToBlogs={subscribedToBlogs} posts={posts} />
         ) : (
           <div className="flex flex-col items-center gap-y-2 w-fit">
             <p className="font-medium">You don't have any subscriptions</p>

@@ -9,7 +9,7 @@ const Post = ({ post }: Props) => {
   return (
     <div>
       <a target="_blank" href={post.link}>
-        <h3 className="font-medium">{post.title}</h3>
+        <h3 className="font-semibold text-lg">{post.title}</h3>
       </a>
       <div className="flex gap-x-3">
         <p className="opacity-20">{post.creator || "?"}</p>
