@@ -90,7 +90,7 @@ const SubscriptionList = ({
         <p className="text-2xl font-semibold">Update Your Subscriptions</p>
       </section>
 
-      <section className="my-4 flex space-x-2 items-center">
+      <section className="mt-4 mb-6 flex space-x-2 items-center">
         <Funnel />
         <Input
           placeholder="Filter blogs..."

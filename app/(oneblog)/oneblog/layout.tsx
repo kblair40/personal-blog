@@ -1,7 +1,9 @@
 import React from "react";
 
 const OneBlogLayout = ({ children }: React.PropsWithChildren) => {
-  return <div className="px-2 min-h-[calc(100dvh-48px)]">{children}</div>;
+  return (
+    <div className=" min-h-[calc(100dvh-64px)]">{children}</div>
+  );
 };
 
 export default OneBlogLayout;

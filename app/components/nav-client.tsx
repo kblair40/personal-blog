@@ -5,9 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { useUser } from "@/store/userStore";
-// import { logout } from "@/actions/logout";
 import { Button } from "./ui/button";
-// import NavAuth from "./nav-auth";
 
 type NavItem = Record<"name", string>;
 type NavItems = Record<string, NavItem>;
