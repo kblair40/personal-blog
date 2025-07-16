@@ -2,7 +2,6 @@
 
 import React, { useState, use } from "react";
 import { ExternalLink, Funnel, LoaderCircle } from "lucide-react";
-// import type { CheckedState } from "@radix-ui/react-checkbox";
 
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -22,7 +21,6 @@ const SubscriptionList = ({
   blogs: _blogs,
   subscriptions: _subscriptions,
 }: Props) => {
-  // const blogs = use(_blogs)
   const blogs = use(_blogs).map((b) => ({
     ...b,
     searchValue: b.name.toLowerCase() + " - " + b.creator.toLowerCase(),
@@ -74,9 +72,6 @@ const SubscriptionList = ({
         setSubs(_subs);
       }
     }
-    setTimeout(() => {
-      setToggling(null);
-    }, 500);
     console.groupEnd();
   }
 
