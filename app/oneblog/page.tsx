@@ -17,20 +17,30 @@ const parser = new Parser();
 const OneBlog = async () => {
   const session = await getSession();
 
-  if (!session) return <div>Error Fetching Current Session</div>;
+  let subscriptions: Subscription[] = [];
+  let blogs: Blog[] = [];
 
-  const [subscriptions, blogs] = await Promise.all([
-    db
-      .select()
-      .from(subscriptionsTable)
-      .where(eq(subscriptionsTable.userId, session.id)),
-    db.select().from(blogsTable),
-  ]);
+  // if (!session) return <div>Error Fetching Current Session</div>;
 
-  const subscribedToBlogIds = subscriptions.map((s) => s.blogId);
-  const subscribedToBlogs = blogs.filter((b) =>
-    subscribedToBlogIds.includes(b.id)
-  );
+  if (session) {
+    [subscriptions, blogs] = await Promise.all([
+      db
+        .select()
+        .from(subscriptionsTable)
+        .where(eq(subscriptionsTable.userId, session.id)),
+      db.select().from(blogsTable),
+    ]);
+  } else {
+    blogs = await db.select().from(blogsTable);
+  }
+
+  const subscribedToBlogIds = !session
+    ? []
+    : subscriptions.map((s) => s.blogId);
+
+  const subscribedToBlogs = !session
+    ? blogs
+    : blogs.filter((b) => subscribedToBlogIds.includes(b.id));
 
   const posts =
     subscribedToBlogs.length === 0
