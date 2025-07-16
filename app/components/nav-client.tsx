@@ -95,9 +95,12 @@ export function NavbarClient() {
     <aside className="-ml-[8px] tracking-tight">
       <div className="lg:sticky lg:top-20">
         <nav
-          className="flex flex-row items-start relative px-0 pb-0 fade md:overflow-auto scroll-pr-6 md:relative"
+          className="flex flex-row items-start relative px-6 sm:px-0 pb-0 fade md:overflow-auto scroll-pr-6 md:relative"
           id="nav"
         >
+          <div className="sm:hidden">
+            <NavMobile navItems={navItems} />
+          </div>
           <div className="space-x-0 hidden sm:flex sm:flex-row sm:pr-10">
             {Object.entries(navItems).map(([path, { name }]) => {
               return (
