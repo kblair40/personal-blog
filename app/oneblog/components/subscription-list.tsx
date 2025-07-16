@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, use } from "react";
-import { ExternalLink, Funnel } from "lucide-react";
+import { ExternalLink, Funnel, LoaderCircle } from "lucide-react";
 // import type { CheckedState } from "@radix-ui/react-checkbox";
 
 import { Label } from "@/components/ui/label";
@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import type { Blog, Subscription } from "@/lib/db/schema.types";
 import { updateSubscription } from "@/actions/update-subscription";
+import { cn } from "@/lib/utils";
 
 type Props = {
   userId: number;
@@ -40,6 +41,7 @@ const SubscriptionList = ({
     console.group("Toggle Subscription");
     console.log({ blogId, blogName: name, userId, add });
 
+    setToggling(blogId);
     if (add) {
       console.log("Adding");
 
@@ -72,6 +74,9 @@ const SubscriptionList = ({
         setSubs(_subs);
       }
     }
+    setTimeout(() => {
+      setToggling(null);
+    }, 500);
     console.groupEnd();
   }
 
@@ -92,7 +97,10 @@ const SubscriptionList = ({
 
       <section className="my-4 flex space-x-2 items-center">
         <Funnel />
-        <Input placeholder="Filter blogs..." onChange={(e) => setFilterValue(e.target.value)} />
+        <Input
+          placeholder="Filter blogs..."
+          onChange={(e) => setFilterValue(e.target.value)}
+        />
       </section>
 
       <section className="flex flex-col gap-y-3">
@@ -100,15 +108,27 @@ const SubscriptionList = ({
         {filteredBlogs.map(({ id, name, blogUrl, creator }) => {
           return (
             <div key={id} className="flex items-center">
-              <Checkbox
-                name={name}
-                id={name}
-                onCheckedChange={(checked) =>
-                  toggleSubscription({ blogId: id, name }, !!checked)
-                }
-                checked={subscribedToBlogs.includes(id)}
-              />
-              <Label className="ml-2" htmlFor={name}>
+              {toggling !== id ? (
+                <Checkbox
+                  name={name}
+                  id={name}
+                  onCheckedChange={(checked) =>
+                    toggleSubscription({ blogId: id, name }, !!checked)
+                  }
+                  checked={subscribedToBlogs.includes(id)}
+                />
+              ) : (
+                <LoaderCircle size={16} className="animate-spin" />
+              )}
+              <Label
+                className={cn(
+                  "ml-2",
+                  typeof toggling === "number"
+                    ? "opacity-80 pointer-events-none"
+                    : ""
+                )}
+                htmlFor={name}
+              >
                 {name} - {creator || name}
               </Label>
 
