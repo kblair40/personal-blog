@@ -6,9 +6,10 @@ import Link from "next/link";
 
 import { useUser } from "@/store/userStore";
 import { Button } from "./ui/button";
+import NavMobile from "./nav-mobile";
 
 type NavItem = Record<"name", string>;
-type NavItems = Record<string, NavItem>;
+export type NavItems = Record<string, NavItem>;
 
 const myBlogRoutes: NavItems = {
   "/": {
@@ -97,7 +98,7 @@ export function NavbarClient() {
           className="flex flex-row items-start relative px-0 pb-0 fade md:overflow-auto scroll-pr-6 md:relative"
           id="nav"
         >
-          <div className="flex flex-row space-x-0 pr-10">
+          <div className="space-x-0 hidden sm:flex sm:flex-row sm:pr-10">
             {Object.entries(navItems).map(([path, { name }]) => {
               return (
                 <Button variant="link" key={path}>
