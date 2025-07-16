@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 
 import db from "@/lib/db";
-import { blogData } from "@/oneblog/utils/blogs";
+import { blogData } from "@/(oneblog)/oneblog/utils/blogs";
 import { blogsTable } from "@/lib/db/schema";
 import type { Blog, BlogInsert } from "@/lib/db/schema.types";
 
