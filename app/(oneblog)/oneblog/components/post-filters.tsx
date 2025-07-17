@@ -64,7 +64,7 @@ const PostFilters = ({
           <Button
             onClick={() => onChangeSortDir(sortDir === "desc" ? "asc" : "desc")}
             size="lg"
-            className="p-0 text-base mr-4"
+            className="w-full sm:w-fit p-0 text-base mr-4"
             variant="secondary"
           >
             Date{" "}
@@ -82,7 +82,7 @@ const PostFilters = ({
         value={selectedBlog ? selectedBlog.toString() : undefined}
         onValueChange={(v) => handleChangeBlog(v)}
       >
-        <SelectTrigger className={cn("min-h-10 w-72 md:mr-4")}>
+        <SelectTrigger className={cn("min-h-10 w-full sm:w-72 md:mr-4")}>
           <SelectValue placeholder="Select Blog" />
         </SelectTrigger>
 
@@ -96,7 +96,7 @@ const PostFilters = ({
           })}
 
           <Button
-            className="w-full px-2"
+            className="px-2"
             variant="secondary"
             size="sm"
             onClick={(e) => {
@@ -111,7 +111,7 @@ const PostFilters = ({
 
       <Input
         placeholder="Search Posts"
-        className={cn("w-40 h-10")}
+        className={cn("w-full sm:w-60 h-10")}
         value={postSearchValue}
         onChange={(e) => onChangePostSearchValue(e.target.value)}
       />

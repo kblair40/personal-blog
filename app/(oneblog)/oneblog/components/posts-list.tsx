@@ -3,6 +3,7 @@
 import React, { use, useState } from "react";
 import Parser from "rss-parser";
 import type { Item } from "rss-parser";
+import { clsx } from "clsx";
 
 import Post from "./post";
 import PostFilters from "./post-filters";
@@ -81,7 +82,13 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
   return (
     <div className="w-full flex flex-col relative gap-y-4">
       <section className="w-full h-[136px] sm:h-[88px] md:h-10">
-        <div className="sm:w-[412px] md:w-[572px] absolute left-1/2 -translate-x-1/2 flex flex-col sm:flex-row gap-y-2 flex-wrap md:flex-nowrap">
+        <div
+          className={clsx(
+            "w-full sm:w-[412px] md:w-[572px] flex flex-col sm:flex-row gap-y-2 flex-wrap md:flex-nowrap",
+            // "absolute left-1/2 -translate-x-1/2"
+            "sm:absolute sm:left-1/2 sm:-translate-x-1/2",
+          )}
+        >
           <PostFilters
             subscribedToBlogs={subscribedToBlogs}
             selectedBlog={selectedBlog}
