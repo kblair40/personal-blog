@@ -52,7 +52,7 @@ export function NavbarClient() {
   const isOneBlog = pathname.startsWith("/oneblog");
 
   const { getSession, session } = useUser();
-  const isAuthenticated = session === undefined ? null : !!session;
+  const isAuthenticated = !!session;
 
   const [navItems, setNavItems] = useState<NavItems>(getNavItems());
   const [loggingOut, setLoggingOut] = useState(false);
@@ -99,7 +99,12 @@ export function NavbarClient() {
           id="nav"
         >
           <div className="sm:hidden">
-            <NavMobile navItems={navItems} />
+            <NavMobile
+              onClickLogout={handleClickLogout}
+              loggingOut={loggingOut}
+              navItems={navItems}
+              isAuthenticated={isAuthenticated}
+            />
           </div>
           <div className="space-x-0 hidden sm:flex sm:flex-row sm:pr-10">
             {Object.entries(navItems).map(([path, { name }]) => {
