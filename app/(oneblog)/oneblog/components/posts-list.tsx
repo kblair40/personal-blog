@@ -80,7 +80,7 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
         );
 
   return (
-    <div className="w-full flex flex-col relative gap-y-4">
+    <div className="w-full flex flex-col relative gap-y-6">
       <section className="w-full h-[136px] sm:h-[88px] md:h-10">
         <div
           className={clsx(
