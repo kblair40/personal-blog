@@ -137,6 +137,8 @@
   --breakpoint-lg: 960px;
   --breakpoint-xl: 1180px;
   --breakpoint-2xl: 1400px;
+
+  --spacing-fillpage: calc(100dvh - 64px);
 }
 
 @layer base {
@@ -145,6 +147,12 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  .posts-grid {
+    @apply grid grid-cols-1 
+    grid-rows-[136px_24px_1fr] sm:grid-rows-[80px_24px_1fr] md:grid-rows-[40px_24px_1fr] 
+    gap-y-6;
   }
 
   /* UTILS */

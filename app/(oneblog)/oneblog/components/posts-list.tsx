@@ -80,13 +80,13 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
         );
 
   return (
-    <div className="w-full flex flex-col relative gap-y-6">
+    // <div className="w-full flex flex-col relative gap-y-6">
+    <div className="w-full h-full posts-grid relative border">
       <section className="w-full h-[136px] sm:h-[88px] md:h-10">
         <div
           className={clsx(
             "w-full sm:w-[412px] md:w-[572px] flex flex-col sm:flex-row gap-y-2 flex-wrap md:flex-nowrap",
-            // "absolute left-1/2 -translate-x-1/2"
-            "sm:absolute sm:left-1/2 sm:-translate-x-1/2",
+            "sm:absolute sm:left-1/2 sm:-translate-x-1/2"
           )}
         >
           <PostFilters
@@ -101,14 +101,16 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
         </div>
       </section>
 
-      <section>
+      <section className="h-6">
         <p className="font-light text-neutral-600">
           Showing {visiblePostsCount} of {totalPostsCount} Posts
         </p>
       </section>
 
-      <section className="flex flex-col gap-y-6">
-        {sortedPosts.map((post, i) => {
+      {/* <section className="flex flex-col gap-y-6 border"> */}
+      <section className="flex flex-col gap-y-6 border max-h-full overflow-y-auto">
+        {/* {sortedPosts.map((post, i) => { */}
+        {sortedPosts.slice(0, 20).map((post, i) => {
           return <Post key={i} post={post} />;
         })}
       </section>
