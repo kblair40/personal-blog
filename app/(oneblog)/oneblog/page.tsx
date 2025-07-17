@@ -77,7 +77,8 @@ const OneBlog = async () => {
             {posts !== null ? (
               <PostsList subscribedToBlogs={subscribedToBlogs} posts={posts} />
             ) : (
-              <div className="flex flex-col items-center gap-y-2 w-fit">
+              // <div className="flex flex-col items-center gap-y-2 w-fit">
+              <div className="flex flex-col items-center gap-y-2">
                 <p className="font-medium">You don't have any subscriptions</p>
                 <Link href="/oneblog/subscriptions">
                   <Button>Add Some Here</Button>

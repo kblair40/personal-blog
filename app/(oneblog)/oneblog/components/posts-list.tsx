@@ -81,10 +81,11 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
 
   return (
     // <div className="w-full flex flex-col relative gap-y-6">
-    <div className="w-full h-full posts-grid relative border">
+    <div className="w-full h-full posts-grid relative">
       <section className="w-full h-[136px] sm:h-[88px] md:h-10">
         <div
           className={clsx(
+            // "w-full sm:w-[412px] md:w-[572px] flex flex-col sm:flex-row gap-y-2 flex-wrap md:flex-nowrap",
             "w-full sm:w-[412px] md:w-[572px] flex flex-col sm:flex-row gap-y-2 flex-wrap md:flex-nowrap",
             "sm:absolute sm:left-1/2 sm:-translate-x-1/2"
           )}
@@ -108,7 +109,7 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
       </section>
 
       {/* <section className="flex flex-col gap-y-6 border"> */}
-      <section className="flex flex-col gap-y-6 border max-h-full overflow-y-auto">
+      <section className="w-full flex flex-col gap-y-6 border max-h-full overflow-y-auto">
         {/* {sortedPosts.map((post, i) => { */}
         {sortedPosts.slice(0, 20).map((post, i) => {
           return <Post key={i} post={post} />;
