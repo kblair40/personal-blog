@@ -8,7 +8,7 @@ import { useUser } from "@/store/userStore";
 import { Button } from "./ui/button";
 import NavMobile from "./nav-mobile";
 
-type NavItem = Record<"name", string>;
+export type NavItem = Record<"name", string>;
 export type NavItems = Record<string, NavItem>;
 
 const myBlogRoutes: NavItems = {

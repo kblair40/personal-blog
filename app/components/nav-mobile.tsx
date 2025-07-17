@@ -15,7 +15,7 @@ import { Button } from "./ui/button";
 import { Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-import type { NavItems } from "./nav-client";
+import type { NavItems, NavItem } from "./nav-client";
 
 type Props = {
   navItems: NavItems;
@@ -32,6 +32,15 @@ const NavMobile = ({
 }: Props) => {
   const [open, setOpen] = useState(false);
 
+  let mainItems: [string, NavItem][];
+  let footerItems: [string, NavItem][] | null = null;
+  if (isAuthenticated) {
+    mainItems = Object.entries(navItems);
+  } else {
+    mainItems = Object.entries(navItems).slice(0, 3);
+    footerItems = Object.entries(navItems).slice(3);
+  }
+
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger>
@@ -42,9 +51,10 @@ const NavMobile = ({
         <SheetHeader className="border hidden">
           <SheetTitle></SheetTitle>
         </SheetHeader>
+
         <div className="flex flex-col h-full">
           <div className="flex flex-col gap-y-1.5">
-            {Object.entries(navItems).map(([path, { name }]) => {
+            {mainItems.map(([path, { name }]) => {
               return (
                 <Link key={name} href={path}>
                   <Button
@@ -59,7 +69,7 @@ const NavMobile = ({
           </div>
 
           <SheetFooter className="pl-0">
-            {isAuthenticated && (
+            {!footerItems && isAuthenticated ? (
               <div>
                 <Button
                   variant="ghost"
@@ -71,6 +81,20 @@ const NavMobile = ({
                   logout
                 </Button>
               </div>
+            ) : (
+              footerItems &&
+              footerItems.map(([path, { name }]) => {
+                return (
+                  <Link key={name} href={path}>
+                    <Button
+                      variant="ghost"
+                      className={cn("w-full text-xl justify-start")}
+                    >
+                      {name}
+                    </Button>
+                  </Link>
+                );
+              })
             )}
           </SheetFooter>
         </div>
