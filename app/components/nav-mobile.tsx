@@ -60,6 +60,7 @@ const NavMobile = ({
                   <Button
                     variant="ghost"
                     className={cn("w-full text-2xl justify-start")}
+                    onClick={() => setOpen(false)}
                   >
                     {name}
                   </Button>
@@ -89,6 +90,7 @@ const NavMobile = ({
                     <Button
                       variant="ghost"
                       className={cn("w-full text-xl justify-start")}
+                      onClick={() => setOpen(false)}
                     >
                       {name}
                     </Button>
