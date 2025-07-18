@@ -90,7 +90,7 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
         <div
           className={clsx(
             // "w-full sm:w-[412px] md:w-[572px] flex flex-col sm:flex-row gap-y-2 flex-wrap md:flex-nowrap",
-            "w-full sm:w-[412px] md:w-[572px] flex flex-col sm:flex-row gap-y-2 flex-wrap md:flex-nowrap",
+            "w-full sm:w-[412px] md:w-[572px] flex flex-col sm:flex-row gap-y-2 flex-wrap md:flex-nowrap"
             // "sm:absolute sm:left-1/2 sm:-translate-x-1/2"
           )}
         >
@@ -112,15 +112,13 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
         </p>
       </section>
 
-      {/* <section className="flex flex-col gap-y-6 border"> */}
       <section
         className={clsx(
           "w-full flex flex-col gap-y-6 border-t max-h-full overflow-y-auto pb-10 pt-2",
           sectionPadding
         )}
       >
-        {/* {sortedPosts.map((post, i) => { */}
-        {sortedPosts.slice(0, 20).map((post, i) => {
+        {sortedPosts.map((post, i) => {
           return <Post key={i} post={post} />;
         })}
       </section>
