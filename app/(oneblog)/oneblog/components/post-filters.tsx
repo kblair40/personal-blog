@@ -95,17 +95,19 @@ const PostFilters = ({
             );
           })}
 
-          <Button
-            className="px-2"
-            variant="secondary"
-            size="sm"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleChangeBlog(undefined);
-            }}
-          >
-            Clear
-          </Button>
+          <div className="pt-2 pb-1 px-1">
+            <Button
+              className="px-2 w-full"
+              variant="secondary"
+              size="sm"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleChangeBlog(undefined);
+              }}
+            >
+              Clear
+            </Button>
+          </div>
         </SelectContent>
       </Select>
 
