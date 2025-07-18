@@ -79,15 +79,19 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
             new Date(b.isoDate!).getTime() - new Date(a.isoDate!).getTime()
         );
 
+  const sectionPadding = "px-6 md:px-8 lg:px-10";
+
   return (
     // <div className="w-full flex flex-col relative gap-y-6">
     <div className="w-full h-full posts-grid relative">
-      <section className="w-full h-[136px] sm:h-[88px] md:h-10">
+      <section
+        className={clsx("w-full h-[136px] sm:h-[88px] md:h-10", sectionPadding)}
+      >
         <div
           className={clsx(
             // "w-full sm:w-[412px] md:w-[572px] flex flex-col sm:flex-row gap-y-2 flex-wrap md:flex-nowrap",
             "w-full sm:w-[412px] md:w-[572px] flex flex-col sm:flex-row gap-y-2 flex-wrap md:flex-nowrap",
-            "sm:absolute sm:left-1/2 sm:-translate-x-1/2"
+            // "sm:absolute sm:left-1/2 sm:-translate-x-1/2"
           )}
         >
           <PostFilters
@@ -102,14 +106,19 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
         </div>
       </section>
 
-      <section className="h-6">
+      <section className={clsx("h-6", sectionPadding)}>
         <p className="font-light text-neutral-600">
           Showing {visiblePostsCount} of {totalPostsCount} Posts
         </p>
       </section>
 
       {/* <section className="flex flex-col gap-y-6 border"> */}
-      <section className="w-full flex flex-col gap-y-6 border max-h-full overflow-y-auto">
+      <section
+        className={clsx(
+          "w-full flex flex-col gap-y-6 border-t max-h-full overflow-y-auto pb-10 pt-2",
+          sectionPadding
+        )}
+      >
         {/* {sortedPosts.map((post, i) => { */}
         {sortedPosts.slice(0, 20).map((post, i) => {
           return <Post key={i} post={post} />;
