@@ -26,7 +26,7 @@ const PostFiltersFallback = () => {
       </Button>
 
       <Select disabled value={undefined}>
-        <SelectTrigger className={cn("min-h-10 w-72 md:mr-4")}>
+        <SelectTrigger className={cn("min-h-10 w-full sm:max-w-72 md:mr-4")}>
           <SelectValue placeholder="Select Blog" />
         </SelectTrigger>
 
@@ -35,9 +35,11 @@ const PostFiltersFallback = () => {
             {" "}
           </SelectItem>
 
-          <Button className="w-full px-2" variant="secondary" size="sm">
-            Clear
-          </Button>
+          <div className="pt-2 pb-1 px-1">
+            <Button className="px-2 w-full" variant="secondary" size="sm">
+              Clear
+            </Button>
+          </div>
         </SelectContent>
       </Select>
 

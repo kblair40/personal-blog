@@ -81,8 +81,9 @@ const PostFilters = ({
         key={key}
         value={selectedBlog ? selectedBlog.toString() : undefined}
         onValueChange={(v) => handleChangeBlog(v)}
+        // open={true}
       >
-        <SelectTrigger className={cn("min-h-10 w-full sm:w-72 md:mr-4")}>
+        <SelectTrigger className={cn("min-h-10 w-full sm:max-w-72 md:mr-4")}>
           <SelectValue placeholder="Select Blog" />
         </SelectTrigger>
 
