@@ -43,7 +43,10 @@ const PostFiltersFallback = () => {
         </SelectContent>
       </Select>
 
-      <Input placeholder="Search Posts" className={cn("w-40 h-10")} />
+      <Input
+        placeholder="Search Posts"
+        className={cn("w-full sm:w-60 md:w-72 h-10")}
+      />
     </>
   );
 };

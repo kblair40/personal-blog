@@ -30,15 +30,8 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
   );
   const [postSearchValue, setPostSearchValue] = useState<string>("");
 
-  const filteredBlogs = !selectedBlog
-    ? subscribedToBlogs
-    : subscribedToBlogs.filter((blog) => selectedBlog === blog.id);
-
   function handleChangeSelectedBlog(value: number | undefined) {
     setSelectedBlog(value);
-    if (typeof value === "number") {
-      //
-    }
   }
 
   const totalPostsCount = postArrays.reduce(
@@ -82,16 +75,13 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
   const sectionPadding = "px-6 md:px-8 lg:px-10";
 
   return (
-    // <div className="w-full flex flex-col relative gap-y-6">
     <div className="w-full h-full posts-grid relative">
       <section
         className={clsx("w-full h-[136px] sm:h-[88px] md:h-10", sectionPadding)}
       >
         <div
           className={clsx(
-            // "w-full sm:w-[412px] md:w-[572px] flex flex-col sm:flex-row gap-y-2 flex-wrap md:flex-nowrap",
-            "w-full sm:w-[412px] md:w-[572px] flex flex-col sm:flex-row gap-y-2 flex-wrap md:flex-nowrap"
-            // "sm:absolute sm:left-1/2 sm:-translate-x-1/2"
+            "w-full flex flex-col sm:flex-row gap-y-2 flex-wrap md:flex-nowrap"
           )}
         >
           <PostFilters

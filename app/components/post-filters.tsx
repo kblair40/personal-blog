@@ -114,7 +114,7 @@ const PostFilters = ({
 
       <Input
         placeholder="Search Posts"
-        className={cn("w-full sm:w-60 h-10")}
+        className={cn("w-full sm:w-60 md:w-72 h-10")}
         value={postSearchValue}
         onChange={(e) => onChangePostSearchValue(e.target.value)}
       />
