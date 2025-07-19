@@ -57,7 +57,7 @@ const OneBlog = async () => {
                 " " +
                 item.title
               ).toLowerCase();
-              console.log("searchValue:", item.searchValue);
+              // console.log("searchValue:", item.searchValue);
             }
             return feed;
           })

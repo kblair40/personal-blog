@@ -31,4 +31,19 @@ export const BLOG_DATA: Blogs = {
     blogHome: "https://cri.dev/",
     creator: "Christian Fei",
   },
+  "Stefan Judis": {
+    rss: "https://www.stefanjudis.com/rss.xml",
+    blogHome: "https://www.stefanjudis.com/",
+    creator: "Stefan Judis"
+  },
+  "Sia Codes": {
+    rss: "https://sia.codes/feed/feed.xml",
+    blogHome: "https://sia.codes/posts/",
+    creator: "Sia Karamalegos"
+  },
+  "Gleb Bahmutov": {
+    rss: "https://glebbahmutov.com/blog/atom.xml",
+    blogHome: "https://glebbahmutov.com/blog/",
+    creator: "Gleb Bahmutov"
+  },
 };
