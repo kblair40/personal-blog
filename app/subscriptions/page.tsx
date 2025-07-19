@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 
 import type { Session } from "@/lib/types";
 import { getSession } from "@/lib/session";
-import SubscriptionList from "../../../components/subscription-list";
+import SubscriptionList from "../components/subscription-list";
 import db from "@/lib/db";
 import { blogsTable, subscriptionsTable } from "@/lib/db/schema";
 import type { Blog, Subscription } from "@/lib/db/schema.types";

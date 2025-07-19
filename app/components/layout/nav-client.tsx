@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { useUser } from "@/store/userStore";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import NavMobile from "./nav-mobile";
 
 export type NavItem = Record<"name", string>;
