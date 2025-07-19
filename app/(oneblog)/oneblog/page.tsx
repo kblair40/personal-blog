@@ -2,15 +2,15 @@ import React, { Suspense } from "react";
 import Parser from "rss-parser";
 import { eq } from "drizzle-orm";
 
-import { blogData } from "./utils/blogs";
-import PostsList from "./components/posts-list";
+// import { BLOG_DATA } from "@/lib/constants";
+import PostsList from "@/components/posts-list";
 import db from "@/lib/db";
 import { subscriptionsTable, blogsTable } from "@/lib/db/schema";
 import type { Subscription, Blog } from "@/lib/db/schema.types";
 import { getSession } from "@/lib/session";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import PostsListFallback from "./components/posts-list-fallback";
+import PostsListFallback from "@/components/posts-list-fallback";
 
 const parser = new Parser();
 

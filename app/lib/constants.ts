@@ -1,6 +1,6 @@
 type Blogs = Record<string, { rss: string; blogHome: string; creator: string }>;
 
-export const blogData: Blogs = {
+export const BLOG_DATA: Blogs = {
   "Kevin Blair": {
     rss: "http://localhost:3001/rss",
     blogHome: "http://localhost:3001",

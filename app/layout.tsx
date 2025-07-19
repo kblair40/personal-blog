@@ -70,7 +70,8 @@ export default function RootLayout({
               <NavbarClient />
             </div>
 
-            <div className="pt-16">{children}</div>
+            <div className="pt-16 min-h-[calc(100dvh-64px)]">{children}</div>
+            {/* <div className="pt-16">{children}</div> */}
 
             <Footer />
             <Analytics />
