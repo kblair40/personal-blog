@@ -108,11 +108,11 @@ const SubscriptionList = ({
           placeholder="Filter blogs..."
           onChange={(e) => setFilterValue(e.target.value)}
         />
-      </section>
+      </section> 
 
       <section
         className={
-          "border-t pt-4 flex flex-col gap-y-3 max-h-full overflow-y-auto " +
+          "border-t pt-4 flex flex-col gap-y-2 max-h-full overflow-y-auto " +
           sectionPadding
         }
       >
@@ -133,7 +133,7 @@ const SubscriptionList = ({
               )}
               <Label
                 className={cn(
-                  "ml-2",
+                  "ml-2 text-base",
                   typeof toggling === "number"
                     ? "opacity-80 pointer-events-none"
                     : ""
