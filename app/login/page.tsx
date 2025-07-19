@@ -45,14 +45,17 @@ const Login = () => {
 
     setSaving(false);
 
-    redirect("/oneblog");
+    redirect("/");
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      className="page-wrapper max-w-xs sm:max-w-3xl mx-auto"
+    >
       <div className="flex flex-col gap-y-5">
-        <section className="flex gap-x-6">
-          <div className="w-1/2">
+        <section className="flex flex-col gap-y-6 sm:gap-x-6 sm:gap-y-0 sm:flex-row">
+          <div className="w-full sm:w-1/2">
             <Label className="mb-1" htmlFor="email">
               Email
             </Label>
@@ -64,7 +67,7 @@ const Login = () => {
             />
           </div>
 
-          <div className="w-1/2">
+          <div className="w-full sm:w-1/2">
             <Label className="mb-1" htmlFor="password">
               Password
             </Label>
@@ -77,7 +80,7 @@ const Login = () => {
           </div>
         </section>
 
-        <section className="w-1/2 mx-auto pt-4">
+        <section className="w-full sm:w-1/2 mx-auto pt-4">
           <Button disabled={saving} size="lg" className="w-full">
             Login
           </Button>

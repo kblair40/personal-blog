@@ -8,9 +8,9 @@ import { useUser } from "@/store/userStore";
 import { Button } from "@/components/ui/button";
 import NavMobile from "./nav-mobile";
 
-export type _NavItem = { path: string; label: string };
-export type NavItem = Record<"name", string>;
-export type NavItems = Record<string, NavItem>;
+export type NavItem = { path: string; label: string };
+// export type NavItem = Record<"name", string>;
+// export type NavItems = Record<string, NavItem>;
 
 const ROUTES = [
   { path: "/", label: "home" },
@@ -21,25 +21,23 @@ const NOT_AUTH_ROUTES = [
   { path: "/login", label: "login" },
 ];
 
-const routes: NavItems = {
-  "/": {
-    name: "home",
-  },
-  "/subscriptions": {
-    name: "subscriptions",
-  },
-};
+// const routes: NavItems = {
+//   "/": {
+//     name: "home",
+//   },
+//   "/subscriptions": {
+//     name: "subscriptions",
+//   },
+// };
 
-const notAuthRoutes: NavItems = {
-  "/oneblog/signup": {
-    name: "signup",
-  },
-  "/oneblog/login": {
-    name: "login",
-  },
-};
-
-const NavLabels: (keyof typeof routes | keyof typeof notAuthRoutes)[] = [];
+// const notAuthRoutes: NavItems = {
+//   "/oneblog/signup": {
+//     name: "signup",
+//   },
+//   "/oneblog/login": {
+//     name: "login",
+//   },
+// };
 
 export function NavbarClient() {
   const router = useRouter();
@@ -50,12 +48,17 @@ export function NavbarClient() {
   const { getSession, session } = useUser();
   const isAuthenticated = !!session;
 
-  const [navItems, setNavItems] = useState<NavItems>(getNavItems);
+  const [navItems, setNavItems] = useState<NavItem[]>();
   const [loggingOut, setLoggingOut] = useState(false);
 
   function getNavItems() {
-    const authRoutes = !isAuthenticated ? notAuthRoutes : {};
-    return { ...routes, ...authRoutes };
+    // const authRoutes = !isAuthenticated ? notAuthRoutes : {};
+    // return { ...routes, ...authRoutes };
+    if (isAuthenticated) {
+      return ROUTES;
+    } else {
+      return [ROUTES[0], ...NOT_AUTH_ROUTES];
+    }
   }
 
   async function handleClickLogout() {
@@ -68,7 +71,7 @@ export function NavbarClient() {
 
     if (logoutRes.status === 200) {
       await getSession();
-      router.replace("/oneblog");
+      router.replace("/");
       router.refresh();
     } else {
       console.warn("Logout failed");
@@ -90,59 +93,64 @@ export function NavbarClient() {
           id="nav"
         >
           <div className="sm:hidden">
-            <NavMobile
-              onClickLogout={handleClickLogout}
-              loggingOut={loggingOut}
-              navItems={navItems}
-              isAuthenticated={isAuthenticated}
-            />
+            {navItems && (
+              <NavMobile
+                onClickLogout={handleClickLogout}
+                loggingOut={loggingOut}
+                navItems={navItems}
+                isAuthenticated={isAuthenticated}
+              />
+            )}
           </div>
 
           <div className="flex items-center justify-between w-full">
-            <div className="space-x-0 hidden sm:flex sm:flex-row">
-              {ROUTES.map(({ path, label }) => {
-                return (
-                  <Button variant="link" key={path}>
-                    <Link
-                      href={path}
-                      className={path === pathname ? "underline" : ""}
-                    >
-                      {label}
-                    </Link>
-                  </Button>
-                );
-              })}
+            <section className="space-x-0 hidden sm:flex sm:flex-row">
+              {ROUTES.slice(0, isAuthenticated ? 2 : 1).map(
+                ({ path, label }) => {
+                  return (
+                    <Button variant="link" key={path}>
+                      <Link
+                        href={path}
+                        className={path === pathname ? "underline" : ""}
+                      >
+                        {label}
+                      </Link>
+                    </Button>
+                  );
+                }
+              )}
+            </section>
 
-              <div className="flex items-center">
-                {isAuthenticated ? (
-                  <Button
-                    variant="link"
-                    disabled={loggingOut}
-                    onClick={handleClickLogout}
-                    key="logout"
-                  >
-                    logout
-                  </Button>
-                ) : (
-                  <>
-                    {NOT_AUTH_ROUTES.map(({ path, label }) => {
-                      return (
-                        <Button variant="link" key={path}>
-                          <Link
-                            href={path}
-                            className={path === pathname ? "underline" : ""}
-                          >
-                            {label}
-                          </Link>
-                        </Button>
-                      );
-                    })}
-                  </>
-                )}
-              </div>
+            <section className="space-x-0 hidden sm:flex sm:flex-row">
+              {isAuthenticated ? (
+                <Button
+                  variant="link"
+                  disabled={loggingOut}
+                  onClick={handleClickLogout}
+                  key="logout"
+                >
+                  logout
+                </Button>
+              ) : (
+                <>
+                  {NOT_AUTH_ROUTES.map(({ path, label }) => {
+                    return (
+                      <Button variant="link" key={path}>
+                        <Link
+                          href={path}
+                          className={path === pathname ? "underline" : ""}
+                        >
+                          {label}
+                        </Link>
+                      </Button>
+                    );
+                  })}
+                </>
+              )}
+              {/* </div> */}
 
               {/* <div>isAuthenticated: {String(isAuthenticated)}</div> */}
-            </div>
+            </section>
           </div>
         </nav>
       </div>

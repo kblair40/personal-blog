@@ -7,9 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { signup, type SignupInput } from "@/actions/signup";
 
-type Props = {};
-
-const Signup = (props: Props) => {
+const Signup = () => {
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState<SignupInput>({
     firstName: "",
@@ -53,10 +51,13 @@ const Signup = (props: Props) => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      className="page-wrapper max-w-xs sm:max-w-3xl mx-auto"
+    >
       <div className="flex flex-col gap-y-5">
-        <section className="flex gap-x-6">
-          <div className="w-1/2">
+        <section className="flex flex-col gap-y-6 sm:gap-x-6 sm:gap-y-0 sm:flex-row">
+          <div className="w-full sm:w-1/2">
             <Label className="mb-1" htmlFor="firstName">
               First Name
             </Label>
@@ -68,7 +69,7 @@ const Signup = (props: Props) => {
             />
           </div>
 
-          <div className="w-1/2">
+          <div className="w-full sm:w-1/2">
             <Label className="mb-1" htmlFor="lastName">
               Last Name
             </Label>
@@ -95,8 +96,8 @@ const Signup = (props: Props) => {
           </div>
         </section>
 
-        <section className="flex gap-x-6">
-          <div className="w-1/2">
+        <section className="flex flex-col gap-y-6 sm:gap-x-6 sm:gap-y-0 sm:flex-row">
+          <div className="w-full sm:w-1/2">
             <Label className="mb-1" htmlFor="password">
               Password
             </Label>
@@ -108,7 +109,7 @@ const Signup = (props: Props) => {
             />
           </div>
 
-          <div className="w-1/2">
+          <div className="w-full sm:w-1/2">
             <Label className="mb-1" htmlFor="confirmPassword">
               Confirm Password
             </Label>
@@ -121,7 +122,7 @@ const Signup = (props: Props) => {
           </div>
         </section>
 
-        <section className="w-1/2 mx-auto pt-4">
+        <section className="w-full sm:w-1/2 mx-auto pt-4">
           <Button disabled={saving} size="lg" className="w-full">
             Signup
           </Button>

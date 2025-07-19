@@ -15,10 +15,10 @@ import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-import type { NavItems, NavItem } from "./nav-client";
+import type { NavItem } from "./nav-client";
 
 type Props = {
-  navItems: NavItems;
+  navItems: NavItem[];
   isAuthenticated: boolean;
   onClickLogout: () => Promise<void>;
   loggingOut: boolean;
@@ -31,14 +31,13 @@ const NavMobile = ({
   loggingOut,
 }: Props) => {
   const [open, setOpen] = useState(false);
-
-  let mainItems: [string, NavItem][];
-  let footerItems: [string, NavItem][] | null = null;
+  let mainItems: NavItem[];
+  let footerItems: NavItem[] | null = null;
   if (isAuthenticated) {
-    mainItems = Object.entries(navItems);
+    mainItems = navItems;
   } else {
-    mainItems = Object.entries(navItems).slice(0, 3);
-    footerItems = Object.entries(navItems).slice(3);
+    mainItems = navItems.slice(0, 3);
+    footerItems = navItems.slice(3);
   }
 
   return (
@@ -54,15 +53,15 @@ const NavMobile = ({
 
         <div className="flex flex-col h-full">
           <div className="flex flex-col gap-y-1.5">
-            {mainItems.map(([path, { name }]) => {
+            {mainItems.map(({ path, label }) => {
               return (
-                <Link key={name} href={path}>
+                <Link key={path} href={path}>
                   <Button
                     variant="ghost"
                     className={cn("w-full text-2xl justify-start")}
                     onClick={() => setOpen(false)}
                   >
-                    {name}
+                    {label}
                   </Button>
                 </Link>
               );
@@ -84,15 +83,15 @@ const NavMobile = ({
               </div>
             ) : (
               footerItems &&
-              footerItems.map(([path, { name }]) => {
+              footerItems.map(({ path, label }) => {
                 return (
-                  <Link key={name} href={path}>
+                  <Link key={label} href={path}>
                     <Button
                       variant="ghost"
                       className={cn("w-full text-xl justify-start")}
                       onClick={() => setOpen(false)}
                     >
-                      {name}
+                      {label}
                     </Button>
                   </Link>
                 );
