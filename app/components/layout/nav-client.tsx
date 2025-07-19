@@ -13,47 +13,26 @@ export type NavItem = { path: string; label: string };
 // export type NavItems = Record<string, NavItem>;
 
 const ROUTES = [
-  { path: "/", label: "home" },
-  { path: "/subscriptions", label: "subscriptions" },
+  { path: "/", label: "Home" },
+  { path: "/subscriptions", label: "Subscriptions" },
 ];
 const NOT_AUTH_ROUTES = [
-  { path: "/signup", label: "signup" },
-  { path: "/login", label: "login" },
+  { path: "/signup", label: "Sign Up" },
+  { path: "/login", label: "Login" },
 ];
-
-// const routes: NavItems = {
-//   "/": {
-//     name: "home",
-//   },
-//   "/subscriptions": {
-//     name: "subscriptions",
-//   },
-// };
-
-// const notAuthRoutes: NavItems = {
-//   "/oneblog/signup": {
-//     name: "signup",
-//   },
-//   "/oneblog/login": {
-//     name: "login",
-//   },
-// };
 
 export function NavbarClient() {
   const router = useRouter();
-
   const pathname = usePathname();
-  console.log("pathname:", pathname);
 
   const { getSession, session } = useUser();
+
   const isAuthenticated = !!session;
 
   const [navItems, setNavItems] = useState<NavItem[]>();
   const [loggingOut, setLoggingOut] = useState(false);
 
   function getNavItems() {
-    // const authRoutes = !isAuthenticated ? notAuthRoutes : {};
-    // return { ...routes, ...authRoutes };
     if (isAuthenticated) {
       return ROUTES;
     } else {
@@ -129,7 +108,7 @@ export function NavbarClient() {
                   onClick={handleClickLogout}
                   key="logout"
                 >
-                  logout
+                  Log Out
                 </Button>
               ) : (
                 <>
