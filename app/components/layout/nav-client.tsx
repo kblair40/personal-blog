@@ -8,34 +8,29 @@ import { useUser } from "@/store/userStore";
 import { Button } from "@/components/ui/button";
 import NavMobile from "./nav-mobile";
 
+export type _NavItem = { path: string; label: string };
 export type NavItem = Record<"name", string>;
 export type NavItems = Record<string, NavItem>;
 
-const myBlogRoutes: NavItems = {
+const ROUTES = [
+  { path: "/", label: "home" },
+  { path: "/subscriptions", label: "subscriptions" },
+];
+const NOT_AUTH_ROUTES = [
+  { path: "/signup", label: "signup" },
+  { path: "/login", label: "login" },
+];
+
+const routes: NavItems = {
   "/": {
     name: "home",
   },
-  "/blog": {
-    name: "blog",
-  },
-  "/oneblog": {
-    name: "one-blog",
-  },
-};
-
-const oneBlogRoutes: NavItems = {
-  "/": {
-    name: "kb blog",
-  },
-  "/oneblog": {
-    name: "one-blog",
-  },
-  "/oneblog/subscriptions": {
+  "/subscriptions": {
     name: "subscriptions",
   },
 };
 
-const oneBlogNotAuthenticatedRoutes: NavItems = {
+const notAuthRoutes: NavItems = {
   "/oneblog/signup": {
     name: "signup",
   },
@@ -44,27 +39,23 @@ const oneBlogNotAuthenticatedRoutes: NavItems = {
   },
 };
 
+const NavLabels: (keyof typeof routes | keyof typeof notAuthRoutes)[] = [];
+
 export function NavbarClient() {
   const router = useRouter();
 
   const pathname = usePathname();
   console.log("pathname:", pathname);
-  const isOneBlog = pathname.startsWith("/oneblog");
 
   const { getSession, session } = useUser();
   const isAuthenticated = !!session;
 
-  const [navItems, setNavItems] = useState<NavItems>(getNavItems());
+  const [navItems, setNavItems] = useState<NavItems>(getNavItems);
   const [loggingOut, setLoggingOut] = useState(false);
 
   function getNavItems() {
-    if (!isOneBlog) {
-      return myBlogRoutes;
-    } else {
-      const authRoutes = session === null ? oneBlogNotAuthenticatedRoutes : {};
-      // isAuthenticated === false ? oneBlogNotAuthenticatedRoutes : {};
-      return { ...oneBlogRoutes, ...authRoutes };
-    }
+    const authRoutes = !isAuthenticated ? notAuthRoutes : {};
+    return { ...routes, ...authRoutes };
   }
 
   async function handleClickLogout() {
@@ -92,7 +83,7 @@ export function NavbarClient() {
   }, [pathname, isAuthenticated]);
 
   return (
-    <aside className="-ml-[8px] tracking-tight">
+    <aside className="-ml-[8px] tracking-tight w-full">
       <div className="lg:sticky lg:top-20">
         <nav
           className="flex flex-row items-start relative px-6 sm:px-0 pb-0 fade md:overflow-auto scroll-pr-6 md:relative"
@@ -106,32 +97,52 @@ export function NavbarClient() {
               isAuthenticated={isAuthenticated}
             />
           </div>
-          <div className="space-x-0 hidden sm:flex sm:flex-row sm:pr-10">
-            {Object.entries(navItems).map(([path, { name }]) => {
-              return (
-                <Button variant="link" key={path}>
-                  <Link
-                    href={path}
-                    className={path === pathname ? "underline" : ""}
+
+          <div className="flex items-center justify-between w-full">
+            <div className="space-x-0 hidden sm:flex sm:flex-row">
+              {ROUTES.map(({ path, label }) => {
+                return (
+                  <Button variant="link" key={path}>
+                    <Link
+                      href={path}
+                      className={path === pathname ? "underline" : ""}
+                    >
+                      {label}
+                    </Link>
+                  </Button>
+                );
+              })}
+
+              <div className="flex items-center">
+                {isAuthenticated ? (
+                  <Button
+                    variant="link"
+                    disabled={loggingOut}
+                    onClick={handleClickLogout}
+                    key="logout"
                   >
-                    {name}
-                  </Link>
-                </Button>
-              );
-            })}
+                    logout
+                  </Button>
+                ) : (
+                  <>
+                    {NOT_AUTH_ROUTES.map(({ path, label }) => {
+                      return (
+                        <Button variant="link" key={path}>
+                          <Link
+                            href={path}
+                            className={path === pathname ? "underline" : ""}
+                          >
+                            {label}
+                          </Link>
+                        </Button>
+                      );
+                    })}
+                  </>
+                )}
+              </div>
 
-            {isAuthenticated === true && (
-              <Button
-                variant="link"
-                disabled={loggingOut}
-                onClick={handleClickLogout}
-                key="logout"
-              >
-                logout
-              </Button>
-            )}
-
-            {/* <div>isAuthenticated: {String(isAuthenticated)}</div> */}
+              {/* <div>isAuthenticated: {String(isAuthenticated)}</div> */}
+            </div>
           </div>
         </nav>
       </div>
