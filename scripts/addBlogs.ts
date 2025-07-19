@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 
 import db from "@/lib/db";
-import { blogData } from "@/(oneblog)/oneblog/utils/blogs";
+import { BLOG_DATA } from "@/lib/constants";
 import { blogsTable } from "@/lib/db/schema";
 import type { Blog, BlogInsert } from "@/lib/db/schema.types";
 
@@ -32,8 +32,8 @@ async function addBlogs() {
   const blogMap = makeBlogMap(blogs);
 
   console.log("\nAll blogs:", blogs, "\n");
-  for (const name in blogData) {
-    const { rss: rssUrl, blogHome: blogUrl, creator } = blogData[name];
+  for (const name in BLOG_DATA) {
+    const { rss: rssUrl, blogHome: blogUrl, creator } = BLOG_DATA[name];
 
     const blog: BlogInsert = { creator, name, blogUrl, rssUrl };
 

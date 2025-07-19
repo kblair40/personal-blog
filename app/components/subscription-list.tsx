@@ -108,7 +108,7 @@ const SubscriptionList = ({
           placeholder="Filter blogs..."
           onChange={(e) => setFilterValue(e.target.value)}
         />
-      </section> 
+      </section>
 
       <section
         className={
