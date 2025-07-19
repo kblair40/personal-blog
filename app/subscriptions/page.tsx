@@ -25,7 +25,7 @@ const OneBlogSubscriptions = async (props: Props) => {
     .where(eq(subscriptionsTable.userId, session.id));
 
   return (
-    <div className="pt-8 px-2">
+    <div className="pt-8 h-fillpage max-h-fillpage overflow-hidden">
       <Suspense fallback={<div />}>
         <SubscriptionList
           userId={session.id}

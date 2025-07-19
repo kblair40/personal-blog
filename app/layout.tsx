@@ -23,15 +23,15 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "Blog",
-    template: "%s | Kevin Blair Blog",
+    default: "OneBlog",
+    template: "%s | OneBlog",
   },
-  description: "Kevin Blair's personal blog.",
+  description: "Dev/Tech Blog Aggregator",
   openGraph: {
-    title: "Kevin Blair's Blog",
-    description: "Kevin Blair's personal blog.",
+    title: "OneBlog",
+    description: "Dev/Tech Blog Aggregator",
     url: baseUrl,
-    siteName: "My Portfolio",
+    siteName: "OneBlog",
     locale: "en_US",
     type: "website",
   },
@@ -71,7 +71,7 @@ export default function RootLayout({
 
             <div className="pt-16 min-h-[calc(100dvh-64px)]">{children}</div>
 
-            <Footer />
+            {/* <Footer /> */}
             <Analytics />
             <SpeedInsights />
           </main>

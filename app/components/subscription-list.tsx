@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import type { Blog, Subscription } from "@/lib/db/schema.types";
 import { updateSubscription } from "@/actions/update-subscription";
 import { cn } from "@/lib/utils";
+import clsx from "clsx";
 
 type Props = {
   userId: number;
@@ -40,6 +41,7 @@ const SubscriptionList = ({
     console.log({ blogId, blogName: name, userId, add });
 
     setToggling(blogId);
+
     if (add) {
       console.log("Adding");
 
@@ -72,11 +74,9 @@ const SubscriptionList = ({
         setSubs(_subs);
       }
     }
-    console.groupEnd();
-  }
 
-  function formatBlog(blog: Blog) {
-    //
+    setToggling(null);
+    console.groupEnd();
   }
 
   const subscribedToBlogs = subs.map((s) => s.blogId);
@@ -84,13 +84,25 @@ const SubscriptionList = ({
     ? blogs.filter((b) => b.searchValue.includes(filterValue))
     : blogs;
 
+  const sectionPadding = "px-4 sm:px-6 md:px-8 lg:px-10";
+
   return (
-    <div className="w-fit">
-      <section>
+    <div
+      className={clsx(
+        "w-full h-full",
+        "grid grid-cols-1 gap-y-6",
+        "grid-rows-[32px_36px_1fr]"
+      )}
+    >
+      {/*     grid-rows-[136px_24px_1fr] sm:grid-rows-[80px_24px_1fr] md:grid-rows-[40px_24px_1fr]
+       */}
+      <section className={"h-8 " + sectionPadding}>
         <p className="text-2xl font-semibold">Update Your Subscriptions</p>
       </section>
 
-      <section className="mt-4 mb-6 flex space-x-2 items-center">
+      <section
+        className={"h-9 flex space-x-2 items-center w-fit " + sectionPadding}
+      >
         <Funnel />
         <Input
           placeholder="Filter blogs..."
@@ -98,11 +110,15 @@ const SubscriptionList = ({
         />
       </section>
 
-      <section className="flex flex-col gap-y-3">
-        {/* <pre>{JSON.stringify(subs, null, 2)}</pre> */}
-        {filteredBlogs.map(({ id, name, blogUrl, creator }) => {
+      <section
+        className={
+          "border-t pt-4 flex flex-col gap-y-3 max-h-full overflow-y-auto " +
+          sectionPadding
+        }
+      >
+        {filteredBlogs.map(({ id, name, blogUrl, creator }, i) => {
           return (
-            <div key={id} className="flex items-center">
+            <div key={i} className="flex items-center">
               {toggling !== id ? (
                 <Checkbox
                   name={name}
