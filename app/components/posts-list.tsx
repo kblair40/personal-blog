@@ -4,7 +4,12 @@ import React, { use } from "react";
 import Parser from "rss-parser";
 import type { Item } from "rss-parser";
 import { clsx } from "clsx";
-import { useQueryState, parseAsStringLiteral, parseAsInteger } from "nuqs";
+import {
+  useQueryState,
+  parseAsStringLiteral,
+  parseAsInteger,
+  parseAsArrayOf,
+} from "nuqs";
 
 import Post from "./post";
 import PostFilters from "./post-filters";
@@ -36,9 +41,11 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
     parseAsStringLiteral(sortOrder).withDefault("desc")
   );
 
-  function handleChangeSelectedBlog(value: number | undefined) {
-    setSelectedBlog(value ?? null);
-  }
+  const [selectedBlogs, setSelectedBlogs] = useQueryState(
+    "blogs",
+    parseAsArrayOf(parseAsInteger)
+  );
+  console.log("SELECTED BLOGS:", selectedBlogs);
 
   const totalPostsCount = postArrays.reduce(
     (count, postArr) => count + postArr.items.length,
@@ -46,17 +53,29 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
   );
 
   let _posts: Item[] = [];
-  if (!selectedBlog) {
+  if (!selectedBlogs || !selectedBlogs.length) {
     for (let postArr of postArrays) {
       _posts = _posts.concat(postArr.items);
     }
   } else {
     for (let postArr of postArrays) {
-      if (postArr.items[0]?.blogId === selectedBlog) {
+      if (selectedBlogs.includes(postArr.items[0]?.blogId)) {
         _posts = _posts.concat(postArr.items);
       }
     }
   }
+
+  // if (!selectedBlog) {
+  //   for (let postArr of postArrays) {
+  //     _posts = _posts.concat(postArr.items);
+  //   }
+  // } else {
+  //   for (let postArr of postArrays) {
+  //     if (postArr.items[0]?.blogId === selectedBlog) {
+  //       _posts = _posts.concat(postArr.items);
+  //     }
+  //   }
+  // }
 
   if (postSearchValue) {
     _posts = _posts.filter((p) => {

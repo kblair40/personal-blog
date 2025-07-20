@@ -2,7 +2,13 @@
 
 import React, { useState } from "react";
 import { CalendarArrowDown, CalendarArrowUp } from "lucide-react";
-import { useQueryState, parseAsStringLiteral, parseAsInteger } from "nuqs";
+import {
+  useQueryState,
+  parseAsStringLiteral,
+  parseAsInteger,
+  parseAsArrayOf,
+} from "nuqs";
+import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
 
 import {
   Select,
@@ -21,6 +27,15 @@ import { Button } from "@/components/ui/button";
 import { Blog } from "@/lib/db/schema.types";
 import { cn } from "@/lib/utils";
 import { sortOrder } from "./posts-list";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+type Checked = DropdownMenuCheckboxItemProps["checked"];
 
 type Props = {
   subscribedToBlogs: Blog[];
@@ -39,6 +54,10 @@ const PostFilters = ({
   const [key, setKey] = useState(+new Date());
 
   const [selectedBlog, setSelectedBlog] = useQueryState("blog", parseAsInteger);
+  const [selectedBlogs, setSelectedBlogs] = useQueryState(
+    "blogs",
+    parseAsArrayOf(parseAsInteger)
+  );
   const [postSearchValue, setPostSearchValue] = useQueryState("search", {
     defaultValue: "",
   });
@@ -51,15 +70,28 @@ const PostFilters = ({
     return { label: [b.name, b.creator].join(" - "), value: b.id };
   });
 
-  function handleChangeBlog(value: string | undefined) {
-    console.log("Selected Blog:", value);
-    if (value === undefined) {
-      setSelectedBlog(null);
-      setKey(+new Date()); // Triggers re-render, making the placeholder visible
-      return;
-    }
+  // function handleChangeBlog(value: string | undefined) {
+  //   console.log("Selected Blog:", value);
+  //   if (value === undefined) {
+  //     setSelectedBlog(null);
+  //     setKey(+new Date()); // Triggers re-render, making the placeholder visible
+  //     return;
+  //   }
 
-    setSelectedBlog(parseInt(value));
+  //   setSelectedBlog(parseInt(value));
+  // }
+
+  function handleSelectBlog(blogId: number) {
+    setSelectedBlogs((cur) => {
+      if (Array.isArray(cur)) {
+        if (cur.includes(blogId)) {
+          return cur.filter((val) => val !== blogId);
+        } else {
+          return [...cur, blogId];
+        }
+      }
+      return [blogId];
+    });
   }
 
   return (
@@ -85,11 +117,35 @@ const PostFilters = ({
         </TooltipContent>
       </Tooltip>
 
-      <Select
+      <DropdownMenu key={key}>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="outline"
+            className={cn("min-h-10 w-full sm:max-w-72 md:mr-4 justify-start")}
+          >
+            Select Blog(s)
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="">
+          {blogOptions.map((o) => {
+            return (
+              <DropdownMenuCheckboxItem
+                key={o.value}
+                checked={selectedBlogs?.includes(o.value)}
+                className="flex-reverse"
+                onSelect={() => handleSelectBlog(o.value)}
+              >
+                {o.label}
+              </DropdownMenuCheckboxItem>
+            );
+          })}
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      {/* <Select
         key={key}
         value={selectedBlog ? selectedBlog.toString() : undefined}
         onValueChange={(v) => handleChangeBlog(v)}
-        // open={true}
       >
         <SelectTrigger className={cn("min-h-10 w-full sm:max-w-72 md:mr-4")}>
           <SelectValue placeholder="Select Blog" />
@@ -118,7 +174,7 @@ const PostFilters = ({
             </Button>
           </div>
         </SelectContent>
-      </Select>
+      </Select> */}
 
       <Input
         placeholder="Search Posts"
