@@ -5,10 +5,10 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { baseUrl } from "./sitemap";
-import Footer from "./components/layout/footer";
-import { NavbarClient } from "@/components/layout/nav-client";
-import { UserContextProvider } from "./store/userStore";
 import { cn } from "./lib/utils";
+import { NavbarClient } from "@/components/layout/nav-client";
+import Providers from "@/components/layout/providers";
+// import Footer from "./components/layout/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -62,7 +62,7 @@ export default function RootLayout({
         geistMono.variable
       )}
     >
-      <UserContextProvider>
+      <Providers>
         <body className="antialiased min-h-dvh max-w-dvw overflow-x-hidden">
           <main className="flex flex-col min-w-xs">
             <div className="h-16 z-50 flex items-end pb-2 px-2 md:px-6 lg:px-10 fixed left-0 right-0 top-0 bg-neutral-50 shadow-xs">
@@ -76,7 +76,7 @@ export default function RootLayout({
             <SpeedInsights />
           </main>
         </body>
-      </UserContextProvider>
+      </Providers>
     </html>
   );
 }
