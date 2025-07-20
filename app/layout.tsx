@@ -8,6 +8,7 @@ import { baseUrl } from "./sitemap";
 import { cn } from "./lib/utils";
 import { NavbarClient } from "@/components/layout/nav-client";
 import Providers from "@/components/layout/providers";
+import { getSession } from "@/lib/session";
 // import Footer from "./components/layout/footer";
 
 const geistSans = Geist({
@@ -48,11 +49,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getSession();
   return (
     <html
       lang="en"
@@ -66,7 +68,7 @@ export default function RootLayout({
         <Providers>
           <main className="flex flex-col min-w-xs">
             <div className="h-16 z-50 flex items-end pb-2 px-2 md:px-6 lg:px-10 fixed left-0 right-0 top-0 bg-neutral-50 shadow-xs">
-              <NavbarClient />
+              <NavbarClient session={session} />
             </div>
 
             <div className="pt-16 min-h-[calc(100dvh-64px)]">{children}</div>

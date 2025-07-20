@@ -8,10 +8,9 @@ import { useUser } from "@/store/userStore";
 import { Button } from "@/components/ui/button";
 import NavMobile from "./nav-mobile";
 import { cn } from "@/lib/utils";
+import type { Session } from "@/lib/types";
 
 export type NavItem = { path: string; label: string };
-// export type NavItem = Record<"name", string>;
-// export type NavItems = Record<string, NavItem>;
 
 const LINKS = [
   { path: "/", label: "Home" },
@@ -22,25 +21,23 @@ const NOT_AUTH_ROUTES = [
   { path: "/login", label: "Login" },
 ];
 
-export function NavbarClient() {
+type Props = {
+  session: Session | null;
+};
+
+export function NavbarClient({ session }: Props) {
   const router = useRouter();
   const pathname = usePathname();
 
-  const { getSession, session } = useUser();
+  const { getSession } = useUser();
 
-  const isAuthenticated = !!session;
+  const isAuthenticated = session !== null && session !== undefined;
 
   const [navItems, setNavItems] = useState<NavItem[]>();
   const [loggingOut, setLoggingOut] = useState(false);
 
   function getNavItems() {
     return [...LINKS, ...NOT_AUTH_ROUTES];
-    // if (isAuthenticated) {
-    //   return LINKS;
-    // } else {
-    //   return [...LINKS, ...NOT_AUTH_ROUTES];
-    //   // return [LINKS[0], ...NOT_AUTH_ROUTES];
-    // }
   }
 
   async function handleClickLogout() {
