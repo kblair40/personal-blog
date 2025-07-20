@@ -21,7 +21,7 @@ type Props = {
   subscribedToBlogs: Blog[];
 };
 
-const sortOrder = ["asc", "desc"] as const;
+export const sortOrder = ["asc", "desc"] as const;
 type SortOrder = (typeof sortOrder)[number]; // 'asc' | 'desc'
 
 const PostsList = ({ posts, subscribedToBlogs }: Props) => {
@@ -93,11 +93,8 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
           <PostFilters
             subscribedToBlogs={subscribedToBlogs}
             selectedBlog={selectedBlog}
-            onChangeSelectedBlog={handleChangeSelectedBlog}
             postSearchValue={postSearchValue}
-            onChangePostSearchValue={(value) => setPostSearchValue(value)}
             sortDir={sortDir}
-            onChangeSortDir={(value: SortOrder) => setSortDir(value)}
           />
         </div>
       </section>

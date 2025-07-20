@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { CalendarArrowDown, CalendarArrowUp } from "lucide-react";
+import { useQueryState, parseAsStringLiteral, parseAsInteger } from "nuqs";
 
 import {
   Select,
@@ -19,28 +20,32 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Blog } from "@/lib/db/schema.types";
 import { cn } from "@/lib/utils";
+import { sortOrder } from "./posts-list";
 
 type Props = {
   subscribedToBlogs: Blog[];
-  onChangeSelectedBlog: (value: number | undefined) => void;
   selectedBlog: number | null;
   postSearchValue: string;
-  onChangePostSearchValue: (value: string) => void;
   sortDir: "asc" | "desc";
-  onChangeSortDir: (value: "asc" | "desc") => void;
 };
 
 const PostFilters = ({
   subscribedToBlogs,
-  selectedBlog,
-  onChangeSelectedBlog,
-  postSearchValue,
-  onChangePostSearchValue,
-  sortDir,
-  onChangeSortDir,
+  selectedBlog: _selectedBlog,
+  postSearchValue: _postSearchValue,
+  sortDir: _sortDir,
 }: Props) => {
   // Just for triggering re-render when value is set to undefined
   const [key, setKey] = useState(+new Date());
+
+  const [selectedBlog, setSelectedBlog] = useQueryState("blog", parseAsInteger);
+  const [postSearchValue, setPostSearchValue] = useQueryState("search", {
+    defaultValue: "",
+  });
+  const [sortDir, setSortDir] = useQueryState(
+    "sort",
+    parseAsStringLiteral(sortOrder).withDefault("desc")
+  );
 
   const blogOptions = subscribedToBlogs.map((b) => {
     return { label: [b.name, b.creator].join(" - "), value: b.id };
@@ -49,12 +54,12 @@ const PostFilters = ({
   function handleChangeBlog(value: string | undefined) {
     console.log("Selected Blog:", value);
     if (value === undefined) {
-      onChangeSelectedBlog(value);
+      setSelectedBlog(null);
       setKey(+new Date()); // Triggers re-render, making the placeholder visible
       return;
     }
 
-    onChangeSelectedBlog(parseInt(value));
+    setSelectedBlog(parseInt(value));
   }
 
   return (
@@ -62,7 +67,10 @@ const PostFilters = ({
       <Tooltip delayDuration={300}>
         <TooltipTrigger asChild>
           <Button
-            onClick={() => onChangeSortDir(sortDir === "desc" ? "asc" : "desc")}
+            // onClick={() => onChangeSortDir(sortDir === "desc" ? "asc" : "desc")}
+            onClick={() =>
+              setSortDir((cur) => (cur === "desc" ? "asc" : "desc"))
+            }
             size="lg"
             className="w-full sm:w-fit p-0 text-base mr-4"
             variant="secondary"
@@ -116,7 +124,7 @@ const PostFilters = ({
         placeholder="Search Posts"
         className={cn("w-full sm:w-60 md:w-72 h-10")}
         value={postSearchValue}
-        onChange={(e) => onChangePostSearchValue(e.target.value)}
+        onChange={(e) => setPostSearchValue(e.target.value)}
       />
     </>
   );
