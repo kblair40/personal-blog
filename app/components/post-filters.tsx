@@ -119,19 +119,28 @@ const PostFilters = ({ subscribedToBlogs }: Props) => {
               "data-[state=open]:[&_svg]:rotate-180"
             )}
           >
-            <span>{blogIsSelected ? getSelectedBlogs() : "Select Blog(s)"}</span>
+            <span>
+              {blogIsSelected ? getSelectedBlogs() : "Select Blog(s)"}
+            </span>
             <ChevronDown className="transition-transform duration-200" />
           </Button>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent align="start" className="w-full sm:w-72 sm:max-w-72">
+        <DropdownMenuContent
+          align="start"
+          className="w-full sm:w-72 sm:max-w-72"
+        >
           {blogOptions.map((o) => {
             return (
               <DropdownMenuCheckboxItem
                 key={o.value}
                 checked={selectedBlogs?.includes(o.value)}
                 className="flex-reverse"
-                onSelect={() => handleSelectBlog(o.value)}
+                // onSelect={() => handleSelectBlog(o.value)}
+                onSelect={(e) => {
+                  e.preventDefault();
+                  handleSelectBlog(o.value)
+                }}
               >
                 {o.label}
               </DropdownMenuCheckboxItem>
