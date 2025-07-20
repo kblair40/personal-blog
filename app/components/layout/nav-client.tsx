@@ -7,12 +7,13 @@ import Link from "next/link";
 import { useUser } from "@/store/userStore";
 import { Button } from "@/components/ui/button";
 import NavMobile from "./nav-mobile";
+import { cn } from "@/lib/utils";
 
 export type NavItem = { path: string; label: string };
 // export type NavItem = Record<"name", string>;
 // export type NavItems = Record<string, NavItem>;
 
-const ROUTES = [
+const LINKS = [
   { path: "/", label: "Home" },
   { path: "/subscriptions", label: "Subscriptions" },
 ];
@@ -33,11 +34,13 @@ export function NavbarClient() {
   const [loggingOut, setLoggingOut] = useState(false);
 
   function getNavItems() {
-    if (isAuthenticated) {
-      return ROUTES;
-    } else {
-      return [ROUTES[0], ...NOT_AUTH_ROUTES];
-    }
+    return [...LINKS, ...NOT_AUTH_ROUTES];
+    // if (isAuthenticated) {
+    //   return LINKS;
+    // } else {
+    //   return [...LINKS, ...NOT_AUTH_ROUTES];
+    //   // return [LINKS[0], ...NOT_AUTH_ROUTES];
+    // }
   }
 
   async function handleClickLogout() {
@@ -76,7 +79,7 @@ export function NavbarClient() {
               <NavMobile
                 onClickLogout={handleClickLogout}
                 loggingOut={loggingOut}
-                navItems={navItems}
+                navItems={[...LINKS, ...NOT_AUTH_ROUTES]}
                 isAuthenticated={isAuthenticated}
               />
             )}
@@ -84,20 +87,21 @@ export function NavbarClient() {
 
           <div className="flex items-center justify-between w-full">
             <section className="space-x-0 hidden sm:flex sm:flex-row">
-              {ROUTES.slice(0, isAuthenticated ? 2 : 1).map(
-                ({ path, label }) => {
-                  return (
-                    <Button variant="link" key={path}>
-                      <Link
-                        href={path}
-                        className={path === pathname ? "underline" : ""}
-                      >
-                        {label}
-                      </Link>
-                    </Button>
-                  );
-                }
-              )}
+              {LINKS.map(({ path, label }) => {
+                return (
+                  <Button variant="link" key={path}>
+                    <Link
+                      href={path}
+                      className={cn(
+                        path === pathname ? "underline" : ""
+                        //
+                      )}
+                    >
+                      {label}
+                    </Link>
+                  </Button>
+                );
+              })}
             </section>
 
             <section className="space-x-0 hidden sm:flex sm:flex-row">
