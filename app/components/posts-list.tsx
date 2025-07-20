@@ -1,9 +1,10 @@
 "use client";
 
-import React, { use, useState } from "react";
+import React, { use } from "react";
 import Parser from "rss-parser";
 import type { Item } from "rss-parser";
 import { clsx } from "clsx";
+import { useQueryState, parseAsStringLiteral, parseAsInteger } from "nuqs";
 
 import Post from "./post";
 import PostFilters from "./post-filters";
@@ -20,18 +21,23 @@ type Props = {
   subscribedToBlogs: Blog[];
 };
 
+const sortOrder = ["asc", "desc"] as const;
+type SortOrder = (typeof sortOrder)[number]; // 'asc' | 'desc'
+
 const PostsList = ({ posts, subscribedToBlogs }: Props) => {
   const postArrays = use(posts);
-  console.log("POSTS:", postArrays);
 
-  const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
-  const [selectedBlog, setSelectedBlog] = useState<undefined | number>(
-    undefined
+  const [selectedBlog, setSelectedBlog] = useQueryState("blog", parseAsInteger);
+  const [postSearchValue, setPostSearchValue] = useQueryState("search", {
+    defaultValue: "",
+  });
+  const [sortDir, setSortDir] = useQueryState(
+    "sort",
+    parseAsStringLiteral(sortOrder).withDefault("desc")
   );
-  const [postSearchValue, setPostSearchValue] = useState<string>("");
 
   function handleChangeSelectedBlog(value: number | undefined) {
-    setSelectedBlog(value);
+    setSelectedBlog(value ?? null);
   }
 
   const totalPostsCount = postArrays.reduce(
@@ -40,7 +46,7 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
   );
 
   let _posts: Item[] = [];
-  if (selectedBlog === undefined) {
+  if (!selectedBlog) {
     for (let postArr of postArrays) {
       _posts = _posts.concat(postArr.items);
     }
@@ -91,7 +97,7 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
             postSearchValue={postSearchValue}
             onChangePostSearchValue={(value) => setPostSearchValue(value)}
             sortDir={sortDir}
-            onChangeSortDir={(value: "asc" | "desc") => setSortDir(value)}
+            onChangeSortDir={(value: SortOrder) => setSortDir(value)}
           />
         </div>
       </section>

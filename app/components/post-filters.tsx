@@ -23,7 +23,7 @@ import { cn } from "@/lib/utils";
 type Props = {
   subscribedToBlogs: Blog[];
   onChangeSelectedBlog: (value: number | undefined) => void;
-  selectedBlog: undefined | number;
+  selectedBlog: number | null;
   postSearchValue: string;
   onChangePostSearchValue: (value: string) => void;
   sortDir: "asc" | "desc";
