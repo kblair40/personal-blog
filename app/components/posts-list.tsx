@@ -32,16 +32,16 @@ type SortOrder = (typeof sortOrder)[number]; // 'asc' | 'desc'
 const PostsList = ({ posts, subscribedToBlogs }: Props) => {
   const postArrays = use(posts);
 
-  const [selectedBlog, setSelectedBlog] = useQueryState("blog", parseAsInteger);
-  const [postSearchValue, setPostSearchValue] = useQueryState("search", {
+  const [selectedBlog] = useQueryState("blog", parseAsInteger);
+  const [postSearchValue] = useQueryState("search", {
     defaultValue: "",
   });
-  const [sortDir, setSortDir] = useQueryState(
+  const [sortDir] = useQueryState(
     "sort",
     parseAsStringLiteral(sortOrder).withDefault("desc")
   );
 
-  const [selectedBlogs, setSelectedBlogs] = useQueryState(
+  const [selectedBlogs] = useQueryState(
     "blogs",
     parseAsArrayOf(parseAsInteger)
   );
@@ -64,18 +64,6 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
       }
     }
   }
-
-  // if (!selectedBlog) {
-  //   for (let postArr of postArrays) {
-  //     _posts = _posts.concat(postArr.items);
-  //   }
-  // } else {
-  //   for (let postArr of postArrays) {
-  //     if (postArr.items[0]?.blogId === selectedBlog) {
-  //       _posts = _posts.concat(postArr.items);
-  //     }
-  //   }
-  // }
 
   if (postSearchValue) {
     _posts = _posts.filter((p) => {
@@ -109,12 +97,7 @@ const PostsList = ({ posts, subscribedToBlogs }: Props) => {
             "w-full flex flex-col sm:flex-row gap-y-2 flex-wrap md:flex-nowrap"
           )}
         >
-          <PostFilters
-            subscribedToBlogs={subscribedToBlogs}
-            selectedBlog={selectedBlog}
-            postSearchValue={postSearchValue}
-            sortDir={sortDir}
-          />
+          <PostFilters subscribedToBlogs={subscribedToBlogs} />
         </div>
       </section>
 

@@ -1,59 +1,40 @@
 "use client";
 
 import React, { useState } from "react";
-import { CalendarArrowDown, CalendarArrowUp } from "lucide-react";
+import { CalendarArrowDown, CalendarArrowUp, ChevronDown } from "lucide-react";
 import {
   useQueryState,
   parseAsStringLiteral,
   parseAsInteger,
   parseAsArrayOf,
 } from "nuqs";
-import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Blog } from "@/lib/db/schema.types";
-import { cn } from "@/lib/utils";
-import { sortOrder } from "./posts-list";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-type Checked = DropdownMenuCheckboxItemProps["checked"];
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import type { Blog } from "@/lib/db/schema.types";
+import { cn } from "@/lib/utils";
+import { sortOrder } from "@/components/posts-list";
 
 type Props = {
   subscribedToBlogs: Blog[];
-  selectedBlog: number | null;
-  postSearchValue: string;
-  sortDir: "asc" | "desc";
+  postSearchValue?: string;
 };
 
-const PostFilters = ({
-  subscribedToBlogs,
-  selectedBlog: _selectedBlog,
-  postSearchValue: _postSearchValue,
-  sortDir: _sortDir,
-}: Props) => {
+const PostFilters = ({ subscribedToBlogs }: Props) => {
   // Just for triggering re-render when value is set to undefined
   const [key, setKey] = useState(+new Date());
 
-  const [selectedBlog, setSelectedBlog] = useQueryState("blog", parseAsInteger);
   const [selectedBlogs, setSelectedBlogs] = useQueryState(
     "blogs",
     parseAsArrayOf(parseAsInteger)
@@ -69,6 +50,16 @@ const PostFilters = ({
   const blogOptions = subscribedToBlogs.map((b) => {
     return { label: [b.name, b.creator].join(" - "), value: b.id };
   });
+
+  function getSelectedBlogs() {
+    const blogs: string[] = [];
+    for (let blog of subscribedToBlogs) {
+      if (selectedBlogs?.includes(blog.id)) {
+        blogs.push(blog.name);
+      }
+    }
+    return blogs.join(", ");
+  }
 
   // function handleChangeBlog(value: string | undefined) {
   //   console.log("Selected Blog:", value);
@@ -94,12 +85,13 @@ const PostFilters = ({
     });
   }
 
+  const blogIsSelected = !!selectedBlogs?.length;
+
   return (
     <>
       <Tooltip delayDuration={300}>
         <TooltipTrigger asChild>
           <Button
-            // onClick={() => onChangeSortDir(sortDir === "desc" ? "asc" : "desc")}
             onClick={() =>
               setSortDir((cur) => (cur === "desc" ? "asc" : "desc"))
             }
@@ -121,12 +113,18 @@ const PostFilters = ({
         <DropdownMenuTrigger asChild>
           <Button
             variant="outline"
-            className={cn("min-h-10 w-full sm:max-w-72 md:mr-4 justify-start")}
+            className={cn(
+              "min-h-10 w-full sm:max-w-72 md:mr-4 justify-between",
+              !blogIsSelected ? "text-muted-foreground font-normal" : "",
+              "data-[state=open]:[&_svg]:rotate-180"
+            )}
           >
-            Select Blog(s)
+            <span>{blogIsSelected ? getSelectedBlogs() : "Select Blog(s)"}</span>
+            <ChevronDown className="transition-transform duration-200" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="">
+
+        <DropdownMenuContent align="start" className="w-full sm:w-72 sm:max-w-72">
           {blogOptions.map((o) => {
             return (
               <DropdownMenuCheckboxItem
