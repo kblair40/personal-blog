@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { CalendarArrowDown, CalendarArrowUp, ChevronDown } from "lucide-react";
 import {
   useQueryState,
