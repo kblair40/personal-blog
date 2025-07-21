@@ -1,15 +1,14 @@
 "use client";
 
 import React from "react";
-import { CalendarArrowDown } from "lucide-react";
+import { CalendarArrowDown, ChevronDown } from "lucide-react";
 
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -25,23 +24,27 @@ const PostFiltersFallback = () => {
         Date <CalendarArrowDown />
       </Button>
 
-      <Select disabled value={undefined}>
-        <SelectTrigger className={cn("min-h-10 w-full sm:max-w-72 md:mr-4")}>
-          <SelectValue placeholder="Select Blog" />
-        </SelectTrigger>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="outline"
+            className={cn(
+              "min-h-10 w-full sm:max-w-72 md:mr-4 justify-between",
+              "text-muted-foreground font-normal"
+            )}
+          >
+            <span>Select Blog(s)</span>
+            <ChevronDown className="transition-transform duration-200" />
+          </Button>
+        </DropdownMenuTrigger>
 
-        <SelectContent>
-          <SelectItem key={1} value={" "}>
-            {" "}
-          </SelectItem>
-
-          <div className="pt-2 pb-1 px-1">
-            <Button className="px-2 w-full" variant="secondary" size="sm">
-              Clear
-            </Button>
-          </div>
-        </SelectContent>
-      </Select>
+        <DropdownMenuContent
+          align="start"
+          className="w-full sm:w-72 sm:max-w-72"
+        >
+          <DropdownMenuCheckboxItem>placeholder</DropdownMenuCheckboxItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
 
       <Input
         placeholder="Search Posts"

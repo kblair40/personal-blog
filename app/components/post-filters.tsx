@@ -33,8 +33,6 @@ type Props = {
 
 const PostFilters = ({ subscribedToBlogs }: Props) => {
   // Just for triggering re-render when value is set to undefined
-  const [key, setKey] = useState(+new Date());
-
   const [selectedBlogs, setSelectedBlogs] = useQueryState(
     "blogs",
     parseAsArrayOf(parseAsInteger)
@@ -60,17 +58,6 @@ const PostFilters = ({ subscribedToBlogs }: Props) => {
     }
     return blogs.join(", ");
   }
-
-  // function handleChangeBlog(value: string | undefined) {
-  //   console.log("Selected Blog:", value);
-  //   if (value === undefined) {
-  //     setSelectedBlog(null);
-  //     setKey(+new Date()); // Triggers re-render, making the placeholder visible
-  //     return;
-  //   }
-
-  //   setSelectedBlog(parseInt(value));
-  // }
 
   function handleSelectBlog(blogId: number) {
     setSelectedBlogs((cur) => {
@@ -109,7 +96,7 @@ const PostFilters = ({ subscribedToBlogs }: Props) => {
         </TooltipContent>
       </Tooltip>
 
-      <DropdownMenu key={key}>
+      <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
             variant="outline"
@@ -135,11 +122,9 @@ const PostFilters = ({ subscribedToBlogs }: Props) => {
               <DropdownMenuCheckboxItem
                 key={o.value}
                 checked={selectedBlogs?.includes(o.value)}
-                className="flex-reverse"
-                // onSelect={() => handleSelectBlog(o.value)}
                 onSelect={(e) => {
                   e.preventDefault();
-                  handleSelectBlog(o.value)
+                  handleSelectBlog(o.value);
                 }}
               >
                 {o.label}
@@ -148,40 +133,6 @@ const PostFilters = ({ subscribedToBlogs }: Props) => {
           })}
         </DropdownMenuContent>
       </DropdownMenu>
-
-      {/* <Select
-        key={key}
-        value={selectedBlog ? selectedBlog.toString() : undefined}
-        onValueChange={(v) => handleChangeBlog(v)}
-      >
-        <SelectTrigger className={cn("min-h-10 w-full sm:max-w-72 md:mr-4")}>
-          <SelectValue placeholder="Select Blog" />
-        </SelectTrigger>
-
-        <SelectContent>
-          {blogOptions.map((o) => {
-            return (
-              <SelectItem key={o.value} value={o.value.toString()}>
-                {o.label}
-              </SelectItem>
-            );
-          })}
-
-          <div className="pt-2 pb-1 px-1">
-            <Button
-              className="px-2 w-full"
-              variant="secondary"
-              size="sm"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleChangeBlog(undefined);
-              }}
-            >
-              Clear
-            </Button>
-          </div>
-        </SelectContent>
-      </Select> */}
 
       <Input
         placeholder="Search Posts"
