@@ -8,7 +8,8 @@ const sectionPadding = "px-6 md:px-8 lg:px-10";
 
 const PostsListFallback = () => {
   return (
-    <div className={clsx("w-full h-full posts-grid relative")}>
+    // <div className={clsx("w-full h-full posts-grid relative")}>
+    <div className="w-full pt-6 max-h-full posts-grid overflow-y-hidden">
       <section
         className={clsx("w-full h-[136px] sm:h-[88px] md:h-10", sectionPadding)}
       >
