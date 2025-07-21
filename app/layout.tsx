@@ -9,6 +9,7 @@ import { cn } from "./lib/utils";
 import { NavbarClient } from "@/components/layout/nav-client";
 import Providers from "@/components/layout/providers";
 import { getSession } from "@/lib/session";
+import clsx from "clsx";
 // import Footer from "./components/layout/footer";
 
 const geistSans = Geist({
@@ -66,12 +67,24 @@ export default async function RootLayout({
     >
       <body className="antialiased min-h-dvh max-w-dvw overflow-x-hidden">
         <Providers>
-          <main className="flex flex-col min-w-xs">
+          <main className="flex flex-col min-w-xs h-full">
             <div className="h-16 z-50 flex items-end pb-2 px-2 md:px-6 lg:px-10 fixed left-0 right-0 top-0 bg-neutral-50 shadow-xs">
               <NavbarClient session={session} />
             </div>
 
-            <div className="pt-16 min-h-[calc(100dvh-64px)]">{children}</div>
+            <div
+              className={clsx(
+                // "min-h-[calc(100dvh-64px)]",
+                // "pt-16 min-h-[calc(100dvh-64px)]",
+                // "pt-16",
+                "relative top-16",
+                // "border-2 border-blue-500",
+                "min-h-fillpage h-fillpage overflow-y-hidden"
+                //
+              )}
+            >
+              {children}
+            </div>
 
             {/* <Footer /> */}
             <Analytics />

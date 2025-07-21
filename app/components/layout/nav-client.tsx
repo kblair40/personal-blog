@@ -46,7 +46,7 @@ export function NavbarClient({ session }: Props) {
     const logoutRes = await fetch("http://localhost:3001/api/session/delete", {
       method: "POST",
     });
-    console.log("Logout Res:", logoutRes.status);
+    // console.log("Logout Res:", logoutRes.status);
 
     if (logoutRes.status === 200) {
       await getSession();
@@ -127,9 +127,6 @@ export function NavbarClient({ session }: Props) {
                   })}
                 </>
               )}
-              {/* </div> */}
-
-              {/* <div>isAuthenticated: {String(isAuthenticated)}</div> */}
             </section>
           </div>
         </nav>

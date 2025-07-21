@@ -66,7 +66,7 @@ const OneBlog = async () => {
   let showFallback = 0;
   return (
     // <div className="pt-6 px-2 flex flex-col w-full h-fillpage max-h-fillpage overflow-hidden">
-    <div className="pt-6 flex flex-col w-full h-fillpage max-h-fillpage overflow-hidden">
+    <div className="w-full h-fillpage max-h-fillpage overflow-hidden">
       {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
       {/* <Suspense fallback={<div>Temp Fallback Placeholder</div>}> */}
 
