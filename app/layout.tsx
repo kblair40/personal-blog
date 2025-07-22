@@ -55,6 +55,9 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  console.log("\nENV:", process.env.NODE_ENV, "\n");
+  console.log("\nUSE_SCAN:", process.env.USE_SCAN, "\n");
+  const useScan = parseInt(process.env.USE_SCAN || "-1") === 1;
   const session = await getSession();
   return (
     <html
@@ -65,13 +68,15 @@ export default async function RootLayout({
         geistMono.variable
       )}
     >
-      <head>
-        <script
-          crossOrigin="anonymous"
-          src="//unpkg.com/react-scan/dist/auto.global.js"
-        />
-        {/* If adding a script, make sure it goes below react-scan script above */}
-      </head>
+      {useScan && (
+        <head>
+          <script
+            crossOrigin="anonymous"
+            src="//unpkg.com/react-scan/dist/auto.global.js"
+          />
+          {/* If adding a script, make sure it goes below react-scan script above */}
+        </head>
+      )}
       <body className="antialiased min-h-dvh max-w-dvw overflow-x-hidden">
         <Providers>
           <main className="flex flex-col min-w-xs h-full">
