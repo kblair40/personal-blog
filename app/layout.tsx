@@ -65,6 +65,13 @@ export default async function RootLayout({
         geistMono.variable
       )}
     >
+      <head>
+        <script
+          crossOrigin="anonymous"
+          src="//unpkg.com/react-scan/dist/auto.global.js"
+        />
+        {/* If adding a script, make sure it goes below react-scan script above */}
+      </head>
       <body className="antialiased min-h-dvh max-w-dvw overflow-x-hidden">
         <Providers>
           <main className="flex flex-col min-w-xs h-full">
