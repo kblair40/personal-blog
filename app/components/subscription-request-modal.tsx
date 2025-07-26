@@ -15,13 +15,15 @@ import { Button } from "./ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "./ui/textarea";
+import { addBlogRequest } from "@/actions/request-blog";
+import type { BlogRequestInsert } from "@/lib/db/schema.types";
 
 type FormInputElement = HTMLInputElement | HTMLTextAreaElement;
 
 type Props = {};
 
 const SubscriptionRequestSheet = (props: Props) => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<BlogRequestInsert>({
     blogUrl: "",
     rssUrl: "",
     details: "",
@@ -103,7 +105,7 @@ const SubscriptionRequestSheet = (props: Props) => {
               <Textarea
                 id="details"
                 name="details"
-                value={formData.details}
+                value={formData.details as string}
                 onChange={handleChange}
               />
             </section>
