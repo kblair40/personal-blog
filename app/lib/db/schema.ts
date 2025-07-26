@@ -53,3 +53,11 @@ export const subscriptionsRelations = relations(
     }),
   })
 );
+
+export const blogRequestsTable = pgTable("blog_requests", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  blogUrl: text().notNull(),
+  rssUrl: text().notNull(),
+  details: text(),
+  ...timestamps,
+});

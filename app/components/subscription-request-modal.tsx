@@ -22,7 +22,7 @@ type Props = {};
 
 const SubscriptionRequestSheet = (props: Props) => {
   const [formData, setFormData] = useState({
-    homeUrl: "",
+    blogUrl: "",
     rssUrl: "",
     details: "",
   });
@@ -70,14 +70,14 @@ const SubscriptionRequestSheet = (props: Props) => {
           <div className="px-4 flex flex-col gap-y-4">
             <section className="grid grid-rows-2 gap-y-4 md:grid-cols-2 md:grid-rows-1 md:gap-y-0 md:gap-x-8">
               <div className="w-full">
-                <Label className="mb-1" htmlFor="homeUrl">
+                <Label className="mb-1" htmlFor="blogUrl">
                   Homepage URL
                 </Label>
                 <Input
-                  id="homeUrl"
-                  name="homeUrl"
+                  id="blogUrl"
+                  name="blogUrl"
                   placeholder="www.blogilike.com"
-                  value={formData.homeUrl}
+                  value={formData.blogUrl}
                   onChange={handleChange}
                 />
               </div>
