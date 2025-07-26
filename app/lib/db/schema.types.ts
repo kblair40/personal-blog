@@ -7,30 +7,42 @@ import { z } from "zod/v4";
 
 import * as schema from "./schema";
 
-const blogSelectSchema = createSelectSchema(schema.blogsTable);
-const blogInsertSchema = createInsertSchema(schema.blogsTable);
-const blogUpdateSchema = createUpdateSchema(schema.blogsTable);
+export const blogSelectSchema = createSelectSchema(schema.blogsTable);
+export const blogInsertSchema = createInsertSchema(schema.blogsTable);
+export const blogUpdateSchema = createUpdateSchema(schema.blogsTable);
 export type Blog = z.infer<typeof blogSelectSchema>;
 export type BlogInsert = z.infer<typeof blogInsertSchema>;
 export type BlogUpdate = z.infer<typeof blogUpdateSchema>;
 
-const userSelectSchema = createSelectSchema(schema.usersTable);
-const userInsertSchema = createInsertSchema(schema.usersTable);
-const userUpdateSchema = createUpdateSchema(schema.usersTable);
+export const userSelectSchema = createSelectSchema(schema.usersTable);
+export const userInsertSchema = createInsertSchema(schema.usersTable);
+export const userUpdateSchema = createUpdateSchema(schema.usersTable);
 export type User = z.infer<typeof userSelectSchema>;
 export type UserInsert = z.infer<typeof userInsertSchema>;
 export type UserUpdate = z.infer<typeof userUpdateSchema>;
 
-const subscriptionSelectSchema = createSelectSchema(schema.subscriptionsTable);
-const subscriptionInsertSchema = createInsertSchema(schema.subscriptionsTable);
-const subscriptionUpdateSchema = createUpdateSchema(schema.subscriptionsTable);
+export const subscriptionSelectSchema = createSelectSchema(
+  schema.subscriptionsTable
+);
+export const subscriptionInsertSchema = createInsertSchema(
+  schema.subscriptionsTable
+);
+export const subscriptionUpdateSchema = createUpdateSchema(
+  schema.subscriptionsTable
+);
 export type Subscription = z.infer<typeof subscriptionSelectSchema>;
 export type SubscriptionInsert = z.infer<typeof subscriptionInsertSchema>;
 export type SubscriptionUpdate = z.infer<typeof subscriptionUpdateSchema>;
 
-const blogRequestSelectSchema = createSelectSchema(schema.blogRequestsTable);
-const blogRequestInsertSchema = createInsertSchema(schema.blogRequestsTable);
-const blogRequestUpdateSchema = createUpdateSchema(schema.blogRequestsTable);
+export const blogRequestSelectSchema = createSelectSchema(
+  schema.blogRequestsTable
+);
+export const blogRequestInsertSchema = createInsertSchema(
+  schema.blogRequestsTable
+);
+export const blogRequestUpdateSchema = createUpdateSchema(
+  schema.blogRequestsTable
+);
 export type BlogRequest = z.infer<typeof blogRequestSelectSchema>;
 export type BlogRequestInsert = z.infer<typeof blogRequestInsertSchema>;
 export type BlogRequestUpdate = z.infer<typeof blogRequestUpdateSchema>;
