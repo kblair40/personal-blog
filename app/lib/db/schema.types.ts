@@ -27,3 +27,10 @@ const subscriptionUpdateSchema = createUpdateSchema(schema.subscriptionsTable);
 export type Subscription = z.infer<typeof subscriptionSelectSchema>;
 export type SubscriptionInsert = z.infer<typeof subscriptionInsertSchema>;
 export type SubscriptionUpdate = z.infer<typeof subscriptionUpdateSchema>;
+
+const blogRequestSelectSchema = createSelectSchema(schema.blogRequestsTable);
+const blogRequestInsertSchema = createInsertSchema(schema.blogRequestsTable);
+const blogRequestUpdateSchema = createUpdateSchema(schema.blogRequestsTable);
+export type BlogRequest = z.infer<typeof blogRequestSelectSchema>;
+export type BlogRequestInsert = z.infer<typeof blogRequestInsertSchema>;
+export type BlogRequestUpdate = z.infer<typeof blogRequestUpdateSchema>;

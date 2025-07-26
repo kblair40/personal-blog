@@ -59,5 +59,13 @@ export const blogRequestsTable = pgTable("blog_requests", {
   blogUrl: text().notNull(),
   rssUrl: text().notNull(),
   details: text(),
-  ...timestamps,
+  created_at: timestamps.created_at,
 });
+
+// export const favoritesTable = pgTable("favorites", {
+//   id: integer().primaryKey().generatedAlwaysAsIdentity(),
+//   userId: integer().notNull(),
+//   blogId: text().notNull(),
+//   postUrl: text().notNull(),
+//   ...timestamps
+// });
