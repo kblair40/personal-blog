@@ -10,6 +10,10 @@ import type { Blog, Subscription } from "@/lib/db/schema.types";
 import { updateSubscription } from "@/actions/update-subscription";
 import { cn } from "@/lib/utils";
 import clsx from "clsx";
+import SubscriptionRequestSheet from "./subscription-request-modal";
+
+// For SubscriptionRequest only
+import { Button } from "./ui/button";
 
 type Props = {
   userId: number;
@@ -101,13 +105,17 @@ const SubscriptionList = ({
       </section>
 
       <section
-        className={"h-9 flex space-x-2 items-center w-fit " + sectionPadding}
+        className={"h-9 flex space-x-4 items-center w-fit " + sectionPadding}
       >
-        <Funnel />
-        <Input
-          placeholder="Filter blogs..."
-          onChange={(e) => setFilterValue(e.target.value)}
-        />
+        <div className="flex space-x-2 items-center">
+          <Funnel />
+          <Input
+            placeholder="Filter blogs..."
+            onChange={(e) => setFilterValue(e.target.value)}
+          />
+        </div>
+
+        <SubscriptionRequestSheet />
       </section>
 
       <section
@@ -155,3 +163,7 @@ const SubscriptionList = ({
 };
 
 export default SubscriptionList;
+
+const SubscriptionRequestButton = () => {
+  return <Button variant="secondary">Request a Blog</Button>;
+};
