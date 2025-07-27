@@ -12,7 +12,7 @@ import {
 function formatErrors(e: ZodError) {
   const { _errors, ...formattedErrors } = z.formatError(e);
 
-  return formattedErrors;
+  return { errors: formattedErrors };
 }
 
 export async function addBlogRequest(input: BlogRequestInsert) {
