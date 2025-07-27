@@ -11,6 +11,7 @@ import {
   SheetTitle,
   SheetTrigger,
   // SheetDescription,
+  SheetFooter,
 } from "@/components/ui/sheet";
 import { Button } from "./ui/button";
 import { Input } from "@/components/ui/input";
@@ -72,7 +73,7 @@ const SubscriptionRequestSheet = ({ userId }: Props) => {
 
       <SheetContent
         side="bottom"
-        className={clsx("pb-20 px-2 sm:px-6 md:px-12")}
+        className={clsx("pb-8 px-2 sm:px-6 md:px-12")}
       >
         <SheetHeader>
           <SheetTitle>Request a Blog</SheetTitle>
@@ -121,12 +122,14 @@ const SubscriptionRequestSheet = ({ userId }: Props) => {
             </section>
           </div>
 
-          <div className="flex items-center justify-end mt-6 gap-x-4">
-            <Button type="button" variant="secondary">
-              Cancel
-            </Button>
-            <Button type="submit">Submit</Button>
-          </div>
+          <SheetFooter>
+            <div className="flex flex-col-reverse mt-2 gap-y-4 md:flex-row md:items-center md:justify-center md:gap-x-4 lg:justify-end">
+              <Button type="button" variant="secondary" className="md:w-1/3 lg:w-1/5">
+                Cancel
+              </Button>
+              <Button type="submit" className="md:w-1/3 lg:w-1/5">Submit</Button>
+            </div>
+          </SheetFooter>
         </form>
       </SheetContent>
     </Sheet>
