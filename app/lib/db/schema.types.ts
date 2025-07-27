@@ -37,16 +37,19 @@ export type SubscriptionUpdate = z.infer<typeof subscriptionUpdateSchema>;
 export const blogRequestSelectSchema = createSelectSchema(
   schema.blogRequestsTable
 );
+const urlSchema = z
+  .string()
+  .refine((v) => /\.[a-zA-Z]+$/.test(v), { error: "Invalid URL" });
 export const blogRequestInsertSchema = createInsertSchema(
   schema.blogRequestsTable
 )
   .omit({ blogUrl: true, rssUrl: true })
-  .extend({ blogUrl: z.url(), rssUrl: z.url() });
+  .extend({ blogUrl: urlSchema, rssUrl: urlSchema });
 export const blogRequestUpdateSchema = createUpdateSchema(
   schema.blogRequestsTable
 )
   .omit({ blogUrl: true, rssUrl: true })
-  .extend({ blogUrl: z.url(), rssUrl: z.url() });
+  .extend({ blogUrl: urlSchema, rssUrl: urlSchema });
 export type BlogRequest = z.infer<typeof blogRequestSelectSchema>;
 export type BlogRequestInsert = z.infer<typeof blogRequestInsertSchema>;
 export type BlogRequestUpdate = z.infer<typeof blogRequestUpdateSchema>;

@@ -26,22 +26,37 @@ type Props = {
   userId: number;
 };
 
+const DEFAULT_FORM_DATA = {
+  // userId,
+  blogUrl: "",
+  rssUrl: "",
+  details: "",
+};
+
 const SubscriptionRequestSheet = ({ userId }: Props) => {
+  const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState<BlogRequestInsert>({
     userId,
-    blogUrl: "",
-    rssUrl: "",
-    details: "",
+    ...DEFAULT_FORM_DATA,
   });
   const [saving, setSaving] = useState(false);
+  const [errors, setErrors] = useState<null | Record<string, any>>(null);
 
   const formRef = useRef<HTMLFormElement>(null);
+
+  function resetForm() {
+    setFormData({ userId, ...DEFAULT_FORM_DATA });
+  }
 
   function handleChange(e: React.ChangeEvent<FormInputElement>) {
     const {
       target: { name, value },
     } = e;
     console.log("change:", { name, value });
+
+    if (errors && !!errors[name]) {
+      errors[name] = null;
+    }
 
     setFormData((cur) => {
       return { ...cur, [name]: value };
@@ -57,16 +72,28 @@ const SubscriptionRequestSheet = ({ userId }: Props) => {
     try {
       const res = await addBlogRequest(formData);
       console.log("\nAdd Blog Res:", res, "\n");
+
+      if (res && "errors" in res) {
+        console.log("KEYS:", Object.keys(res));
+        console.log("errors:", res.errors);
+        setErrors(res.errors);
+      } else {
+        setOpen(false);
+        resetForm();
+      }
     } catch (e) {
       console.log("Add blog failed:", e);
-      if (e instanceof ZodError) {
-        console.log("\nIts a zod error:", e);
-      }
     }
   }
 
   return (
-    <Sheet>
+    <Sheet
+      open={open}
+      onOpenChange={(open) => {
+        if (!open) resetForm();
+        setOpen(open);
+      }}
+    >
       <SheetTrigger asChild>
         <Button variant="secondary">Request a Blog</Button>
       </SheetTrigger>
@@ -93,6 +120,14 @@ const SubscriptionRequestSheet = ({ userId }: Props) => {
                   value={formData.blogUrl}
                   onChange={handleChange}
                 />
+                <p
+                  className={clsx(
+                    "text-red-600 text-xs",
+                    errors?.blogUrl ? "" : "hidden"
+                  )}
+                >
+                  {errors && errors.blogUrl ? errors.blogUrl._errors[0] : ""}
+                </p>
               </div>
 
               <div className="w-full">
@@ -106,6 +141,15 @@ const SubscriptionRequestSheet = ({ userId }: Props) => {
                   value={formData.rssUrl}
                   onChange={handleChange}
                 />
+
+                <p
+                  className={clsx(
+                    "text-red-600 text-xs",
+                    errors?.rssUrl ? "" : "hidden"
+                  )}
+                >
+                  {errors && errors.rssUrl ? errors.rssUrl._errors[0] : ""}
+                </p>
               </div>
             </section>
 
@@ -124,10 +168,16 @@ const SubscriptionRequestSheet = ({ userId }: Props) => {
 
           <SheetFooter>
             <div className="flex flex-col-reverse mt-2 gap-y-4 md:flex-row md:items-center md:justify-center md:gap-x-4 lg:justify-end">
-              <Button type="button" variant="secondary" className="md:w-1/3 lg:w-1/5">
+              <Button
+                type="button"
+                variant="secondary"
+                className="md:w-1/3 lg:w-1/5"
+              >
                 Cancel
               </Button>
-              <Button type="submit" className="md:w-1/3 lg:w-1/5">Submit</Button>
+              <Button type="submit" className="md:w-1/3 lg:w-1/5">
+                Submit
+              </Button>
             </div>
           </SheetFooter>
         </form>
