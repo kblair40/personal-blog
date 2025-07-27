@@ -9,7 +9,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const secret = new TextEncoder().encode(JWT_SECRET);
 
 export async function encrypt(
-  data: Record<string, string | number | null | undefined>
+  data: Record<string, string | number | null | undefined | Date>
 ) {
   const jwt = await new SignJWT(data)
     .setProtectedHeader({ alg: "HS256" })
