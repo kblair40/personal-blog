@@ -56,6 +56,9 @@ export const subscriptionsRelations = relations(
 
 export const blogRequestsTable = pgTable("blog_requests", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  userId: integer()
+    .notNull()
+    .references(() => usersTable.id),
   blogUrl: text().notNull(),
   rssUrl: text().notNull(),
   details: text(),

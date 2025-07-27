@@ -17,13 +17,14 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "./ui/textarea";
 import { addBlogRequest } from "@/actions/request-blog";
 import type { BlogRequestInsert } from "@/lib/db/schema.types";
+import { useUser } from "@/store/userStore";
 
 type FormInputElement = HTMLInputElement | HTMLTextAreaElement;
 
 type Props = {};
 
 const SubscriptionRequestSheet = (props: Props) => {
-  const [formData, setFormData] = useState<BlogRequestInsert>({
+  const [formData, setFormData] = useState<Omit<BlogRequestInsert, "userId">>({
     blogUrl: "",
     rssUrl: "",
     details: "",
