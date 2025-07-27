@@ -1,5 +1,7 @@
 "use server";
 
+import z, { type ZodError } from "zod/v4";
+
 import db from "@/lib/db";
 import { blogRequestsTable } from "@/lib/db/schema";
 import {
@@ -7,10 +9,21 @@ import {
   type BlogRequestInsert,
 } from "@/lib/db/schema.types";
 
-export async function addBlogRequest(input: BlogRequestInsert) {
-  const inputIsValid = blogRequestInsertSchema.safeParse(input).success;
+function formatErrors(e: ZodError) {
+  const { _errors, ...formattedErrors } = z.formatError(e);
 
-  if (!inputIsValid) {
+  return formattedErrors;
+}
+
+export async function addBlogRequest(input: BlogRequestInsert) {
+  const parseRes = blogRequestInsertSchema.safeParse(input);
+  console.log("\nParse Res:", parseRes, "\n");
+
+  if (!parseRes.success) {
+    if (parseRes.error) {
+      return formatErrors(parseRes.error);
+    }
+
     return null;
   }
 

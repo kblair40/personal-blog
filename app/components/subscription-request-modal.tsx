@@ -2,6 +2,7 @@
 
 import React, { useState, type FormEvent } from "react";
 import clsx from "clsx";
+import { ZodError } from "zod/v4";
 
 import {
   Sheet,
@@ -50,8 +51,15 @@ const SubscriptionRequestSheet = ({ userId }: Props) => {
 
     e.preventDefault();
 
-    const formData = new FormData(e.currentTarget);
-    //
+    try {
+      const res = await addBlogRequest(formData);
+      console.log("\nAdd Blog Res:", res, "\n");
+    } catch (e) {
+      console.log("Add blog failed:", e);
+      if (e instanceof ZodError) {
+        console.log("\nIts a zod error:", e);
+      }
+    }
   }
 
   return (
