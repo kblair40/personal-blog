@@ -115,7 +115,7 @@ const SubscriptionList = ({
           />
         </div>
 
-        <SubscriptionRequestSheet />
+        <SubscriptionRequestSheet userId={userId} />
       </section>
 
       <section
@@ -163,7 +163,3 @@ const SubscriptionList = ({
 };
 
 export default SubscriptionList;
-
-const SubscriptionRequestButton = () => {
-  return <Button variant="secondary">Request a Blog</Button>;
-};
