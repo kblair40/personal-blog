@@ -37,23 +37,16 @@ export type SubscriptionUpdate = z.infer<typeof subscriptionUpdateSchema>;
 export const blogRequestSelectSchema = createSelectSchema(
   schema.blogRequestsTable
 );
-// export const blogRequestInsertSchema = createInsertSchema(
-//   // Todo: Add validation for url fields with zod.url
-//   schema.blogRequestsTable
-// );
 export const blogRequestInsertSchema = createInsertSchema(
-  // Todo: Add validation for url fields with zod.url
   schema.blogRequestsTable
 )
   .omit({ blogUrl: true, rssUrl: true })
-  .extend({
-    blogUrl: z.url(),
-    rssUrl: z.url(),
-  });
+  .extend({ blogUrl: z.url(), rssUrl: z.url() });
 export const blogRequestUpdateSchema = createUpdateSchema(
-  // Todo: Add validation for url fields with zod.url
   schema.blogRequestsTable
-);
+)
+  .omit({ blogUrl: true, rssUrl: true })
+  .extend({ blogUrl: z.url(), rssUrl: z.url() });
 export type BlogRequest = z.infer<typeof blogRequestSelectSchema>;
 export type BlogRequestInsert = z.infer<typeof blogRequestInsertSchema>;
 export type BlogRequestUpdate = z.infer<typeof blogRequestUpdateSchema>;
